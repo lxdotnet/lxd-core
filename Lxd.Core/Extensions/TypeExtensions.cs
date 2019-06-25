@@ -21,34 +21,6 @@ namespace Lxd.Core.Extensions
             return type.IsValueType ? Activator.CreateInstance(type) : null;
         }
 
-        //public static MayBe<Type> AsEnumerableOf(this Type type)
-        //{
-        //    if (type.IsGenericType && typeof(IEnumerable<>) == type.GetGenericTypeDefinition())
-        //        return new MayBe<Type>(type.GetGenericArguments().First());
-
-        //    Type candidate = type.GetInterfaces().FirstOrDefault(iface =>
-        //        iface.IsGenericType &&
-        //        typeof(IEnumerable<>) == iface.GetGenericTypeDefinition());
-
-        //    if (candidate != null)
-        //        return new MayBe<Type>(candidate.GetGenericArguments().First());
-
-        //    return MayBe<Type>.Nothing;
-        //}
-
-        /// <summary>
-        /// When has value, the value is the underlying type of Nullable
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static MayBe<Type> AsNullableOf(this Type type)
-        {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-                return new MayBe<Type>(type.GetGenericArguments()[0]);
-
-            return MayBe<Type>.Nothing;
-        }
-
         public static MayBe<ConstructorInfo> FindCtorAccepting(this Type type, IEnumerable<Type> argTypes)
         {
             ConstructorInfo ci = type.GetConstructors().FirstOrDefault(ctor =>
@@ -212,18 +184,21 @@ namespace Lxd.Core.Extensions
             }
         }
 
+        /// <summary>
+        /// Usage: var nullableOf = someType.AsArgumentsOf(typeof(INullable<>))
+        /// or enumarableOf = someType.AsArgumentsOf(typeof(IEnumerable<>))
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="generic"></param>
+        /// <returns></returns>
         public static MayBe<IEnumerable<Type>> AsArgumentsOf(this Type type, Type generic)
         {
-            //if (!type.IsInterface)
-            if (true)
-            {
-                return type.GetInterfaces()
-                    .Concat(type.Once())
-                    .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == generic)
-                    .IfExists(concrete => new MayBe<IEnumerable<Type>>(concrete.GetGenericArguments())) ?? MayBe<IEnumerable<Type>>.Nothing;
-            }
-
-            //return MayBe<IEnumerable<Type>>.Nothing;
+            return type.GetInterfaces()
+                .Concat(type.Once())
+                .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == generic)
+                .IfExists(concrete => new MayBe<IEnumerable<Type>>(concrete.GetGenericArguments())) 
+                ?? 
+                MayBe<IEnumerable<Type>>.Nothing;
         }
 
         public static TItem Instantiate<TItem>(this Type type, params object[] arguments) 

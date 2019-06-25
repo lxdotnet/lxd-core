@@ -12,6 +12,13 @@ namespace Lxd.Core.Injection
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Recursive injection based on the name conventions.
+        /// reasonable type conversions are supported.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="existing"></param>
+        /// <returns></returns>
         internal static object InjectTo(this object source, object existing)
         {
             if (source == null)
@@ -29,7 +36,7 @@ namespace Lxd.Core.Injection
                 // first examine if a collection is about to be injected
                 var enumerableOf = propertyType.AsArgumentsOf(typeof(IEnumerable<>)).IfHasValue(args => args.Single());
 
-                if (enumerableOf != null && consider(enumerableOf) && !propertyType.GetCustomAttributes<TreatAsObjectAttribute>(true).Any())
+                if (enumerableOf != null && consider(enumerableOf))
                 {
                     return (from as IEnumerable).IfExists(v => v).OfType<object>()
                         .Select(member => member.InjectTo(enumerableOf)).OfType<object>()

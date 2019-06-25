@@ -23,7 +23,7 @@ namespace Lxd.Core.Extensions
 
             TSource next = rest.FirstOrDefault();
 
-            if (typeof(TSource).IsValueType ? default(TSource).Equals(next) : next == null)
+            if (Equals(default(TSource), next))
                 throw new ArgumentException("The given element is the last one in the sequence");
 
             return next;
@@ -103,6 +103,7 @@ namespace Lxd.Core.Extensions
 
         }
 
+        [Obsolete]
         public static object[] AsArrayOfObjects<T>(this IEnumerable<T> items)
         {
             return items.Cast<object>().ToArray();
@@ -110,22 +111,7 @@ namespace Lxd.Core.Extensions
 
         public static IEnumerable<TItem> With<TItem>(this IEnumerable<TItem> items, TItem item)
         {
-            foreach (TItem i in items)
-                yield return i;
-
-            yield return item;
-        }
-
-        // hmm.. it is the .With (compare with the function above)
-        [Obsolete]
-        public static IEnumerable<TItem> Trail<TItem>(this IEnumerable<TItem> enumerable, TItem item)
-        {
-            return enumerable.Union(item.Once()); // why union? why not concat?
-        }
-
-        public static string ConcatWith(this IEnumerable<string> items, string separator)
-        {
-            return string.Join(separator, items.ToArray());
+            return items.Concat(item.Once());
         }
 
         public static IEnumerable<T> GetBy<T>(this IEnumerable<T> items, object filter)

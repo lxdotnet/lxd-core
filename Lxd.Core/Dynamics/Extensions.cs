@@ -37,18 +37,6 @@ namespace Lxd.Core.Dynamics
             if (source.AsDynamic().HasValue)
                 return source;
 
-            // reason: there are classes (like AspNetDictionary) which are dictionaries but all methods/properties are private
-
-            //var dictionary = sourceType.AsArgumentsOf(typeof(IDictionary<,>));
-            //if (dictionary.HasValue && dictionary.Value.First() == typeof(string))
-            //{
-            //    var indexer = sourceType.GetIndexer(typeof(string));
-            //    var considerAll = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-            //    return (source.PropertyOf("Keys", false, considerAll).Value as IEnumerable).OfType<string>()
-            //        .Aggregate(new CaseInsensitiveExpando(), (expando, key) =>
-            //            expando.Set(key, indexer.GetValue(source, new object[] { key })));
-            //}
-
             return sourceType.GetProperties(BindingFlags.Public | BindingFlags.Instance) 
                 .Where(property => property.HasPublicGetter())
                 .Select(property => new { property.Name, Value = property.GetValue(source) })
