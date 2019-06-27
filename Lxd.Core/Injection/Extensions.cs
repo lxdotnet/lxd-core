@@ -6,6 +6,7 @@ using System.Collections;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
+using Lxd.Core.Iteration;
 using Lxd.Core.Extensions;
 
 namespace Lxd.Core.Injection

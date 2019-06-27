@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Lxd.Core.Basics
 {
-    internal class PropertyTrack : IEnumerable<PropertyEntry>
+    public class PropertyTrack : IEnumerable<PropertyEntry>
     {
         public static PropertyTrack Empty
         {

@@ -1,37 +1,32 @@
-using System.Collections;
-using System.Linq;
-using System.Reflection;
+﻿
+using System;
+using Lxd.Core.Validation.Collectors;
 
-namespace Lxd.Validation
+namespace Lxd.Core.Validation
 {
-    internal class ValidationContext
+    public class ValidationContext// : IValidationContext
     {
-        private ValidationContext(Path path, object value)
+        public ValidationContext(Predicate<Type> consider)
         {
-            this.Path = path;
-            this.Value = value;
+            this.Consider = consider;
+            this.Collectors = new CollectorFactory(this);
+            this.Validators = new OperatorModelValidatorFactory();
         }
 
-        public static ValidationContext Create(object root)
+        internal CollectorFactory Collectors { get; private set; }
+
+        internal OperatorModelValidatorFactory Validators { get; private set; }
+
+        internal OperatorModelValidator CreateFor(OperatorPath path)
         {
-            return new ValidationContext(Path.Begin(root), root);
+            return new OperatorModelValidator(this, path); // 'new' makes it be inherently thread-safe, otherwise need to synchronize the access
         }
 
-        public object Value { get; }
+        internal Predicate<Type> Consider { get; private set; }
 
-        public Path Path { get; }
-
-        public ValidationContext StepInto(PropertyInfo property)
+        public OperatorModelValidator Create()
         {
-            var step = new Step(property);
-            return new ValidationContext(Path.GrowBy(step), property.GetValue(this.Value));
-        }
-
-        public ValidationContext StepInto(int index)
-        {
-            var member = new Member(index);
-            var value = (this.Value as IEnumerable).OfType<object>().Skip(index).Take(1).Single();
-            return new ValidationContext(this.Path.GrowBy(member), value);
+            return this.CreateFor(OperatorPath.Empty);
         }
     }
 }

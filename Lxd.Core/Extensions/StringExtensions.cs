@@ -161,7 +161,6 @@ namespace Lxd.Core.Extensions
             return desired.DefaultValue();
         }
 
-        [Obsolete("Remove")]
         public static ConstantExpression ToExpression(this string s, Type desired)
         {
             object c = s.To(desired);

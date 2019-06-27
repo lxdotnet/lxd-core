@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Authors>Alexander Dolnik</Authors>
+    <Company>private</Company>
+    <Product />
+    <Description>Allows generation of the code from its model tree at runtime. The code is thus substituted by the model which reflects the respective domain and can be visually represented, designed and applied in the UI.</Description>
+    <Copyright>(C) 2014-2019 Alexander Dolnik</Copyright>
+    <PackageProjectUrl>https://github.com/lxdotnet/lxd-core/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/lxdotnet/lxd-core/</RepositoryUrl>
+    <PackageTags>expressions own biztalk</PackageTags>
+    <Version>2.0.3</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lxd.Core\Lxd.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Utils\" />
+  </ItemGroup>
+
+</Project>

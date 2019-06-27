@@ -3,6 +3,15 @@
   <PropertyGroup>
     <!--<TargetFramework>netcoreapp2.1</TargetFramework>-->
     <TargetFrameworks>netcoreapp2.1;net45</TargetFrameworks>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>2.0.3</Version>
+    <Authors>Alexander Dolnik</Authors>
+    <Company>private</Company>
+    <Product />
+    <Description>The stuff I missed to be built-in into .net framework</Description>
+    <Copyright>(C) 2014-2019 Alexander Dolnik</Copyright>
+    <PackageProjectUrl>https://github.com/lxdotnet/lxd-core/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/lxdotnet/lxd-core/</RepositoryUrl>
   </PropertyGroup>
 
   <!--<ItemGroup>

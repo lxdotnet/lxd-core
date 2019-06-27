@@ -18,19 +18,10 @@ namespace Lxd.Core.Observables
             this.onError = onError;
         }
 
-        public void OnNext(TSource value)
-        {
-            this.onNext.IfExists(next => next(value));
-        }
+        public void OnNext(TSource value) => onNext.IfExists(next => next(value));
 
-        public void OnError(Exception exception)
-        {
-            this.onError.IfExists(error => error(exception));
-        }
+        public void OnError(Exception exception) => onError.IfExists(error => error(exception));
 
-        public void OnCompleted()
-        {
-            this.onCompleted.IfExists(completed => completed());
-        }
+        public void OnCompleted() => onCompleted.IfExists(completed => completed());
     }
 }
