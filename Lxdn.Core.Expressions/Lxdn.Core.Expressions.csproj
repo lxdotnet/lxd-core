@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworks>netcoreapp2.1;net45</TargetFrameworks>
     <Authors>Alexander Dolnik</Authors>
     <Company>private</Company>
     <Product />
@@ -26,11 +26,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lxd.Core\Lxd.Core.csproj" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utils\" />
+    <ProjectReference Include="..\Lxdn.Core\Lxdn.Core.csproj" />
   </ItemGroup>
 
 </Project>
