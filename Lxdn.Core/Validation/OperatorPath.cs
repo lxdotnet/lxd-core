@@ -2,9 +2,9 @@ using System.Text;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Validation
+namespace Lxdn.Core.Validation
 {
     public class OperatorPath : IEnumerable<OperatorStep>
     {

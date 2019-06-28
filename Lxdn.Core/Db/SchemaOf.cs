@@ -1,8 +1,8 @@
 using System;
 using System.Reflection;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     public class SchemaOf // to be used in concrete business
     {

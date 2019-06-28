@@ -2,7 +2,7 @@
 
 using System.Data.SqlClient;
 
-namespace Lxd.Core.Db.SqlServer
+namespace Lxdn.Core.Db.SqlServer
 {
     public class MsSqlBehaviors : DbBehaviors<SqlCommand, SqlParameter> { }
 }

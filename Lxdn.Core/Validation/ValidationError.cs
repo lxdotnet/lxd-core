@@ -1,7 +1,7 @@
 
 using System.Diagnostics;
 
-namespace Lxd.Core.Validation
+namespace Lxdn.Core.Validation
 {
     [DebuggerDisplay("{Id,nq}")]
     public class ValidationError

@@ -1,6 +1,6 @@
 #if NETFULL
 
-namespace Lxd.Annotations
+namespace Lxdn.Annotations
 {
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics;

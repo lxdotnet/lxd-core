@@ -1,9 +1,9 @@
 using System.Xml;
 using System.Reflection;
-using Lxd.Core.Basics;
-using Lxd.Core.Expressions.Operators.Models;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Expressions.Operators.Models;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     public class ExecutionEngine
     {

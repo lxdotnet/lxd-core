@@ -3,10 +3,10 @@ using System.Xml;
 using System.Linq;
 using System.Collections.Generic;
 
-using Lxd.Core.Validation;
-using Lxd.Core.Expressions.Extensions;
+using Lxdn.Core.Validation;
+using Lxdn.Core.Expressions.Extensions;
 
-namespace Lxd.Core.Expressions.Operators.Models
+namespace Lxdn.Core.Expressions.Operators.Models
 {
     public class SwitchModel : OperatorModel
     {

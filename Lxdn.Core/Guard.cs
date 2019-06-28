@@ -1,6 +1,6 @@
 using System;
 
-namespace Lxd.Core
+namespace Lxdn.Core
 {
     public static class Guard
     {

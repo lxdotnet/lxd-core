@@ -3,11 +3,11 @@ using System;
 using System.Xml;
 using System.Linq;
 
-using Lxd.Core.Expressions.Operators;
-using Lxd.Core.Expressions.Operators.Models;
-using Lxd.Core.Expressions.Verbs;
+using Lxdn.Core.Expressions.Operators;
+using Lxdn.Core.Expressions.Operators.Models;
+using Lxdn.Core.Expressions.Verbs;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     public class OperatorFactory
     {

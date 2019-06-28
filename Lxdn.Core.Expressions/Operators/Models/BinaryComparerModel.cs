@@ -5,11 +5,11 @@ using System.Xml;
 using System.Reflection;
 using System.Linq.Expressions;
 
-using Lxd.Core.Extensions;
-using Lxd.Core.Expressions.Extensions;
-using Lxd.Core.Expressions.Exceptions;
+using Lxdn.Core.Extensions;
+using Lxdn.Core.Expressions.Extensions;
+using Lxdn.Core.Expressions.Exceptions;
 
-namespace Lxd.Core.Expressions.Operators.Models
+namespace Lxdn.Core.Expressions.Operators.Models
 {
     [Operator("Compare")]
     public class BinaryComparerModel : OperatorModel

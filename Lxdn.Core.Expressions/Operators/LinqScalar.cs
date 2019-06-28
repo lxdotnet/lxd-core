@@ -1,8 +1,8 @@
 
 using System.Linq.Expressions;
-using Lxd.Core.Expressions.Operators.Models.Linq;
+using Lxdn.Core.Expressions.Operators.Models.Linq;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     [CountOfArguments(1)]
     public class LinqScalar : LinqBase<LinqScalarModel>

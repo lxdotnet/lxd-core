@@ -7,16 +7,16 @@ using System.Collections;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-using Lxd.Core.Basics;
-using Lxd.Core.Extensions;
-using Lxd.Core.Validation;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Extensions;
+using Lxdn.Core.Validation;
 
-using Lxd.Core.Expressions.Operators.Models;
-using Lxd.Core.Expressions.Operators.Models.Output;
-using Emitter = Lxd.Core.Expressions.OperatorModelEmitter;
-using Lxd.Core.Expressions.Extensions;
+using Lxdn.Core.Expressions.Operators.Models;
+using Lxdn.Core.Expressions.Operators.Models.Output;
+using Emitter = Lxdn.Core.Expressions.OperatorModelEmitter;
+using Lxdn.Core.Expressions.Extensions;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     [DebuggerDisplay("Sources = {sources.Count}")]
     public class OperatorModelFactory : IEnumerable<Model>

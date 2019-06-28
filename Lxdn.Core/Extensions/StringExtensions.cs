@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Lxd.Core.Extensions
+namespace Lxdn.Core.Extensions
 {
     public static class StringExtensions
     {

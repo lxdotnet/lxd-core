@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Observables
+namespace Lxdn.Core.Observables
 {
     public class MulticastingObserver<TSource> : IObserver<TSource>
     {

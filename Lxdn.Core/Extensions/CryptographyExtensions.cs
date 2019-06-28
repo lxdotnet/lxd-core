@@ -5,7 +5,7 @@ using System.Text;
 using System.Globalization;
 using System.Security.Cryptography;
 
-namespace Lxd.Core.Extensions
+namespace Lxdn.Core.Extensions
 {
     public static class CryptographyExtensions
     {

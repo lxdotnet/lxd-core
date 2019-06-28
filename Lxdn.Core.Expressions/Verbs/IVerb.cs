@@ -1,5 +1,5 @@
 ﻿
-namespace Lxd.Core.Expressions.Verbs
+namespace Lxdn.Core.Expressions.Verbs
 {
     public interface IVerb<out TReturn>
     {

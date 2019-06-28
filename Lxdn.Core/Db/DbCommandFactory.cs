@@ -1,9 +1,9 @@
 using System;
 using System.Data;
 using System.Data.Common;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     public class DbCommandFactory<TCommand, TParameter>
         where TCommand : DbCommand, new()

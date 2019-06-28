@@ -1,6 +1,6 @@
 using System.Xml;
 
-namespace Lxd.Core.Expressions.Operators.Models.Linq
+namespace Lxdn.Core.Expressions.Operators.Models.Linq
 {
     [Operator("Linq.Max")]
     [Operator("Linq.Min")]

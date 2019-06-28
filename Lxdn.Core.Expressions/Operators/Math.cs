@@ -1,9 +1,9 @@
 
 using System;
 using System.Linq.Expressions;
-using Lxd.Core.Expressions.Operators.Models.Math;
+using Lxdn.Core.Expressions.Operators.Models.Math;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     public class Math : Operator
     {

@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Lxd.Core.Basics;
-using Lxd.Core.Expressions.Operators.Custom;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Expressions.Operators.Custom;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     public class Models : IEnumerable<Model>
     {

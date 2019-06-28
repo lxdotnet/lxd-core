@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     [DebuggerDisplay("{Logic}")]
     public class ExpressionEvaluator<TReturn> : IEvaluator<TReturn>

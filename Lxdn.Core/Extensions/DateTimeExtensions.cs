@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Lxd.Core.Extensions
+namespace Lxdn.Core.Extensions
 {
     public static class DateTimeExtensions
     {

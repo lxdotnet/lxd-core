@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Lxd.Core.Validation
+namespace Lxdn.Core.Validation
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class OptionalAttribute : Attribute { }

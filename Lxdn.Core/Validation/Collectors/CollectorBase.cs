@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using Lxd.Core.Extensions;
-using Lxd.Core.Validation.Extensions;
+using Lxdn.Core.Extensions;
+using Lxdn.Core.Validation.Extensions;
 using System;
 
-namespace Lxd.Core.Validation.Collectors
+namespace Lxdn.Core.Validation.Collectors
 {
     internal abstract class CollectorBase
     {

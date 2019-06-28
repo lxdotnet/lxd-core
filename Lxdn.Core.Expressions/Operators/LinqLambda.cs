@@ -2,10 +2,10 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Lxd.Core.Expressions.Operators.Models.Linq;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Expressions.Operators.Models.Linq;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     [CountOfArguments(2)]
     public class LinqLambda : LinqBase<LinqLambdaModel>

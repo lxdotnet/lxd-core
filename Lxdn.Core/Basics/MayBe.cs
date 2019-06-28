@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     public class MayBe<TValue>
         where TValue : class

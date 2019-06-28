@@ -6,10 +6,10 @@ using System.Data.Common;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Lxd.Core.Extensions;
-using Lxd.Core.Observables;
+using Lxdn.Core.Extensions;
+using Lxdn.Core.Observables;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     public class SqlRunner<TCommand, TParameter> : IDatabase
         where TCommand : DbCommand, new()

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     public class Pair<TItem>
     {

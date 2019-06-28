@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Lxd.Core.Remoting
+namespace Lxdn.Core.Remoting
 {
     public abstract class Logic<TContext> : MarshalByRefObject
         where TContext : MarshalByRefObject

@@ -2,9 +2,9 @@
 using System;
 using System.Reflection;
 using System.Linq.Expressions;
-using Lxd.Core.Expressions.Extensions;
+using Lxdn.Core.Expressions.Extensions;
 
-namespace Lxd.Core.Expressions.Operators.Custom
+namespace Lxdn.Core.Expressions.Operators.Custom
 {
     public abstract class CustomOperator : Operator
     {

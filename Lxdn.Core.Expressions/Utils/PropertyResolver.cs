@@ -1,11 +1,11 @@
-using Lxd.Core.Basics;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Lxd.Core.Expressions.Utils
+namespace Lxdn.Core.Expressions.Utils
 {
     public class PropertyResolver
     {

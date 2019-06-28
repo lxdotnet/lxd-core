@@ -1,5 +1,5 @@
 ﻿
-namespace Lxd.Core.Expressions.Operators.Models.Domain
+namespace Lxdn.Core.Expressions.Operators.Models.Domain
 {
     public class BinaryStatementModel : OperatorModel
     {

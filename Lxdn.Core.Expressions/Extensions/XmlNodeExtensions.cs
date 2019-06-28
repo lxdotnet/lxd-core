@@ -3,9 +3,9 @@ using System;
 using System.Xml;
 using System.Xml.Linq;
 
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Expressions.Extensions
+namespace Lxdn.Core.Expressions.Extensions
 {
     public class XmlConfigException : ApplicationException
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Lxd.Core.Iteration
+namespace Lxdn.Core.Iteration
 {
     internal class Consider // used in the injection logic and in the conversion to dynamic
     {

@@ -1,8 +1,8 @@
 ﻿
 using System;
-using Lxd.Core.Validation.Collectors;
+using Lxdn.Core.Validation.Collectors;
 
-namespace Lxd.Core.Validation
+namespace Lxdn.Core.Validation
 {
     public class ValidationContext// : IValidationContext
     {

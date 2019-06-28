@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Lxd.Annotations
+namespace Lxdn.Annotations
 {
     public class Step : IStep
     {

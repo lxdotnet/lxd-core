@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lxd.Core.Extensions
+namespace Lxdn.Core.Extensions
 {
     public static class CollectionExtensions
     {

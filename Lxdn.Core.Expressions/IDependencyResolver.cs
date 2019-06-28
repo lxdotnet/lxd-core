@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     public interface IDependencyResolver
     {

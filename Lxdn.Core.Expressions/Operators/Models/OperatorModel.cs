@@ -1,5 +1,5 @@
 
-namespace Lxd.Core.Expressions.Operators.Models
+namespace Lxdn.Core.Expressions.Operators.Models
 {
     // discussion: this is a marker interface (ok, an abstract class, but does not matter)
     // for all operator models. It is NOT strictly needed, but increases the readability and understanding,

@@ -2,10 +2,10 @@ using System;
 using System.Xml;
 using System.Linq;
 using System.Linq.Expressions;
-using Lxd.Core.Basics;
-using Lxd.Core.Expressions.Exceptions;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Expressions.Exceptions;
 
-namespace Lxd.Core.Expressions.Operators.Models.Math
+namespace Lxdn.Core.Expressions.Operators.Models.Math
 {
     [Operator("Math.Add")]
     [Operator("Math.Divide")]

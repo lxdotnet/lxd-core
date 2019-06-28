@@ -1,7 +1,7 @@
 using System;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Annotations
+namespace Lxdn.Annotations
 {
     internal class ServiceProvider : IServiceProvider
     {

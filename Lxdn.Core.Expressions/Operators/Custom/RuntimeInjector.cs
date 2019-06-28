@@ -4,10 +4,10 @@ using System.Reflection;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-using Lxd.Core.Basics;
-using Lxd.Core.Expressions.Exceptions;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Expressions.Exceptions;
 
-namespace Lxd.Core.Expressions.Operators.Custom
+namespace Lxdn.Core.Expressions.Operators.Custom
 {
     internal class RuntimeInjector
     {

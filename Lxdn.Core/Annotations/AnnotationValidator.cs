@@ -1,7 +1,7 @@
 ﻿
 #if NETFULL
 
-namespace Lxd.Annotations
+namespace Lxdn.Annotations
 {
     using System;
     using System.Linq;
@@ -11,8 +11,8 @@ namespace Lxd.Annotations
     using System.ComponentModel.DataAnnotations;
     using BillGates = System.ComponentModel.DataAnnotations;
 
-    using Lxd.Core.Iteration;
-    using Lxd.Core.Extensions;
+    using Lxdn.Core.Iteration;
+    using Lxdn.Core.Extensions;
     
     /// <summary>
     /// Resursively validates an aggregate using Microsoft annotation attributes

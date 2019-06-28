@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     public interface IProperty
     {

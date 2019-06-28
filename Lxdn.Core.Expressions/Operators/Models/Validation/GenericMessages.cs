@@ -1,7 +1,7 @@
 ﻿
-using Lxd.Core.Validation;
+using Lxdn.Core.Validation;
 
-namespace Lxd.Core.Expressions.Operators.Models.Validation
+namespace Lxdn.Core.Expressions.Operators.Models.Validation
 {
     public enum GenericMessages
     {

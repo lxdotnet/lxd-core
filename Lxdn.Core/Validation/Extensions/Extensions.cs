@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Lxd.Core.Validation.Extensions
+namespace Lxdn.Core.Validation.Extensions
 {
     internal static class Extensions
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     public class CountOfArguments : Attribute
     {

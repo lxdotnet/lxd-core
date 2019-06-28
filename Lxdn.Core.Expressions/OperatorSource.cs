@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using Lxd.Core.Basics;
+using Lxdn.Core.Basics;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     [DebuggerDisplay("{Assembly.GetName().Name}")]
     public class OperatorSource

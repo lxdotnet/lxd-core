@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
-namespace Lxd.Core.Expressions.Utils
+namespace Lxdn.Core.Expressions.Utils
 {
     public class StructuredPath
     {

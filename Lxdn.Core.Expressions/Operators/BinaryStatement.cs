@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Lxd.Core.Expressions.Operators.Models.Domain;
+using Lxdn.Core.Expressions.Operators.Models.Domain;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     public class BinaryStatement : Operator
     {

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-using Lxd.Core.Basics;
+using Lxdn.Core.Basics;
 
-namespace Lxd.Core.Extensions
+namespace Lxdn.Core.Extensions
 {
     public static class ObjectExtensions
     {

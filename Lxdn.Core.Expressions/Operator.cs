@@ -4,11 +4,11 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-using Lxd.Core.Basics;
-using Lxd.Core.Extensions;
-using Lxd.Core.Expressions.Operators;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Extensions;
+using Lxdn.Core.Expressions.Operators;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     //[DebuggerDisplay("{Expression.DebugView}")]
     [DebuggerDisplay("{Expression}")]

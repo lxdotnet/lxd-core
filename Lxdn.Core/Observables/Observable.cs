@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Lxd.Core.Observables
+namespace Lxdn.Core.Observables
 {
     public class Observable<TSource>
     {

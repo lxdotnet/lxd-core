@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace Lxd.Core.Validation
+namespace Lxdn.Core.Validation
 {
     public class OperatorModelValidatorFactory
     {

@@ -1,9 +1,9 @@
 
 using System.Linq;
-using Lxd.Core.Expressions.Operators.Models.Validation.Extensions;
-using Lxd.Core.Validation;
+using Lxdn.Core.Expressions.Operators.Models.Validation.Extensions;
+using Lxdn.Core.Validation;
 
-namespace Lxd.Core.Expressions.Operators.Models.Validation.OfModels
+namespace Lxdn.Core.Expressions.Operators.Models.Validation.OfModels
 {
     public class LogicalOperatorValidator : IValidator<LogicalOperatorModel>
     {

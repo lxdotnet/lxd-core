@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     [DebuggerDisplay("{Type.Name, nq} {Id, nq}")]
     public class Model

@@ -6,10 +6,10 @@ using System.Collections;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-using Lxd.Core.Iteration;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Iteration;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Injection
+namespace Lxdn.Core.Injection
 {
     public static class Extensions
     {

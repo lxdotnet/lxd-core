@@ -2,10 +2,10 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using Lxd.Core.Extensions;
-using Lxd.Core.Injection;
+using Lxdn.Core.Extensions;
+using Lxdn.Core.Injection;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     internal class ParameterMapper<TParameter>
         where TParameter : DbParameter

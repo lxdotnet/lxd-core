@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     // inspired by https://mhusseini.wordpress.com/2014/07/21/reflection-emit-and-type-inheritance-calling-base-type-constructors/
     // http://stackoverflow.com/questions/3862226/dynamically-create-a-class-in-c-sharp

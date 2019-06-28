@@ -1,8 +1,8 @@
 using System.Xml;
-using Lxd.Core.Expressions.Extensions;
-using Lxd.Core.Validation;
+using Lxdn.Core.Expressions.Extensions;
+using Lxdn.Core.Validation;
 
-namespace Lxd.Core.Expressions.Operators.Models.Output
+namespace Lxdn.Core.Expressions.Operators.Models.Output
 {
     public class ToStringModel : OperatorModel
     {

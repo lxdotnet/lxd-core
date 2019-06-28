@@ -3,9 +3,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     public class DependencyResolver : IDependencyResolver
     {

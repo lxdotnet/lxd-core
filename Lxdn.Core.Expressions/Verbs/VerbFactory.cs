@@ -2,10 +2,10 @@
 using System;
 using System.Linq;
 
-using Lxd.Core.Expressions.Operators;
-using Lxd.Core.Expressions.Operators.Models.Domain;
+using Lxdn.Core.Expressions.Operators;
+using Lxdn.Core.Expressions.Operators.Models.Domain;
 
-namespace Lxd.Core.Expressions.Verbs
+namespace Lxdn.Core.Expressions.Verbs
 {
     public class VerbFactory
     {

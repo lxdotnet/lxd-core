@@ -1,7 +1,7 @@
 using System;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     public class DatabaseException : ApplicationException
     {

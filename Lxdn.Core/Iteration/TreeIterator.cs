@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Lxd.Core
+namespace Lxdn.Core
 {
     public class TreeIterator<TItem>
     {

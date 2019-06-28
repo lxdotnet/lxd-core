@@ -2,10 +2,10 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using Lxd.Core.Expressions.Operators.Models.Strings;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Expressions.Operators.Models.Strings;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     public class MatchesOf : Operator
     {

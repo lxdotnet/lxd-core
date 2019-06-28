@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Lxd.Core.Expressions.Operators.Custom;
-using Lxd.Core.Expressions.Operators.Models.Strings;
+using Lxdn.Core.Expressions.Operators.Custom;
+using Lxdn.Core.Expressions.Operators.Models.Strings;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     public class StringOccurence : CustomOperator<bool, IRuntimeContext>
     {

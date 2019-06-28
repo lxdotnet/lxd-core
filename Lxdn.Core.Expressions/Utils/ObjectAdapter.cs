@@ -1,9 +1,9 @@
 
 using System;
 using System.Linq.Expressions;
-using Lxd.Core.Basics;
+using Lxdn.Core.Basics;
 
-namespace Lxd.Core.Expressions.Utils
+namespace Lxdn.Core.Expressions.Utils
 {
     public class ObjectAdapter : IProperty
     {

@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Collections.Generic;
 
-namespace Lxd.Core.Validation.Collectors
+namespace Lxdn.Core.Validation.Collectors
 {
     internal class PropertyValidator : CollectorBase<object>
     {

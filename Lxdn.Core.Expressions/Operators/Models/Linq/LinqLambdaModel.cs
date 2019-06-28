@@ -1,9 +1,9 @@
 using System.Xml;
 using System.Linq;
-using Lxd.Core.Expressions.Extensions;
-using Lxd.Core.Expressions.Exceptions;
+using Lxdn.Core.Expressions.Extensions;
+using Lxdn.Core.Expressions.Exceptions;
 
-namespace Lxd.Core.Expressions.Operators.Models.Linq
+namespace Lxdn.Core.Expressions.Operators.Models.Linq
 {
     [Operator("Linq.All")]
     [Operator("Linq.Any")]

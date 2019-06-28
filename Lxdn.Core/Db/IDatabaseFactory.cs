@@ -1,6 +1,6 @@
 using System.Data.Common;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     public interface IDatabaseFactory
     {

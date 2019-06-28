@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Lxd.Core.Validation.Collectors
+namespace Lxdn.Core.Validation.Collectors
 {
     internal class CollectorProxy
     {

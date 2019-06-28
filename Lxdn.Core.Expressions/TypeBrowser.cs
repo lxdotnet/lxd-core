@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
-using Model = Lxd.Core.Basics.Model;
+using Model = Lxdn.Core.Basics.Model;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     public class TypeBrowser
     {

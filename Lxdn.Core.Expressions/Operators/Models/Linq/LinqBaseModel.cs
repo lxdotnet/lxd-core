@@ -1,7 +1,7 @@
 using System.Xml;
-using Lxd.Core.Expressions.Extensions;
+using Lxdn.Core.Expressions.Extensions;
 
-namespace Lxd.Core.Expressions.Operators.Models.Linq
+namespace Lxdn.Core.Expressions.Operators.Models.Linq
 {
     public abstract class LinqBaseModel : OperatorModel
     {

@@ -1,4 +1,4 @@
-﻿namespace Lxd.Core.Expressions.Operators.Models.Strings
+﻿namespace Lxdn.Core.Expressions.Operators.Models.Strings
 {
     public enum StringOccurenceKind
     {

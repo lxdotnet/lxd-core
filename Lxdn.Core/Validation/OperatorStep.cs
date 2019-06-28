@@ -1,7 +1,7 @@
 
 using System.Reflection;
 
-namespace Lxd.Core.Validation
+namespace Lxdn.Core.Validation
 {
     public class OperatorStep
     {

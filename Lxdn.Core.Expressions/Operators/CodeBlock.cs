@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Lxd.Core.Basics;
-using Lxd.Core.Expressions.Exceptions;
-using Lxd.Core.Expressions.Operators.Models;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Expressions.Exceptions;
+using Lxdn.Core.Expressions.Operators.Models;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     public class CodeBlock : Operator
     {

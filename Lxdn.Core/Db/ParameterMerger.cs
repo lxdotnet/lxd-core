@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     internal class ParameterMerger
     {

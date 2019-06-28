@@ -1,7 +1,7 @@
 using System.Xml;
-using Lxd.Core.Expressions.Extensions;
+using Lxdn.Core.Expressions.Extensions;
 
-namespace Lxd.Core.Expressions.Operators.Models.Strings
+namespace Lxdn.Core.Expressions.Operators.Models.Strings
 {
     [Operator("Regex.Match")]
     public class MatchesOfModel : OperatorModel

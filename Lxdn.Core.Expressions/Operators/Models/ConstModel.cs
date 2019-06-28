@@ -1,8 +1,8 @@
 
 using System.Xml;
-using Lxd.Core.Expressions.Exceptions;
+using Lxdn.Core.Expressions.Exceptions;
 
-namespace Lxd.Core.Expressions.Operators.Models
+namespace Lxdn.Core.Expressions.Operators.Models
 {
     [Operator("Constant", Important = true)]
     public class ConstModel : OperatorModel

@@ -1,7 +1,7 @@
 
 using System;
 
-namespace Lxd.Core.Expressions.Exceptions
+namespace Lxdn.Core.Expressions.Exceptions
 {
     public abstract class ExpressionException : ApplicationException
     {

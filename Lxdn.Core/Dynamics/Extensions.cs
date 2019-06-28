@@ -5,11 +5,11 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
-using Lxd.Core.Basics;
-using Lxd.Core.Iteration;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Iteration;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Dynamics
+namespace Lxdn.Core.Dynamics
 {
     public static class Extensions
     {

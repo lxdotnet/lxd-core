@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using Lxd.Core.Basics;
+using Lxdn.Core.Basics;
 
-namespace Lxd.Core.Extensions
+namespace Lxdn.Core.Extensions
 {
     public static class CollectionsExtensions
     {

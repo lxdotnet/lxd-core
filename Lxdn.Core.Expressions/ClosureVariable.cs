@@ -1,7 +1,7 @@
 using System;
-using Lxd.Core.Basics;
+using Lxdn.Core.Basics;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     public class ClosureVariable : Model, IDisposable
     {

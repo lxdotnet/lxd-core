@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     [DebuggerDisplay("{Value}")]
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]

@@ -4,9 +4,9 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     public static class Extensions
     {

@@ -1,7 +1,7 @@
 
 #if NETFULL
 
-namespace Lxd.Annotations
+namespace Lxdn.Annotations
 {
     using System.Diagnostics;
 

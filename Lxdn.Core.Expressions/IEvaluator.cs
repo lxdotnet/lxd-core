@@ -1,7 +1,7 @@
 
 using System.Linq.Expressions;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     public interface IEvaluator<out TReturn>
     {

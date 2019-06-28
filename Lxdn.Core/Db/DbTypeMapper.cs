@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 using System.Collections.Generic;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     internal static class DbTypeMapper
     {

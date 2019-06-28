@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     public class CaseInsensitiveEnumerableExpando : DynamicObject, IEnumerable<DynamicObject>
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using Lxd.Core.Validation;
+using Lxdn.Core.Validation;
 
-namespace Lxd.Core.Expressions.Operators.Models.Validation.Extensions
+namespace Lxdn.Core.Expressions.Operators.Models.Validation.Extensions
 {
     internal static class Extensions
     {

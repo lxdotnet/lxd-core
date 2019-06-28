@@ -1,5 +1,5 @@
 ﻿
-namespace Lxd.Core.Expressions.Operators.Custom
+namespace Lxdn.Core.Expressions.Operators.Custom
 {
     internal class RuntimeContext : IRuntimeContext
     {

@@ -1,4 +1,4 @@
-namespace Lxd.Core.Expressions.Exceptions
+namespace Lxdn.Core.Expressions.Exceptions
 {
     public class ExpressionRuntimeException : ExpressionException
     {

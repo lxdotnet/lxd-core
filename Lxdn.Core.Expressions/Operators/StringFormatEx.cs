@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Reflection;
 using System.Linq.Expressions;
-using Lxd.Core.Expressions.Operators.Models.Output;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Expressions.Operators.Models.Output;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     /// <summary>
     /// Given a format string with placeholders, replaces them

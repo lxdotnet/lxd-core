@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Lxd.Core.Basics;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     [DebuggerDisplay("{Expression}")]
     public class PropertyAccessor

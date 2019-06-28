@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Lxd.Core.Observables
+namespace Lxdn.Core.Observables
 {
     public class AwaitableObserver<TSource> : IObserver<TSource>
     {

@@ -1,9 +1,9 @@
 ﻿
-using Lxd.Core.Expressions.Operators.Custom;
+using Lxdn.Core.Expressions.Operators.Custom;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Lxd.Core.Expressions.Extensions
+namespace Lxdn.Core.Expressions.Extensions
 {
     internal static class Reflection
     {

@@ -3,12 +3,12 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-using Lxd.Core.Expressions;
-using Lxd.Core.Expressions.Operators.Models;
+using Lxdn.Core.Expressions;
+using Lxdn.Core.Expressions.Operators.Models;
 
 [assembly: OperatorRoot(typeof(OperatorModel), As = "Core")]
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
     public class OperatorRootAttribute : Attribute

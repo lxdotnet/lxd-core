@@ -1,5 +1,5 @@
 
-namespace Lxd.Core
+namespace Lxdn.Core
 {
     /// <summary>
     /// http://en.wikipedia.org/wiki/Tree_traversal

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     [DebuggerDisplay("{Digest}")]
     public class Property : IProperty, IExplain

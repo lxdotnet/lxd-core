@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     public class Sequence<TValue> where TValue : IComparable<TValue>
     {

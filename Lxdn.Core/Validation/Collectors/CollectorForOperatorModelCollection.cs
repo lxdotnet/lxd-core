@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Validation.Collectors
+namespace Lxdn.Core.Validation.Collectors
 {
     internal class CollectorForOperatorModelCollection : CollectorBase<IEnumerable<object>>
     {

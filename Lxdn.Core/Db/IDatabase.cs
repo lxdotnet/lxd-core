@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using Lxd.Core.Observables;
+using Lxdn.Core.Observables;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     public interface IDatabase
     {

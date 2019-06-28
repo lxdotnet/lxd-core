@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Lxd.Core.Extensions
+namespace Lxdn.Core.Extensions
 {
     public static class ExceptionExtensions
     {

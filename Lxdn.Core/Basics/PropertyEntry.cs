@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     public class PropertyEntry
     {

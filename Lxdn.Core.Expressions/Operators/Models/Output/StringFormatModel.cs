@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using Lxd.Core.Expressions.Extensions;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Expressions.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Expressions.Operators.Models.Output
+namespace Lxdn.Core.Expressions.Operators.Models.Output
 {
     [Operator("String.Format")]
     public class StringFormatModel : OperatorModel

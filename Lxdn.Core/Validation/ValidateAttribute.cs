@@ -1,6 +1,6 @@
 using System;
 
-namespace Lxd.Core.Validation
+namespace Lxdn.Core.Validation
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class ValidateAttribute : Attribute

@@ -1,5 +1,5 @@
 
-namespace Lxd.Core.Validation
+namespace Lxdn.Core.Validation
 {
     public interface IValidator<in TOperatorModel>
     {

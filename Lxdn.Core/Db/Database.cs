@@ -4,9 +4,9 @@ using System.Threading;
 using System.Data.Common;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Lxd.Core.Observables;
+using Lxdn.Core.Observables;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     public class Database<TConnection, TBehaviors> : IDatabase
         where TConnection : DbConnection, new()

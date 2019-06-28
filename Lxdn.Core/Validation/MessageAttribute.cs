@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Lxd.Core.Validation
+namespace Lxdn.Core.Validation
 {
     public class MessageAttribute : Attribute
     {

@@ -6,13 +6,13 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-using Lxd.Core.Basics;
-using Lxd.Core.Expressions.Extensions;
-using Lxd.Core.Expressions.Operators.Models;
-using Lxd.Core.Expressions.Operators.Models.Output;
-using Lxd.Core.Expressions.Utils;
+using Lxdn.Core.Basics;
+using Lxdn.Core.Expressions.Extensions;
+using Lxdn.Core.Expressions.Operators.Models;
+using Lxdn.Core.Expressions.Operators.Models.Output;
+using Lxdn.Core.Expressions.Utils;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     public class ToString : Operator
     {

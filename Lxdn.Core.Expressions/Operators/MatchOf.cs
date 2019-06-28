@@ -3,9 +3,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Lxd.Core.Expressions.Operators.Models.Strings;
+using Lxdn.Core.Expressions.Operators.Models.Strings;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     public class MatchOf : Operator
     {

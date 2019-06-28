@@ -2,7 +2,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace Lxd.Core.Expressions.Extensions
+namespace Lxdn.Core.Expressions.Extensions
 {
     internal static class ExpressionExtensions
     {

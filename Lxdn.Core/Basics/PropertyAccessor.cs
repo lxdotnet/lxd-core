@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     [DebuggerDisplay("{Digest}")]
     internal class PropertyAccessor : IPropertyAccessor, IExplain

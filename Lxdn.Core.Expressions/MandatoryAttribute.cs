@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Lxd.Core.Expressions
+namespace Lxdn.Core.Expressions
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class MandatoryAttribute : Attribute { }

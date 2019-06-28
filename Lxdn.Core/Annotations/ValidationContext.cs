@@ -2,7 +2,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections;
 
-namespace Lxd.Annotations
+namespace Lxdn.Annotations
 {
     internal class ValidationContext
     {

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Lxd.Core.Expressions.Utils
+namespace Lxdn.Core.Expressions.Utils
 {
     internal class PropertyToken
     {

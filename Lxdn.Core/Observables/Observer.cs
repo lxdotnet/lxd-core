@@ -1,7 +1,7 @@
 using System;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Observables
+namespace Lxdn.Core.Observables
 {
     public class Observer<TSource> : IObserver<TSource>
     {

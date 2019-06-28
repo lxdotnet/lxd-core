@@ -3,7 +3,7 @@ using System;
 using System.Dynamic;
 using System.Collections.Generic;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     public class CaseInsensitiveExpando : DynamicObject
     {

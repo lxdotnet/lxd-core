@@ -2,10 +2,10 @@ using System.Xml;
 using System.Linq;
 using System.Collections.Generic;
 
-using Lxd.Core.Validation;
-using Lxd.Core.Expressions.Operators.Models.Validation.OfModels;
+using Lxdn.Core.Validation;
+using Lxdn.Core.Expressions.Operators.Models.Validation.OfModels;
 
-namespace Lxd.Core.Expressions.Operators.Models
+namespace Lxdn.Core.Expressions.Operators.Models
 {
     [Validate(typeof(LogicalOperatorValidator))]
     public abstract class LogicalOperatorModel : OperatorModel

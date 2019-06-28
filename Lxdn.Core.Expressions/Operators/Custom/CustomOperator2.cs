@@ -1,5 +1,5 @@
 ﻿
-namespace Lxd.Core.Expressions.Operators.Custom
+namespace Lxdn.Core.Expressions.Operators.Custom
 {
     public abstract class CustomOperator<TReturn, TRuntimeModel1, TRuntimeModel2> : CustomOperator
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
-namespace Lxd.Core.Expressions.Operators.Models.Output
+namespace Lxdn.Core.Expressions.Operators.Models.Output
 {
     /// <summary>
     /// For compatibility with old bidding service logic.

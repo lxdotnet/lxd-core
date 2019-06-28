@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Lxd.Core.Extensions;
+using Lxdn.Core.Extensions;
 
-namespace Lxd.Core.Db
+namespace Lxdn.Core.Db
 {
     internal static class BufferSize
     {

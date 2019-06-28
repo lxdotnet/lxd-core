@@ -1,6 +1,6 @@
 using System;
 
-namespace Lxd.Core.Expressions.Operators.Models
+namespace Lxdn.Core.Expressions.Operators.Models
 {
     public class ModelAttribute : Attribute {}
 }

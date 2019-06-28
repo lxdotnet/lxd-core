@@ -1,5 +1,5 @@
 
-namespace Lxd.Annotations
+namespace Lxdn.Annotations
 {
     public interface IStep
     {

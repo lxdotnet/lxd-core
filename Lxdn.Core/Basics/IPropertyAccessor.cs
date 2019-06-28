@@ -1,4 +1,4 @@
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     public interface IPropertyAccessor
     {

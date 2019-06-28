@@ -3,7 +3,7 @@
 //using System.Data.Common;
 //using System.Threading.Tasks;
 
-//namespace Lxd.Core.Db
+//namespace Lxdn.Core.Db
 //{
 //    public class TransactionRunner<TConnection>
 //        where TConnection : DbConnection, new()

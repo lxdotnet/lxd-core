@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Reflection;
 
-using Lxd.Core.Basics;
+using Lxdn.Core.Basics;
 
-namespace Lxd.Core.Extensions
+namespace Lxdn.Core.Extensions
 {
     public static class TypeExtensions
     {

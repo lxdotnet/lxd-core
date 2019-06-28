@@ -1,7 +1,7 @@
 
 using System.Xml;
 
-namespace Lxd.Core.Expressions.Operators.Models
+namespace Lxdn.Core.Expressions.Operators.Models
 {
     [Operator("Or")]
     public class OrModel : LogicalOperatorModel

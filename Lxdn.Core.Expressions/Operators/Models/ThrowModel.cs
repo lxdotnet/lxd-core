@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
-using Lxd.Core.Extensions;
-using Lxd.Core.Validation;
-using Lxd.Core.Expressions.Extensions;
+using Lxdn.Core.Extensions;
+using Lxdn.Core.Validation;
+using Lxdn.Core.Expressions.Extensions;
 
-namespace Lxd.Core.Expressions.Operators.Models
+namespace Lxdn.Core.Expressions.Operators.Models
 {
     public class ThrowModel : OperatorModel
     {

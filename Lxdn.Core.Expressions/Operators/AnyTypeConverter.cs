@@ -2,9 +2,9 @@
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using Lxd.Core.Expressions.Extensions;
+using Lxdn.Core.Expressions.Extensions;
 
-namespace Lxd.Core.Expressions.Operators
+namespace Lxdn.Core.Expressions.Operators
 {
     public class AnyTypeConverter : Operator
     {

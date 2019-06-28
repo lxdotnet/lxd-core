@@ -1,6 +1,6 @@
 using System;
 
-namespace Lxd.Core.Basics
+namespace Lxdn.Core.Basics
 {
     public class PropertyAccessorException : ApplicationException
     {

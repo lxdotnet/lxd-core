@@ -1,5 +1,5 @@
 
-namespace Lxd.Core.Remoting
+namespace Lxdn.Core.Remoting
 {
 
 #if NETFULL // see https://stackoverflow.com/questions/27266907/no-appdomains-in-net-core-why

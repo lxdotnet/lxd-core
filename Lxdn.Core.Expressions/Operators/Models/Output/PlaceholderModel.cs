@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Xml;
-using Lxd.Core.Expressions.Extensions;
+using Lxdn.Core.Expressions.Extensions;
 
-namespace Lxd.Core.Expressions.Operators.Models.Output
+namespace Lxdn.Core.Expressions.Operators.Models.Output
 {
     [DebuggerDisplay("[{Id,nq}]")]
     [Operator("Placeholder", Hidden = true)]
