@@ -5,7 +5,7 @@ namespace Lxdn.Core.Iteration
 {
     internal class Consider // used in the injection logic and in the conversion to dynamic
     {
-        private static readonly string[] stopList = { "mscorlib", "System", "Newtonsoft.Json" };
+        private static readonly string[] stopList = { "mscorlib", "System", "Newtonsoft.Json", "System.Private.CoreLib" };
 
         public static bool ForIteration(Type candidate)
         {
