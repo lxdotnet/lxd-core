@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Tests>
+  
+  <Test id="TestConst">
+    <Constant value="Tuesday"/>
+  </Test>
+
+  <Test id="TestProperty">
+    <Property valueOf="person.Birthday"/>
+  </Test>
+
+  <Test id="TestEquals">
+    <Compare if="Equal">
+      <Property valueOf="person.Birthday"/>
+      <Constant value="1976-09-17"/>
+    </Compare>
+  </Test>
+
+  <Test id="TestBinaryOp">
+    <Or>
+      <Compare if="Equal">
+        <Property valueOf="person.Today.DayOfWeek"/>
+        <Constant value="Sunday"/>
+      </Compare>
+      <Compare if="Equal">
+        <Property valueOf="person.Today.DayOfWeek"/>
+        <Constant value="Monday"/>
+      </Compare>
+      <Compare if="Equal">
+        <Property valueOf="person.Today.DayOfWeek"/>
+        <Constant value="Tuesday"/>
+      </Compare>
+      <Compare if="Equal">
+        <Property valueOf="person.Today.DayOfWeek"/>
+        <Constant value="Wednesday"/>
+      </Compare>
+      <Compare if="Equal">
+        <Property valueOf="person.Today.DayOfWeek"/>
+        <Constant value="Thursday"/>
+      </Compare>
+      <Compare if="Equal">
+        <Property valueOf="person.Today.DayOfWeek"/>
+        <Constant value="Friday"/>
+      </Compare>
+      <Compare if="Equal">
+        <Property valueOf="person.Today.DayOfWeek"/>
+        <Constant value="Saturday"/>
+      </Compare>
+    </Or>
+  </Test>
+
+  <Test id="TestLambdaAny">
+    <Linq.Any in="person.Relatives">
+      <Lambda capture="relative">
+        <Compare if="Equal">
+          <Property valueOf="relative.Name"/>
+          <Constant value="Katya"/>
+        </Compare>
+      </Lambda>
+    </Linq.Any>
+  </Test>
+
+  <Test id="TestOptimisticLambda">
+    <Linq.First in="person.Relatives"/>
+  </Test>
+
+  <Test id="TestPredicateOnOperatorDeliveringString">
+    <Property valueOf="person.Name"/>
+  </Test>
+
+  <Test id="TestPredicateOnOperatorDeliveringProperty">
+    <Property valueOf="person.Age"/>
+  </Test>
+
+  <Test id="TestPredicateOnOperatorDeliveringNullable">
+    <Property valueOf="person.Religious"/>
+  </Test>
+
+  <Test id="TestIfOperatorUsingNullableInCondition">
+    <If>
+      <Condition>
+        <Property valueOf="person.Religious"/>
+      </Condition>
+      <Then>
+        <Constant value="yes"/>
+      </Then>
+    </If>
+  </Test>
+
+  <Test id="TestLambdaScalarCount">
+    <Linq.Count in="person.Relatives"/>
+  </Test>
+
+  <Test id="TestMathAdd">
+    <Math.Add>
+      <Property valueOf="person.Birthday.Year"/>
+      <Constant value="24"/>
+    </Math.Add>
+  </Test>
+
+  <Test id="TestMathModulo">
+    <Math.Modulo>
+      <Property valueOf="person.Birthday.Year"/>
+      <Constant value="24"/>
+    </Math.Modulo>
+  </Test>
+
+  <!-- the resulting evaluator:
+  var matches = person.Name.MatchesOf("lex");
+  return matches.Count();
+  -->
+  <Test id="TestBlockAndRegex">
+    <Sequence>
+      <Regex.Match pattern="lex" as="matches">
+        <Property valueOf="person.Name"/>
+      </Regex.Match>
+      <Linq.Count in="matches"/>
+    </Sequence>
+  </Test>
+
+  <Test id="TestCallOfInstanceMethod">
+    <Call for="person" method="Meet">
+      <Linq.First in="person.Relatives"/>
+    </Call>
+  </Test>
+
+  <Test id="TestCallOfStaticMethod">
+    <Call for="System.String" method="Format">
+      <Constant value="My name is {0}"/>
+      <Property valueOf="person.Name"/>
+    </Call>
+  </Test>
+
+  <Test id="TestDirectCallOfRegex">
+    <Sequence>
+      <Call for="System.Text.RegularExpressions.Regex" method="Match" as="match">
+        <Property valueOf="person.Name"/>
+        <Constant value="lex"/>
+      </Call>
+      <Linq.Count in="match.Value"/>
+    </Sequence>
+  </Test>
+
+  <Test id="TestBlockAndArithmetic">
+    <Sequence>
+      <Math.Add as="x">
+        <Property valueOf="person.Age"/>
+        <Constant value="2"/>
+      </Math.Add>
+      <Math.Multiply as="y">
+        <Property valueOf="x"/>
+        <Constant value="2"/>
+      </Math.Multiply>
+    </Sequence>
+  </Test>
+
+  <Test id="TestStringFormatWithTwoArguments">
+    <Call for="System.String" method="Format">
+      <Constant value="My name is {0} and my birthday is on {1}."/>
+      <Property valueOf="person.Name"/>
+      <Property valueOf="person.Birthday"/>
+    </Call>
+  </Test>
+
+  <Test id="TestStringFormatWithSpecializedSyntax">
+    <String.Format pattern="My name is {0} and my birthday is on {1:D}.">
+      <Property valueOf="person.Name"/>
+      <Property valueOf="person.Birthday"/>
+    </String.Format>
+  </Test>
+
+  <Test id="TestStringFormatNoEmbracingEmptyStrings">
+    <String.Format pattern="{0}, {1}">
+      <Property valueOf="person.Lastname"/>
+      <Property valueOf="person.Name"/>
+    </String.Format>
+  </Test>
+
+  <Test id="TestStringFormatInvalidCountOfArguments">
+    <String.Format pattern="{0}, {1}">
+      <Property valueOf="person.Lastname"/>
+    </String.Format>
+  </Test>
+
+  <Test id="TestSwitch">
+    <Switch key="person.MaritalStatus">
+      <SwitchCase when="Married">
+        <Constant value="married"/>
+      </SwitchCase>
+      <SwitchCase when="Single, InRelationship, Engaged">
+        <Constant value="not married"/>
+      </SwitchCase>
+    </Switch>
+  </Test>
+
+  <Test id="FirstNameLastNameFormatting">
+    <If>
+      <Condition>
+        <And>
+          <Property valueOf="person.Lastname"/>
+          <Property valueOf="person.Name"/>
+        </And>
+      </Condition>
+      <Then>
+        <String.Format pattern="{0}, {1}">
+          <Property valueOf="person.Lastname"/>
+          <Property valueOf="person.Name"/>
+        </String.Format>
+      </Then>
+      <Else>
+        <Constant value="Not yet known"/>
+      </Else>
+    </If>
+  </Test>
+
+  <Test id="TestMatchOf">
+    <MatchOf pattern=".+">
+      <Property valueOf="person.Lastname"/>
+    </MatchOf>
+  </Test>
+
+  <Test id="TestSequenceOfConditionsShouldNotFail">
+    <And>
+      <Property valueOf="person.NullArg"/>
+      <MatchOf pattern=".+">
+        <Property valueOf="person.NullArg"/>
+      </MatchOf>
+    </And>
+  </Test>
+
+  <Test id="TestEmptyStringOrNull">
+    <Not>
+      <Property valueOf="person.NullArg"/>
+    </Not>
+  </Test>
+
+  <Test id="TestLinqWhere">
+    <Sequence>
+      <Linq.Where in="person.Relatives" as="children">
+        <Lambda capture="relative">
+          <Compare if="Equal">
+            <Property valueOf="relative.Name"/>
+            <Constant value="Sofia"/>
+          </Compare>
+        </Lambda>
+      </Linq.Where>
+      <Linq.Count in="children"/>
+    </Sequence>
+  </Test>
+
+  <Test id="TestLinqWhereOnBooleanAndStringFormat">
+    <Sequence>
+      <Linq.Where in="person.Relatives" as="fullAge">
+        <Lambda capture="relative">
+          <Compare if="Equal">
+            <Property valueOf="relative.IsFullAge"/>
+            <Constant value="True"/>
+          </Compare>
+        </Lambda>
+      </Linq.Where>
+      <String.Format pattern="Count: {0}">
+        <Linq.Count in="fullAge"/>
+      </String.Format>
+    </Sequence>
+  </Test>
+
+  <Test id="TestSwitchNullable">
+    <If>
+      <Condition>
+        <Property valueOf="person.Salutation"/>
+      </Condition>
+      <Then>
+        <String.Format pattern="Sex: {0}">
+          <Switch key="person.Salutation">
+            <SwitchCase when="Mr">
+              <Constant value="Male"/>
+            </SwitchCase>
+            <SwitchCase when="Ms">
+              <Constant value="Female"/>
+            </SwitchCase>
+          </Switch>
+        </String.Format>
+      </Then>
+      <Else>
+        <Constant value="Unknown"/>
+      </Else>
+    </If>
+  </Test>
+
+  <!--<Test id="TestAutoFormat2">
+    <Constant value="My name is {0}">
+      <Placeholder of="{0}">
+        <Property valueOf="person.Name"/>
+      </Placeholder>
+    </Constant>
+  </Test>-->
+
+  <Test id="TestModulo">
+    <Math.Modulo>
+      <Property valueOf="person.Birthday.Year"/>
+      <Property valueOf="person.Birthday.Day"/>
+    </Math.Modulo>
+  </Test>
+
+  <!--<Test id="TestStringFormatEx">
+    <Constant value="[NAME] [SURNAME]: [BIRTHDAY]">
+      <Placeholder of="[NAME]">
+        <Property valueOf="person.Name"/>
+      </Placeholder>
+      <Placeholder of="[SURNAME]">
+        <Property valueOf="person.Lastname"/>
+      </Placeholder>
+      <Placeholder of="[BIRTHDAY]">
+        <Constant value="[DAY].[MONTH]">
+          <Placeholder of="[DAY]">
+            <Property valueOf="person.Birthday.Day"/>
+          </Placeholder>
+          <Placeholder of="[MONTH]">
+            <Property valueOf="person.Birthday.Month"/>
+          </Placeholder>
+        </Constant>
+      </Placeholder>
+    </Constant>
+  </Test>-->
+
+  <Test id="TestThrowSimple">
+    <Throw>
+      <Constant value="Error occurred"/>
+    </Throw>
+  </Test>
+
+  <Test id="TestComparisonOfEquatables">
+    <Sequence>
+      <Linq.First in="person.Relatives" as="relative"/>
+      <Compare if="Equal">
+        <Property valueOf="person.Money"/>
+        <Property valueOf="relative.Money"/>
+      </Compare>
+    </Sequence>
+    
+  </Test>
+
+  <Test id="TestCountOfObjectHavingSomeConcreteAttributeValue">
+    <Sequence>
+      <Linq.Where in="person.Relatives" as="relatives">
+        <Lambda capture="relative">
+          <Compare if="Equal">
+            <Property valueOf="relative.Money.Amount"/>
+            <Constant value="100"/>
+          </Compare>
+        </Lambda>
+      </Linq.Where>
+      <Linq.Count of="relatives"/>
+    </Sequence>
+  </Test>
+
+  <Test id="TestCountOfObjectHavingSomeConcreteAttributeValue2">
+    <Linq.Count of="person.Relatives">
+      <Lambda capture="relative">
+        <And>
+          <Compare if="Equal">
+            <Property valueOf="relative.Money.Amount"/>
+            <Constant value="100"/>
+          </Compare>
+          <Compare if="Equal">
+            <Property valueOf="relative.Name"/>
+            <Constant value="Sofia"/>
+          </Compare>
+        </And>
+      </Lambda>
+    </Linq.Count>
+  </Test>
+
+  <Test id="TestFormatting">
+    <Constant value="Here we are: [VALUE]">
+      <Placeholder of="[VALUE]">
+        <Property valueOf="person.Money.Amount"/>
+      </Placeholder>
+    </Constant>
+  </Test>
+
+  <!--<Test id="TestAutoFormatWithNull">
+    <Constant value="My name is [Name] [Lastname]">
+      <Placeholder of="[Name]">
+        <Property valueOf="person.Name"/>
+      </Placeholder>
+      <Placeholder of="[Lastname]">
+        <Property valueOf="person.Lastname"/>
+      </Placeholder>
+    </Constant>
+  </Test>-->
+
+  <Test id="TestTimespan">
+    <Call for="person.Birthday" method="Subtract">
+      <Call for="System.TimeSpan" method="FromMilliseconds">
+        <Property valueOf="person.FiveMinutes"/>
+      </Call>
+    </Call>
+  </Test>
+
+  <Test id="TestThrowCustomException">
+    <Throw type="PersonException">
+      <Constant value="September"/>
+    </Throw>
+  </Test>
+
+  <Test id="TestThrowCustomWithArgs">
+    <Sequence>
+      <Property valueOf="person.MaritalStatus" as="status"/>
+      <Throw type="PersonException">
+        <Message>
+          <Constant value="September"/>
+        </Message>
+        <Arguments>
+          <Property valueOf="status"/>
+        </Arguments>
+      </Throw>
+    </Sequence>
+  </Test>
+
+  <Test id="TestCompareWithString">
+    <Compare if="Equal">
+      <Property valueOf="person.Name"/>
+      <Constant value="Alex"/>
+    </Compare>
+  </Test>
+
+  <Test id="TestCustomOperator">
+    <DateTime.Now/>
+  </Test>
+
+  <Test id="TestCustomOperatorModelHierarchy">
+    <TestGroup/>
+  </Test>
+
+  <Test id="TestStringOccurenceUsingContainsPredicate">
+    <String.Occurence of="nik" predicate="Contains">
+      <Property valueOf="person.Lastname"/>
+    </String.Occurence>
+  </Test>
+
+  <Test id="TestRuntimeContext">
+    <Test>
+      <Constant value="42"></Constant>
+    </Test>
+  </Test>
+
+</Tests>
+

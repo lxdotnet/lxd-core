@@ -22,6 +22,13 @@ namespace Lxdn.Core.Extensions
         {
             if (input.HasDefaultValue())
             {
+                // not sure; check thoroughly for performance pitfalls
+
+                //return typeof(TReturn).AsArgumentsOf(typeof(Task<>))
+                //    .IfHasValue(args => args.Single())
+                //    .IfExists(resultType => (TReturn)typeof(Task).GetMethod("FromResult")?.MakeGenericMethod(resultType)
+                //        .Invoke(null, new[] { resultType.DefaultValue() }));
+
                 // if we are returning a Task<SomeType>, return Task of SomeType.DefaultValue to enable awaiting of it:
                 if (typeof(TReturn).IsGenericType && typeof(TReturn).GetGenericTypeDefinition() == typeof(Task<>))
                 {
@@ -44,11 +51,6 @@ namespace Lxdn.Core.Extensions
                 action(input);
             }
         }
-
-        //public static TReturn WhenExists<TInput, TReturn>(this TInput input, Func<TReturn> ctor)
-        //{
-        //    return input.HasDefaultValue() ? default(TReturn) : ctor();
-        //}
 
         public static TValue ThrowIfDefault<TValue, TException>(this TValue value, Func<TException> exception)
             where TException : Exception
@@ -150,8 +152,8 @@ namespace Lxdn.Core.Extensions
 
         public static MayBe<IDynamicMetaObjectProvider> AsDynamic(this object obj)
         {
-            var dynamicObject = obj as IDynamicMetaObjectProvider;
-            return dynamicObject != null ? new MayBe<IDynamicMetaObjectProvider>(dynamicObject) : MayBe<IDynamicMetaObjectProvider>.Nothing;
+            var dynamic = obj as IDynamicMetaObjectProvider;
+            return dynamic != null ? new MayBe<IDynamicMetaObjectProvider>(dynamic) : MayBe<IDynamicMetaObjectProvider>.Nothing;
         }
 
         public static object Call(this object item, string method, params object[] parameters)

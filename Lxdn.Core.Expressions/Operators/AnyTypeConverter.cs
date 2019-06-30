@@ -1,7 +1,9 @@
 
 using System;
-using System.Linq.Expressions;
 using System.Reflection;
+using System.Linq.Expressions;
+
+using Lxdn.Core.Extensions;
 using Lxdn.Core.Expressions.Extensions;
 
 namespace Lxdn.Core.Expressions.Operators
@@ -45,7 +47,8 @@ namespace Lxdn.Core.Expressions.Operators
             
             if (this.operand.Expression.Type == typeof(string))
             {
-                var cast = typeof(StringExtensions).GetMethod("Cast", new[] { typeof(string), typeof(Type) });
+                // todo: "To" is bad, consider using http://blog.functionalfun.net/2009/10/getting-methodinfo-of-generic-method.html
+                var cast = typeof(StringExtensions).GetMethod("To", new[] { typeof(string), typeof(Type) });
                 var obj = Expression.Call(cast, this.operand.Expression, Expression.Constant(this.target));
                 return Expression.Convert(obj, this.target);
             }

@@ -9,7 +9,6 @@ namespace Lxdn.Core.Expressions.Extensions
     {
         internal static Expression Call(this MethodInfo method, object instance, RuntimeInjector injector)
         {
-            return Expression.Call(Expression.Constant(instance, method.DeclaringType), method, injector.Inject(method));
-        }
+            return Expression.Call(Expression.Constant(instance, method.DeclaringType), method, injector.Inject(method));        }
     }
 }

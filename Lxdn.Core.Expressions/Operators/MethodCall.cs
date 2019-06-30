@@ -25,7 +25,7 @@ namespace Lxdn.Core.Expressions.Operators
                 //  - an instance (and therefore an instance function call)
                 // look if a type was referenced instead of property 
                 Type type = AppDomain.CurrentDomain.GetAssemblies() // todo: get rid of constants below; consider rather all assemblies, do proper exception handling
-                    .Where(asm => Regex.IsMatch(asm.FullName, @"^mscorlib|^System|^AUTOonline|^AXO")) // I restricted possible types for static calls because it results in type locaing exception for some 2rd party dlls loaded in the domain
+                    .Where(asm => Regex.IsMatch(asm.FullName, @"^mscorlib|^System")) // I restricted possible types for static calls because it results in type locaing exception for some 2rd party dlls loaded in the domain
                     .SelectMany(asm =>
                     {
                         try

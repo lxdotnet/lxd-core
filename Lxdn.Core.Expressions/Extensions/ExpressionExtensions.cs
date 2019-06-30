@@ -13,9 +13,9 @@ namespace Lxdn.Core.Expressions.Extensions
 
             if (typeof(string) == expression.Type)
             {
-                Expression b1 = Expression.MakeBinary(ExpressionType.NotEqual, expression, Expression.Constant(null, typeof(string)));
-                Expression b2 = Expression.MakeBinary(ExpressionType.NotEqual, expression, Expression.Constant("", typeof(string)));
-                return Expression.MakeBinary(ExpressionType.And, b1, b2);
+                var notNull = Expression.MakeBinary(ExpressionType.NotEqual, expression, Expression.Constant(null, typeof(string)));
+                var notEmpty = Expression.MakeBinary(ExpressionType.NotEqual, expression, Expression.Constant("", typeof(string)));
+                return Expression.MakeBinary(ExpressionType.And, notNull, notEmpty);
             }
 
             if (expression.Type.IsGenericType &&

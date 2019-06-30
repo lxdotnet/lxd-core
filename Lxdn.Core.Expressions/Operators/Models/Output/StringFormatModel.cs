@@ -1,8 +1,12 @@
-using System.Collections.Generic;
-using System.Linq;
+
+using System;
 using System.Xml;
-using Lxdn.Core.Expressions.Extensions;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
 using Lxdn.Core.Extensions;
+using Lxdn.Core.Expressions.Extensions;
 
 namespace Lxdn.Core.Expressions.Operators.Models.Output
 {
@@ -13,7 +17,13 @@ namespace Lxdn.Core.Expressions.Operators.Models.Output
 
         public StringFormatModel(XmlNode xml, OperatorModelFactory models)
         {
-            var constant = new ConstModel(xml.GetMandatoryAttribute("pattern").SquareTagsToHtml());
+            Func<string, string> squareTagsToHtml = s => 
+                Regex.Replace(s, @"\[(?'tag'.+?)\]", match =>
+                    string.Format("<{0}>", match.Groups["tag"].Value));
+
+            var pattern = squareTagsToHtml(xml.GetMandatoryAttribute("pattern"));
+
+            var constant = new ConstModel(pattern);
             this.Arguments = xml.SelectNodes("./*").OfType<XmlNode>().Select(models.CreateModel).ToList();
 
             if (constant.Value.MatchesOf(@"\{.+?\}").Count() != this.Arguments.Count())
