@@ -11,6 +11,7 @@ using Lxdn.Core.Expressions.Operators.Models.Strings;
 
 using Lxdn.Core._MSTests.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Lxdn.Core.Expressions.Utils;
 
 namespace Lxdn.Core.Expressions._MSTests
 {
@@ -563,6 +564,48 @@ namespace Lxdn.Core.Expressions._MSTests
             var result = this.engine.Create<string>(logic).From(this.person);
             Assert.AreEqual("42", result);
         }
-    }
 
+        [TestMethod]
+        public void TestPathsWithIndexers()
+        {
+            Person person = new Person("Alex", "Dolnik", new DateTime(1976, 9, 17));
+            person.Relatives.Add(new Person("Katja", "Volkova", new DateTime(1978, 6, 26)));
+            person.Relatives.Add(new Person("Sofia", "Dolnik", new DateTime(2013, 10, 26)));
+
+            var model = new Model("person", typeof(Person));
+            var engine = new ExecutionEngine(model);
+            var prop = engine.Operators.CreateProperty("person.Relatives[1].Birthday");
+
+            var bdOfSofia = prop.ToEvaluator<DateTime>(engine.Models).From(person);
+            Assert.AreEqual(bdOfSofia, person.Relatives[1].Birthday);
+
+            var prop2 = engine.Operators.CreateProperty("person.Relatives.Count");
+            var count = prop2.ToEvaluator<int>(engine.Models).From(person);
+            Assert.AreEqual(2, count);
+
+            /*
+            Persons persons = new Persons();
+            persons.AddRange(person.Relatives);
+
+            engine.Models.Add(new Model("persons", typeof(Persons)));
+            Property prop3 = new Property("persons[0]", engine);
+            var p = prop3.ToEvaluator<Person>().Run(persons);*/
+            // does not work yet
+        }
+
+        [TestMethod]
+        public void TestPropertyAccessor()
+        {
+            var person = new Person("Manuel", new DateTime(1991, 4, 13));
+            var resolver = new PropertyResolver(typeof(Person));
+            var property = resolver.Resolve("person.Birthday");
+            var accessor = property.CreateAccessor(person);
+            var birthday = accessor.Value;
+
+            Assert.AreEqual(birthday, person.Birthday);
+
+            var person2 = (Person)resolver.Resolve("person").CreateAccessor(person).Value;
+            Assert.AreEqual(person2.Birthday, person.Birthday);
+        }
+    }
 }
