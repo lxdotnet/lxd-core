@@ -11,6 +11,12 @@ using Lxdn.Core.Observables;
 
 namespace Lxdn.Core.Db
 {
+    /// <summary>
+    /// Runs sql on a connection provided _externally_,
+    /// therefore is (or can be) a part of unit of work
+    /// </summary>
+    /// <typeparam name="TCommand"></typeparam>
+    /// <typeparam name="TParameter"></typeparam>
     public class SqlRunner<TCommand, TParameter> : IDatabase
         where TCommand : DbCommand, new()
         where TParameter : DbParameter, new()

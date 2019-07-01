@@ -29,6 +29,8 @@ namespace Lxdn.Core.Expressions
 
             //((property as PropertyExpression).Member as System.Reflection.PropertyInfo).CanWrite
 
+            var x = ((property as MemberExpression)?.Member as PropertyInfo)?.HasPublicSetter();
+
             var cantWrite = ((property as MemberExpression)?.Member as PropertyInfo)?.HasPublicSetter().Negate() ?? false;
 
             if (!cantWrite)
@@ -61,7 +63,7 @@ namespace Lxdn.Core.Expressions
         /// </summary>
         /// <param name="modelInstances"></param>
         /// <returns></returns>
-        public object GetValueOrDefault(params object[] modelInstances)
+        public object SafeGetValue(params object[] modelInstances)
         {
             try
             {

@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Lxdn.Core.Extensions
 {
     public static class LinqExtensions
     {
         /// <summary>
-        /// Given an element in a sequence, returns the next element 
+        /// Given an element in a sequence, returns the next element
         /// or throws if current was the last one
+        /// (notice: performance penalty, use with caution)
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="source"></param>
@@ -103,12 +105,6 @@ namespace Lxdn.Core.Extensions
 
         }
 
-        [Obsolete]
-        public static object[] AsArrayOfObjects<T>(this IEnumerable<T> items)
-        {
-            return items.Cast<object>().ToArray();
-        }
-
         public static IEnumerable<TItem> With<TItem>(this IEnumerable<TItem> items, TItem item)
         {
             return items.Concat(item.Once());
@@ -196,6 +192,17 @@ namespace Lxdn.Core.Extensions
                 if (exceptions.Count > 1)
                     throw new AggregateException(exceptions);
             }
+        }
+
+        /// <summary>
+        /// Makes Task.WhenAll available in the linq/fluent form
+        /// </summary>
+        /// <typeparam name="TItem"></typeparam>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        public static async Task<IEnumerable<TItem>> WhenAll<TItem>(this IEnumerable<Task<TItem>> tasks)
+        {
+            return await Task.WhenAll(tasks);
         }
     }
 }

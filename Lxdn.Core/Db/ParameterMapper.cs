@@ -17,7 +17,7 @@ namespace Lxdn.Core.Db
             this.createFacade = createFacade;
         }
 
-        public TReturn MapTo<TReturn>(DbParameterCollection parameters)
+        internal TReturn MapTo<TReturn>(DbParameterCollection parameters)
             where TReturn: class , new()
         {
             return Enumerable.Range(0, parameters.Count)

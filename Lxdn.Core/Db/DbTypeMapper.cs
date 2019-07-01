@@ -23,7 +23,7 @@ namespace Lxdn.Core.Db
             [typeof(byte[])] = DbType.Object, // byte[] / blob
         };
 
-        public static DbType? ToDbType(this Type type)
+        internal static DbType? ToDbType(this Type type)
         {
             var nullableOf = type.AsArgumentsOf(typeof(Nullable<>));
 
