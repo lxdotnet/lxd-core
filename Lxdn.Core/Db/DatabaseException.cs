@@ -10,7 +10,7 @@ namespace Lxdn.Core.Db
             parameters.ToDictionary().Agglutinate(parameter => $"{parameter.Key}={parameter.Value}", ", ");
 
         public DatabaseException(Schema schema, object parameters, Exception inner) 
-            : base($"Error executing an sql on {schema.Name}, parameters: ({StringifyParameters(parameters)})", inner)
+            : base($"Error executing an sql on connection '{schema.ConnectionString}', parameters: ({StringifyParameters(parameters)})", inner)
         {
         }
     }

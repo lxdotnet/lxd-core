@@ -6,20 +6,14 @@ namespace Lxdn.Core.Db
 {
     public class Schema
     {
-        public Schema(string name, string connectionString)
-        {
-            Name = name.ThrowIf(string.IsNullOrEmpty, x => new ArgumentNullException(nameof(name)));
-            ConnectionString = connectionString.ThrowIf(string.IsNullOrEmpty, x => new ArgumentNullException(nameof(connectionString)));
-        }
-
         #if NETFULL
 
-        public Schema(ConnectionStringSettings settings) : this(settings.Name, settings.ConnectionString) { }
+        //public Schema(ConnectionStringSettings settings) : this(settings.Name, settings.ConnectionString) { }
+        public static Schema CreateFrom(ConnectionStringSettings settings) 
+            => new Schema { ConnectionString = settings.ConnectionString };
 
         #endif
 
-        public string Name { get; }
-
-        public string ConnectionString { get;  }
+        public string ConnectionString { get; set; }
     }
 }
