@@ -43,6 +43,8 @@ namespace Lxdn.Core.Extensions
             return accessor(input);
         }
 
+        public static TInput IfExists<TInput>(this TInput input) => input.IfExists(something => something); // default value check
+
         public static void IfExists<TInput>(this TInput input, Action<TInput> action)
         {
             // http://stackoverflow.com/questions/5340817/what-should-i-do-about-possible-compare-of-value-type-with-null

@@ -31,7 +31,7 @@ namespace Lxdn.Core.Injection
 
             Func<object, PropertyInfo, object> inject = (from, to) =>
             {
-                Func<Type, bool> consider = type => Consider.ForIteration(type) && !type.IsInterface && !type.IsAbstract;
+                bool consider(Type type) => Consider.ForIteration(type) && !type.IsInterface && !type.IsAbstract;
                 var propertyType = to.PropertyType;
 
                 // first examine if a collection is about to be injected
@@ -39,7 +39,7 @@ namespace Lxdn.Core.Injection
 
                 if (enumerableOf != null && consider(enumerableOf))
                 {
-                    return (from as IEnumerable).IfExists(v => v).OfType<object>()
+                    return (from as IEnumerable).IfExists().OfType<object>() // only when 'from' exists and only for non-null members
                         .Select(member => member.InjectTo(enumerableOf)).OfType<object>()
                         .Aggregate(Activator.CreateInstance(typeof(List<>).MakeGenericType(enumerableOf)),
                             (list, member) => { list.Call("Add", member); return list; });
@@ -49,21 +49,21 @@ namespace Lxdn.Core.Injection
                 return consider(propertyType) ? from.InjectTo(propertyType) : from.ChangeType(propertyType);
             };
 
-            Func<string, object> valueOf = propertyName =>
+            object valueOf(string propertyName)
             {
-                Func<string, bool> matching = candidate => string.Equals(candidate, propertyName, StringComparison.InvariantCultureIgnoreCase);
+                bool matching(string candidate) => string.Equals(candidate, propertyName, StringComparison.InvariantCultureIgnoreCase);
 
                 return dynamic != null
                     ? dynamic
                         .GetMetaObject(Expression.Constant(source))
                         .GetDynamicMemberNames() // can't just cast to DynamicObject here and then .GetDynamicMemberNames because not all dynamics are DynamicObject (e.g. JObject isn't)
                         .SingleOrDefault(matching)
-                        .IfExists(name => ((dynamic) source)[name])
+                        .IfExists(name => ((dynamic)source)[name])
                     : source.GetType()
                         .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                         .SingleOrDefault(candidate => matching(candidate.Name))
                         .IfExists(property => property.GetValue(source));
-            };
+            }
 
             return targetType.GetProperties()
                 .Where(property => property.HasPublicSetter())
@@ -78,13 +78,9 @@ namespace Lxdn.Core.Injection
                 {
                     injectable.Target,
                     Value = Guard.Function(() => inject(injectable.Source, injectable.Target), ex => 
-                        new ArgumentException(nameof(source), $"Error injecting property '{injectable.Target.Name}'", ex))
+                        new ArgumentException(nameof(source), $"Error injecting value {injectable.Source} into property '{injectable.Target.Name}'", ex))
                 })
-                .Aggregate(existing, (to, injectable) => // set target value 
-                {
-                    injectable.Target.SetValue(to, injectable.Value);
-                    return to;
-                });
+                .Aggregate(existing, (to, injectable) => to.SetValueOf(injectable.Target, injectable.Value));
         }
 
         public static TOutput InjectTo<TOutput>(this object input)

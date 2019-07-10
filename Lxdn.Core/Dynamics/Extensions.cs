@@ -22,7 +22,7 @@ namespace Lxdn.Core.Dynamics
 
             //Func<Type, bool> consider = type => type.Assembly == inputType.Assembly && !type.IsValueType;
 
-            Func<object, DynamicObject> toDynamic = from => // 'from' is expected to be non null
+            DynamicObject toDynamic(object from)
             {
                 var fromType = from.GetType();
                 var enumerableOf = fromType.AsArgumentsOf(typeof(IEnumerable<>)).IfHasValue(args => args.Single());
@@ -33,7 +33,7 @@ namespace Lxdn.Core.Dynamics
                         .Aggregate(new CaseInsensitiveEnumerableExpando(), (list, member) => list.Add(member));
 
                 return Consider.ForIteration(fromType) ? from.ToDynamic() : null;
-            };
+            }
 
             if (source.AsDynamic().HasValue)
                 return source;
