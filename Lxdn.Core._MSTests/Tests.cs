@@ -4,7 +4,6 @@ using System.Linq;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 using Lxdn.Core.Aggregates;
 using Lxdn.Core.Basics;

@@ -10,7 +10,7 @@ namespace Lxdn.Core.Db
 {
     public static class Extensions
     {
-        public static TEntity To<TEntity>(this IDataRecord record)
+        internal static TEntity To<TEntity>(this IDataRecord record)
             where TEntity : class, new()
         {
             var values = Enumerable.Range(0, record.FieldCount)

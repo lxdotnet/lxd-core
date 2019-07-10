@@ -120,6 +120,13 @@ namespace Lxdn.Core.Extensions
             return (TResult)obj.ChangeType(typeof(TResult));
         }
 
+        public static TTarget SetValueOf<TTarget>(this TTarget target, PropertyInfo property, object value)
+            where TTarget : class
+        {
+            property.SetValue(target, value);
+            return target;
+        }
+
         public static IEnumerable<TItem> Once<TItem>(this TItem item)
         {
             return Enumerable.Repeat(item, 1);
@@ -182,21 +189,24 @@ namespace Lxdn.Core.Extensions
         }
 
         private static TInput InterpretAs<TInput>(this TInput obj, Expression<Func<TInput, DateTime>> lambda, DateTimeKind kind)
+            where TInput : class
         {
             var property = (lambda.Body as MemberExpression).IfExists(member => member.Member as PropertyInfo);
             if (property == null)
                 throw new ArgumentException("An expression used in the lambda must be a property expression");
 
-            property.SetValue(obj, DateTime.SpecifyKind((DateTime)property.GetValue(obj), kind));
-            return obj;
+            var dateTime = DateTime.SpecifyKind((DateTime)property.GetValue(obj), kind);
+            return obj.SetValueOf(property, dateTime);
         }
 
         public static TInput InterpretAsUtcTime<TInput>(this TInput obj, Expression<Func<TInput, DateTime>> lambda)
+            where TInput : class
         {
             return InterpretAs(obj, lambda, DateTimeKind.Utc);
         }
 
         public static TInput InterpretAsLocalTime<TInput>(this TInput obj, Expression<Func<TInput, DateTime>> lambda)
+            where TInput : class
         {
             return InterpretAs(obj, lambda, DateTimeKind.Local);
         }

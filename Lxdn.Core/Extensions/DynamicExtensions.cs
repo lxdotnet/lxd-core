@@ -31,11 +31,9 @@ namespace Lxdn.Core.Extensions
             return typeof(TTarget).GetProperties()
                 .Where(property => property.HasPublicSetter())
                 .Where(property => values.ContainsKey(property.Name))
-                .Aggregate(new TTarget(), (target, property) =>
-                {
-                    property.SetValue(target, values[property.Name].ChangeType(property.PropertyType));
-                    return target;
-                });
+                .Aggregate(new TTarget(), (target, property) => 
+                    Guard.Function(() => target.SetValueOf(property, values[property.Name].ChangeType(property.PropertyType)), 
+                        ex => new InvalidOperationException($"Can't set value {values[property.Name]} to property {property.Name}", ex)));
         }
     }
 }
