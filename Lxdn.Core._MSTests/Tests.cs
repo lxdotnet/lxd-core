@@ -404,5 +404,19 @@ namespace Lxdn.Core._MSTests
             Assert.IsTrue(xored.Any(x => x.Id == "LED"));
             Assert.IsTrue(xored.Any(x => x.Id == "ALU"));
         }
+
+        [TestMethod]
+        public void Test_CompareUsing_Grouping()
+        {
+            var person1 = new Person { Name = "Alexander", Lastname = "Dolnik" };
+            var person2 = new Person { Name = "Alexander", Lastname = "Gerst" };
+            var persons = new [] { person1, person2 };
+
+            var oneGroup = persons.GroupBy(person => person, Compare<Person>.Using(person => person.Name)).ToList();
+            var twoGroups = persons.GroupBy(person => person, Compare<Person>.Using(person => person.Name, person => person.Lastname)).ToList();
+
+            Assert.AreEqual(1, oneGroup.Count);
+            Assert.AreEqual(2, twoGroups.Count);
+        }
     }
 }

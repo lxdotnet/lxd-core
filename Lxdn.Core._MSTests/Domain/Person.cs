@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Lxdn.Core._MSTests.Domain
 {
-    [DebuggerDisplay("{Name,nq}, {Age}")]
+    [DebuggerDisplay("{Name,nq} {Lastname,nq}, {Age}")]
     [CustomValidation(typeof(PersonValidator), "Validate")]
     public class Person : IComparable<Person>
     {
