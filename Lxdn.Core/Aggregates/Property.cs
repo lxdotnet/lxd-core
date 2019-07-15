@@ -10,44 +10,38 @@ using Lxdn.Core.Extensions;
 
 namespace Lxdn.Core.Aggregates
 {
-    public class PropertyPath : IEnumerable<PropertyInfo>
+    public class Property<TValue> : IEnumerable<PropertyInfo>
     {
         private readonly IEnumerable<PropertyInfo> properties;
 
-        private PropertyPath(Model root)
+        public Property(Type root, string path)
         {
-            this.Root = root;
-        }
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentNullException(nameof(path));
 
-        public PropertyPath(Model root, string path) : this(root)
-        {
-            this.properties = path.SplitBy(".").Skip(1)
+            var tokens = path.SplitBy(".").ToList();
+
+            this.Root = new Model(tokens[0], root);
+
+            this.properties = tokens.Skip(1)
                 .Aggregate((IList<PropertyInfo>)new List<PropertyInfo>(), (properties, token) =>
                     properties.Push((properties.LastOrDefault()?.PropertyType ?? Root.Type).GetProperty(token)
                         .ThrowIfDefault(() => new ArgumentException("Invalid property: " + token))));
         }
 
-        internal PropertyPath(Model root, IEnumerable<PropertyInfo> properties) : this(root)
+        internal Property(Model root, IEnumerable<PropertyInfo> properties)
         {
+            this.Root = root;
             this.properties = properties;
         }
 
         public Model Root { get; }
 
-        public IEnumerator<PropertyInfo> GetEnumerator()
-        {
-            return properties.GetEnumerator();
-        }
+        public IEnumerator<PropertyInfo> GetEnumerator() => properties.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public PropertyAccessor Of(object root)
-        {
-            return new PropertyAccessor(this, root);
-        }
+        public PropertyAccessor<TValue> Of(object root) => new PropertyAccessor<TValue>(this, root);
 
         public override string ToString()
         {

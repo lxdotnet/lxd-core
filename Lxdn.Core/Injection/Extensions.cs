@@ -35,13 +35,13 @@ namespace Lxdn.Core.Injection
                 var propertyType = to.PropertyType;
 
                 // first examine if a collection is about to be injected
-                var enumerableOf = propertyType.AsArgumentsOf(typeof(IEnumerable<>)).IfHasValue(args => args.Single());
+                var enumerable = propertyType.AsArgumentsOf(typeof(IEnumerable<>)).IfHasValue(args => args.Single());
 
-                if (enumerableOf != null && consider(enumerableOf))
+                if (enumerable != null && consider(enumerable))
                 {
                     return (from as IEnumerable).IfExists().OfType<object>() // only when 'from' exists and only for non-null members
-                        .Select(member => member.InjectTo(enumerableOf)).OfType<object>()
-                        .Aggregate(Activator.CreateInstance(typeof(List<>).MakeGenericType(enumerableOf)),
+                        .Select(member => member.InjectTo(enumerable)).OfType<object>()
+                        .Aggregate(Activator.CreateInstance(typeof(List<>).MakeGenericType(enumerable)),
                             (list, member) => { list.Call("Add", member); return list; });
                 }
 

@@ -1,42 +1,41 @@
-﻿using Lxdn.Core.Extensions;
+﻿
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Diagnostics;
+
+using Lxdn.Core.Extensions;
 
 namespace Lxdn.Core.Aggregates
 {
-    public class PropertyAccessor
+    [DebuggerDisplay("{property,nq}")]
+    public class PropertyAccessor<TValue>
     {
-        private readonly PropertyPath path;
+        private readonly Property<TValue> property;
         private readonly object root;
 
-        public PropertyAccessor(PropertyPath path, object root)
+        public PropertyAccessor(Property<TValue> property, object root)
         {
-            this.path = path;
             this.root = root;
+            this.property = property;
         }
 
-        public void SetValue(object value)
+        public void SetValue(TValue value)
         {
-            if (!path.Any())
+            if (!property.Any())
                 throw new InvalidOperationException("Can't set value of the root");
 
-            path.Last().SetValue(new PropertyPath(path.Root, path.Without(path.Last()))
+            property.Last().SetValue(new Property<object>(property.Root, property.Without(property.Last()))
                 .Of(root).EnsureExists().GetValue(), value);
         }
 
-        public object GetValue()
+        public TValue GetValue()
         {
-            return path.Aggregate(root, (current, property) =>
+            return (TValue) property.Aggregate(root, (current, property) =>
                 current.IfExists(property.GetValue));
         }
 
-        public TValue GetValue<TValue>()
-        {
-            return (TValue) GetValue();
-        }
-
-        public PropertyAccessor EnsureExists()
+        public PropertyAccessor<TValue> EnsureExists()
         {
             Func<object, PropertyInfo, object> createDefault = (current, property) =>
             {
@@ -45,46 +44,10 @@ namespace Lxdn.Core.Aggregates
                 return @default;
             };
 
-            path.Aggregate(root, (current, property) =>
+            property.Aggregate(root, (current, property) =>
                 property.GetValue(current) ?? createDefault(current, property));
 
             return this;
-        }
-
-        public override string ToString()
-        {
-            return this.path.ToString();
-        }
-    }
-
-    public class PropertyAccessor<TValue>
-    {
-        private readonly PropertyAccessor accessor;
-
-        public PropertyAccessor(PropertyAccessor accessor)
-        {
-            this.accessor = accessor;
-        }
-
-        public void SetValue(TValue value)
-        {
-            accessor.SetValue(value);
-        }
-
-        public TValue GetValue()
-        {
-            return (TValue) accessor.GetValue();
-        }
-
-        public PropertyAccessor<TValue> EnsureExists()
-        {
-            accessor.EnsureExists();
-            return this;
-        }
-
-        public override string ToString()
-        {
-            return accessor.ToString();
         }
     }
 }

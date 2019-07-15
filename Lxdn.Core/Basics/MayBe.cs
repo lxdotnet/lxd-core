@@ -21,15 +21,6 @@ namespace Lxdn.Core.Basics
             this.Value = value;
         }
 
-        public MayBe<TValue> ThrowIfHasNoValue<TException>(Func<TException> exception)
-            where TException : Exception
-        {
-            if (!this.HasValue)
-                throw exception();
-
-            return this;
-        }
-
         public TResult IfHasValue<TResult>(Func<TValue, TResult> doSomething)
         {
             if (!this.HasValue)

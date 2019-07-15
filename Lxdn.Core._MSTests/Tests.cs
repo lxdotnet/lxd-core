@@ -351,15 +351,32 @@ namespace Lxdn.Core._MSTests
         [TestMethod]
         public void Test_NewAccessor()
         {
+            var name = default(Person).Browse(p => p.Name);
+
             var person = new Person { Name = "Alex" };
-            var property = person.SafelyBrowse(p => p.Name);
-            var name = property.GetValue();
-            Assert.AreEqual("Alex", name);
+            var value = name.Of(person).GetValue();
+            Assert.AreEqual("Alex", value);
 
-            var maritalStatus = person.SafelyBrowse(p => p.MaritalStatus);
+            name.Of(person).SetValue("Tony");
+            Assert.AreEqual("Tony", name.Of(person).GetValue());
+        }
 
-            property.SetValue("Tony");
-            Assert.AreEqual("Tony", property.GetValue());
+        [TestMethod]
+        public void Test_NewAccessor_LiteralPath()
+        {
+            var name = new Property<int>(typeof(Person), "person.Name.Length");
+            var alex = new Person { Name = "Alex" };
+            var length = name.Of(alex).GetValue();
+            Assert.AreEqual(4, length);
+        }
+
+        [TestMethod]
+        public void Test_NewAccessor_PropertyOfRoot()
+        {
+            var person = new Property<Person>(typeof(Person), "person");
+            var alex = new Person { Name = "Alex" };
+            var me = person.Of(alex).GetValue();
+            Assert.AreEqual("Alex", me.Name);
         }
 
         [TestMethod]

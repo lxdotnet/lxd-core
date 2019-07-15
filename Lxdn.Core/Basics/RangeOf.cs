@@ -59,11 +59,6 @@ namespace Lxdn.Core.Basics
             return new RangeOf<TValue> { Min = from, Max = to };
         }
 
-        public override string ToString()
-        {
-            return $"{Min} - {Max}";
-        }
-
         public RangeOf<TOther> Transform<TOther>(Func<TValue, TOther> transform)
             where TOther : struct, IComparable<TOther>
         {
