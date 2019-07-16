@@ -84,8 +84,7 @@ namespace Lxdn.Core._MSTests
         public void TestAnonimizationOfBidderId()
         {
             var a = "Alex".Anonymize("Lxdn");
-            //Assert.IsTrue("70E354A476993CEB683AF63C1C0D44DD".Equals(a));
-
+            Assert.AreEqual("50A940D99C42392C6C0A31AB0B02BD25", a);
         }
 
         [TestMethod]
@@ -157,7 +156,12 @@ namespace Lxdn.Core._MSTests
         [TestMethod]
         public void TestIsOneOf()
         {
-            var result = Colors.Red.IsOneOf(Colors.Blue, Colors.Green);
+            Assert.IsFalse(Colors.Red.IsOneOf(Colors.Blue, Colors.Green));
+            Assert.IsTrue(Colors.Green.IsOneOf(Colors.Blue, Colors.Green));
+
+            var colors = new List<Colors> { Colors.Blue, Colors.Green };
+            Assert.IsFalse(Colors.Red.IsOneOf(colors));
+            Assert.IsTrue(Colors.Green.IsOneOf(colors));
         }
         
         [TestMethod]

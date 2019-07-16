@@ -80,7 +80,7 @@ namespace Lxdn.Core.Injection
                     Value = Guard.Function(() => inject(injectable.Source, injectable.Target), ex => 
                         new ArgumentException(nameof(source), $"Error injecting value {injectable.Source} into property '{injectable.Target.Name}'", ex))
                 })
-                .Aggregate(existing, (to, injectable) => to.SetValueOf(injectable.Target, injectable.Value));
+                .Aggregate(existing, (to, injectable) => to.SetValue(injectable.Target, injectable.Value));
         }
 
         public static TOutput InjectTo<TOutput>(this object input)

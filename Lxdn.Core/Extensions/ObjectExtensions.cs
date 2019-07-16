@@ -122,7 +122,7 @@ namespace Lxdn.Core.Extensions
             return (TResult)obj.ChangeType(typeof(TResult));
         }
 
-        public static TTarget SetValueOf<TTarget>(this TTarget target, PropertyInfo property, object value)
+        public static TTarget SetValue<TTarget>(this TTarget target, PropertyInfo property, object value)
             where TTarget : class
         {
             property.SetValue(target, value);
@@ -134,14 +134,16 @@ namespace Lxdn.Core.Extensions
             return Enumerable.Repeat(item, 1);
         }
 
-        public static bool IsOneOf<TEnum>(this TEnum member, params TEnum[] values)
+        public static bool IsOneOf<TItem>(this TItem item, params TItem[] values)
         {
-            return values.Any(value => Equals(value, member));
+            return values.Any(value => Equals(value, item));
         }
 
-        public static bool NotIn<TEnum>(this TEnum member, params TEnum[] values)
+        public static bool IsOneOf<TItem>(this TItem item, IEnumerable<TItem> values) => IsOneOf(item, values.ToArray());
+
+        public static bool NotIn<TItem>(this TItem item, params TItem[] values)
         {
-            return values.All(value => !Equals(value, member));
+            return values.All(value => !Equals(value, item));
         }
 
         public static Dictionary<string, object> ToDictionary(this object o)
@@ -198,7 +200,7 @@ namespace Lxdn.Core.Extensions
                 throw new ArgumentException("An expression used in the lambda must be a property expression");
 
             var dateTime = DateTime.SpecifyKind((DateTime)property.GetValue(obj), kind);
-            return obj.SetValueOf(property, dateTime);
+            return obj.SetValue(property, dateTime);
         }
 
         public static TInput InterpretAsUtcTime<TInput>(this TInput obj, Expression<Func<TInput, DateTime>> lambda)
