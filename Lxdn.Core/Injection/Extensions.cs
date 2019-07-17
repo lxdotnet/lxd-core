@@ -97,7 +97,7 @@ namespace Lxdn.Core.Injection
         public static TTarget InjectFrom<TTarget>(this TTarget target, object source)
             where TTarget : class
         {
-            return (TTarget)(source ?? new object()).InjectTo(target);
+            return (TTarget)source.InjectTo(target);
         }
     }
 }
