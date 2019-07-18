@@ -58,9 +58,6 @@ namespace Lxdn.Core.Basics
             return this;
         }
 
-        public override IEnumerable<string> GetDynamicMemberNames()
-        {
-            return this.values.Keys;
-        }
+        public override IEnumerable<string> GetDynamicMemberNames() => values.Keys;
     }
 }
