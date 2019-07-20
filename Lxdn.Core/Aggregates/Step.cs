@@ -3,6 +3,7 @@ using System;
 using System.Reflection;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using Lxdn.Core.Extensions;
 
 namespace Lxdn.Core.Aggregates
 {
@@ -16,7 +17,9 @@ namespace Lxdn.Core.Aggregates
             this.property = property;
         }
 
-        public object GetValue(object current) => property.GetValue(current);
+        public object GetValue(object current) => Guard.Function(() => property.GetValue(current
+            .ThrowIfDefault(() => new NullReferenceException($"The value of '{property.Name}' is null"))), 
+             ex => new InvalidOperationException($"Cannot get value of '{property.Name}'", ex));
 
         public void SetValue(object current, object value) => property.SetValue(current, value);
 
