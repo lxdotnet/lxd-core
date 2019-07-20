@@ -31,6 +31,8 @@ namespace Lxdn.Core._MSTests.Domain
         [Required]
         public List<Person> Relatives { get; set; }
 
+        public Person[] RelativesArray => Relatives?.ToArray();
+
         public MaritalStatus MaritalStatus { get; set; }
 
         public Salutation? Salutation { get; set; }

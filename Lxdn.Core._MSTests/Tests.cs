@@ -384,6 +384,15 @@ namespace Lxdn.Core._MSTests
         }
 
         [TestMethod]
+        public void Test_NewAccessor_SetValue()
+        {
+            var me = new Person();
+            var name = new Property<string>(typeof(Person), "person.Name");
+            name.Of(me).SetValue("Alex");
+            Assert.AreEqual("Alex", me.Name);
+        }
+
+        [TestMethod]
         public void Test_InjectStringArrayIntoStringArray()
         {
             var message = new Message { AdditionalInfo = "Foo".Once().ToArray() };
@@ -438,6 +447,11 @@ namespace Lxdn.Core._MSTests
 
             Assert.AreEqual(1, oneGroup.Count);
             Assert.AreEqual(2, twoGroups.Count);
+        }
+        
+        [TestMethod]
+        public void Test_Arrays()
+        {
         }
     }
 }

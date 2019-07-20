@@ -15,11 +15,11 @@ namespace Lxdn.Core.Basics
             this.Track = PropertyTrack.Empty;
         }
 
-        public PropertyAdapter(PropertyAdapter other)
-            : this()
-        {
-            this.Track = new PropertyTrack(other.Track.ToList());
-        }
+        //public PropertyAdapter(PropertyAdapter other)
+        //    : this()
+        //{
+        //    this.Track = new PropertyTrack(other.Track.ToList());
+        //}
 
         public PropertyAdapter(PropertyInfo property)
             : this()
