@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace Lxdn.Core.Aggregates
 {
@@ -27,6 +28,8 @@ namespace Lxdn.Core.Aggregates
             SetValue(owner, value);
             return value;
         }
+
+        public Expression ToExpression(Expression of) => Expression.Property(of, property);
 
         public override string ToString() => property.Name;
     }

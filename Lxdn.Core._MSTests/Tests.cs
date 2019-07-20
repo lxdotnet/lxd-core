@@ -393,6 +393,16 @@ namespace Lxdn.Core._MSTests
         }
 
         [TestMethod]
+        public void Test_NewAccessor_ToExpression()
+        {
+            var model = new Model("person", typeof(Person));
+            var me = new Person { Name = "Alex" };
+            var name = me.Browse(x => x.Name);
+            var expression = name.ToExpression(model.AsParameter());
+            Assert.AreEqual("person.Name", expression.ToString());
+        }
+
+        [TestMethod]
         public void Test_InjectStringArrayIntoStringArray()
         {
             var message = new Message { AdditionalInfo = "Foo".Once().ToArray() };

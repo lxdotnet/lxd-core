@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 using Lxdn.Core.Basics;
 using Lxdn.Core.Extensions;
+using System.Linq.Expressions;
 
 namespace Lxdn.Core.Aggregates
 {
@@ -41,6 +42,9 @@ namespace Lxdn.Core.Aggregates
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public PropertyAccessor<TValue> Of(object root) => new PropertyAccessor<TValue>(this, root);
+
+        public Expression ToExpression(Expression parameter) =>
+            this.Aggregate(parameter, (current, step) => step.ToExpression(current));
 
         public override string ToString()
         {
