@@ -1,18 +1,18 @@
 
 using System;
 using System.Linq;
-using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
 using Lxdn.Core.Basics;
 using Lxdn.Core.Extensions;
+using System.Linq.Expressions;
 
 namespace Lxdn.Core.Aggregates
 {
-    public class Property<TValue> : IEnumerable<PropertyInfo>
+    public class Property<TValue> : IEnumerable<Step>
     {
-        private readonly IEnumerable<PropertyInfo> properties;
+        private readonly IEnumerable<Step> steps = new List<Step>();
 
         public Property(Type root, string path)
         {
@@ -21,31 +21,42 @@ namespace Lxdn.Core.Aggregates
 
             var tokens = path.SplitBy(".").ToList();
 
-            this.Root = new Model(tokens[0], root);
+            Root = new Model(tokens[0], root);
 
-            this.properties = tokens.Skip(1)
-                .Aggregate((IList<PropertyInfo>)new List<PropertyInfo>(), (properties, token) =>
-                    properties.Push((properties.LastOrDefault()?.PropertyType ?? Root.Type).GetProperty(token)
-                        .ThrowIfDefault(() => new ArgumentException("Invalid property: " + token))));
+            tokens.Skip(1).Aggregate((IList<Step>)this.steps, (steps, token) =>
+                steps.Push(StepFactory.Of(Type).CreateStep(token)));
         }
 
-        internal Property(Model root, IEnumerable<PropertyInfo> properties)
+        internal Property(Model root, IEnumerable<Step> steps)
         {
             this.Root = root;
-            this.properties = properties;
+            this.steps = steps;
+        }
+
+        public Property(Model root, IEnumerable<string> tokens)
+        {
+            Root = root;
+
+            tokens.Skip(1).Aggregate((IList<Step>)this.steps, (steps, token) =>
+                steps.Push(StepFactory.Of(Type).CreateStep(token)));
         }
 
         public Model Root { get; }
 
-        public IEnumerator<PropertyInfo> GetEnumerator() => properties.GetEnumerator();
+        public Type Type => steps.LastOrDefault()?.Type ?? Root.Type;
+
+        public IEnumerator<Step> GetEnumerator() => steps.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public PropertyAccessor<TValue> Of(object root) => new PropertyAccessor<TValue>(this, root);
 
+        public Expression ToExpression(Expression parameter) =>
+            this.Aggregate(parameter, (current, step) => step.ToExpression(current));
+
         public override string ToString()
         {
-            return Root.Id.Once().Concat(properties.Select(property => property.Name))
+            return Root.Id.Once().Concat(steps.Select(step => step.ToString()))
                 .Agglutinate(".");
         }
     }

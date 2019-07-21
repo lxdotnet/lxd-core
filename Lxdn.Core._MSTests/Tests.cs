@@ -216,21 +216,21 @@ namespace Lxdn.Core._MSTests
             var back = ((object)d).InjectTo<Person>();
         }
 
-        [TestMethod]
-        public void Test_PropertyOf_Success()
-        {
-            var person = new Person { Name = "Alex" };
-            Assert.AreEqual("Alex", person.PropertyOf("Name").Value);
-        }
+        //[TestMethod]
+        //public void Test_PropertyOf_Success()
+        //{
+        //    var person = new Person { Name = "Alex" };
+        //    Assert.AreEqual("Alex", person.PropertyOf("Name").Value);
+        //}
 
-        [TestMethod]
-        //[ExpectedException(typeof(ArgumentException))]
-        public void Test_PropertyOf_ThrowsForNonExistingProperty()
-        {
-            var person = new Person { Name = "Alex" };
-            var nonexisting = person.PropertyOf("Name1");
-            Assert.IsNull(nonexisting);
-        }
+        //[TestMethod]
+        ////[ExpectedException(typeof(ArgumentException))]
+        //public void Test_PropertyOf_ThrowsForNonExistingProperty()
+        //{
+        //    var person = new Person { Name = "Alex" };
+        //    var nonexisting = person.PropertyOf("Name1");
+        //    Assert.IsNull(nonexisting);
+        //}
 
 #if NETFULL
 
@@ -384,6 +384,36 @@ namespace Lxdn.Core._MSTests
         }
 
         [TestMethod]
+        public void Test_NewAccessor_GetCollection()
+        {
+            var person = new Person("Alexander", "Dolnik", new DateTime(1976, 9, 17));
+            person.Relatives.Add(new Person("Katya", new DateTime(1978, 6, 26)));
+            person.Relatives.Add(new Person("Sofia", new DateTime(2013, 10, 26)));
+
+            var relatives = default(Person).Browse(x => x.Relatives).Of(person).GetValue();
+            Assert.AreEqual(2, relatives.Count);
+        }
+
+        [TestMethod]
+        public void Test_NewAccessor_SetValue()
+        {
+            var me = new Person();
+            var name = new Property<string>(typeof(Person), "person.Name");
+            name.Of(me).SetValue("Alex");
+            Assert.AreEqual("Alex", me.Name);
+        }
+
+        [TestMethod]
+        public void Test_NewAccessor_ToExpression()
+        {
+            var model = new Model("person", typeof(Person));
+            var me = new Person { Name = "Alex" };
+            var name = me.Browse(x => x.Name);
+            var expression = name.ToExpression(model.AsParameter());
+            Assert.AreEqual("person.Name", expression.ToString());
+        }
+
+        [TestMethod]
         public void Test_InjectStringArrayIntoStringArray()
         {
             var message = new Message { AdditionalInfo = "Foo".Once().ToArray() };
@@ -438,6 +468,11 @@ namespace Lxdn.Core._MSTests
 
             Assert.AreEqual(1, oneGroup.Count);
             Assert.AreEqual(2, twoGroups.Count);
+        }
+        
+        [TestMethod]
+        public void Test_Arrays()
+        {
         }
     }
 }
