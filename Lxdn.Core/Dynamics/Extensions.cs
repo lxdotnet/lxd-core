@@ -27,7 +27,7 @@ namespace Lxdn.Core.Dynamics
                 var enumerableOf = fromType.AsArgumentsOf(typeof(IEnumerable<>)).IfHasValue(args => args.Single());
 
                 if (enumerableOf != null && Consider.ForIteration(enumerableOf))
-                    return (from as IEnumerable).IfExists(e => e).OfType<object>()
+                    return (from as IEnumerable).IfExists().OfType<object>()
                         .Select(member => member.ToDynamic()).OfType<DynamicObject>()
                         .Aggregate(new CaseInsensitiveEnumerableExpando(), (list, member) => list.Add(member));
 

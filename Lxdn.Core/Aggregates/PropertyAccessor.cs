@@ -28,7 +28,7 @@ namespace Lxdn.Core.Aggregates
             var lastStep = property.Last();
 
             var owner = property.Without(lastStep)
-                .Aggregate(root, (current, step) => step.GetValue(current) ?? step.Instantiate(current));
+                .Aggregate(root, (current, step) => step.GetValue(current) ?? step.InstantiateIn(current));
 
             lastStep.SetValue(owner, value);
         }

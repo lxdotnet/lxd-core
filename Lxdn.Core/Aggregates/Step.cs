@@ -12,22 +12,29 @@ namespace Lxdn.Core.Aggregates
     {
         private readonly PropertyInfo property;
 
+        private object EnsureExists(object owner) =>
+            owner.ThrowIfDefault(() => new NullReferenceException($"The value of '{property.Name}' is null"));
+
         internal Step(PropertyInfo property)
         {
             this.property = property;
         }
 
-        public object GetValue(object current) => Guard.Function(() => property.GetValue(current
-            .ThrowIfDefault(() => new NullReferenceException($"The value of '{property.Name}' is null"))), 
-             ex => new InvalidOperationException($"Cannot get value of '{property.Name}'", ex));
+        public object GetValue(object current) => Guard.Function(() => 
+            property.GetValue(EnsureExists(current)), 
+            ex => new InvalidOperationException($"Cannot get value of '{property.Name}'", ex));
 
-        public void SetValue(object current, object value) => property.SetValue(current, value);
+        public void SetValue(object current, object value) => Guard.Action(() =>
+            property.SetValue(EnsureExists(current), value),
+            ex => new InvalidOperationException($"Cannot set value of '{property.Name}'", ex));
 
         public Type Type => property.PropertyType;
 
-        public object Instantiate(object owner)
+        public object InstantiateIn(object owner)
         {
-            var value = Activator.CreateInstance(Type);
+            var value = Guard.Function(() => Activator.CreateInstance(Type),
+                ex => new InvalidOperationException($"Failed to instantiate '{property.Name}'"));
+
             SetValue(owner, value);
             return value;
         }
