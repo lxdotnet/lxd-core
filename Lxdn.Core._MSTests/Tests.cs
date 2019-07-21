@@ -216,21 +216,21 @@ namespace Lxdn.Core._MSTests
             var back = ((object)d).InjectTo<Person>();
         }
 
-        [TestMethod]
-        public void Test_PropertyOf_Success()
-        {
-            var person = new Person { Name = "Alex" };
-            Assert.AreEqual("Alex", person.PropertyOf("Name").Value);
-        }
+        //[TestMethod]
+        //public void Test_PropertyOf_Success()
+        //{
+        //    var person = new Person { Name = "Alex" };
+        //    Assert.AreEqual("Alex", person.PropertyOf("Name").Value);
+        //}
 
-        [TestMethod]
-        //[ExpectedException(typeof(ArgumentException))]
-        public void Test_PropertyOf_ThrowsForNonExistingProperty()
-        {
-            var person = new Person { Name = "Alex" };
-            var nonexisting = person.PropertyOf("Name1");
-            Assert.IsNull(nonexisting);
-        }
+        //[TestMethod]
+        ////[ExpectedException(typeof(ArgumentException))]
+        //public void Test_PropertyOf_ThrowsForNonExistingProperty()
+        //{
+        //    var person = new Person { Name = "Alex" };
+        //    var nonexisting = person.PropertyOf("Name1");
+        //    Assert.IsNull(nonexisting);
+        //}
 
 #if NETFULL
 
@@ -381,6 +381,17 @@ namespace Lxdn.Core._MSTests
             var alex = new Person { Name = "Alex" };
             var me = person.Of(alex).GetValue();
             Assert.AreEqual("Alex", me.Name);
+        }
+
+        [TestMethod]
+        public void Test_NewAccessor_GetCollection()
+        {
+            var person = new Person("Alexander", "Dolnik", new DateTime(1976, 9, 17));
+            person.Relatives.Add(new Person("Katya", new DateTime(1978, 6, 26)));
+            person.Relatives.Add(new Person("Sofia", new DateTime(2013, 10, 26)));
+
+            var relatives = default(Person).Browse(x => x.Relatives).Of(person).GetValue();
+            Assert.AreEqual(2, relatives.Count);
         }
 
         [TestMethod]

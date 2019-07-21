@@ -8,9 +8,7 @@ using System.Threading;
 
 using Lxdn.Core.Basics;
 using Lxdn.Core.Expressions.Extensions;
-using Lxdn.Core.Expressions.Operators.Models;
 using Lxdn.Core.Expressions.Operators.Models.Output;
-using Lxdn.Core.Expressions.Utils;
 
 namespace Lxdn.Core.Expressions.Operators
 {
@@ -46,8 +44,7 @@ namespace Lxdn.Core.Expressions.Operators
             if (Regex.IsMatch(value, @"^[A-Za-z]{2}-[A-Z-a-z]{2}$"))
                 return Expression.Constant(CultureInfo.GetCultureInfo(value));
 
-            var path = new StructuredPath(value);
-            Model model = engine.Models.FirstOrDefault(m => m.Id.Equals(path.Entry));
+            Model model = engine.Models[value.Split('.').First()];
 
             if (model != null)
             {

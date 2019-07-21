@@ -172,16 +172,16 @@ namespace Lxdn.Core.Extensions
             return item.GetType().GetMethod(method).Invoke(item, parameters);
         }
 
-        public static IPropertyAccessor PropertyOf(this object item, string name, bool caseSensitive = false, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
-        {
-            if (item == null)
-                throw new ArgumentNullException(nameof(item));
+        //public static IPropertyAccessor PropertyOf(this object item, string name, bool caseSensitive = false, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
+        //{
+        //    if (item == null)
+        //        throw new ArgumentNullException(nameof(item));
 
-            return item.GetType().GetProperties(flags)
-                .SingleOrDefault(candidate => 0 == string.Compare(candidate.Name, name, !caseSensitive, CultureInfo.InvariantCulture))
-                .IfExists(propery => new Property(propery))
-                ?.CreateAccessor(item);
-        }
+        //    return item.GetType().GetProperties(flags)
+        //        .SingleOrDefault(candidate => 0 == string.Compare(candidate.Name, name, !caseSensitive, CultureInfo.InvariantCulture))
+        //        .IfExists(propery => new Property(propery))
+        //        ?.CreateAccessor(item);
+        //}
 
         public static int HashUsing<TItem>(this TItem item, params Func<TItem, object>[] properties)
         {

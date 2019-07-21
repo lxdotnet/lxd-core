@@ -26,10 +26,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Lxdn.Core\Lxdn.Core.csproj" />
   </ItemGroup>
 

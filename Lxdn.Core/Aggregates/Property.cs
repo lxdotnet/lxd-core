@@ -33,6 +33,14 @@ namespace Lxdn.Core.Aggregates
             this.steps = steps;
         }
 
+        public Property(Model root, IEnumerable<string> tokens)
+        {
+            Root = root;
+
+            tokens.Skip(1).Aggregate((IList<Step>)this.steps, (steps, token) =>
+                steps.Push(StepFactory.Of(Type).CreateStep(token)));
+        }
+
         public Model Root { get; }
 
         public Type Type => steps.LastOrDefault()?.Type ?? Root.Type;

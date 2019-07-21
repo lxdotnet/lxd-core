@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Lxdn.Core.Basics;
 using Lxdn.Core.Expressions.Operators.Custom;
+using Lxdn.Core.Extensions;
 
 namespace Lxdn.Core.Expressions
 {
@@ -18,10 +19,9 @@ namespace Lxdn.Core.Expressions
 
         private readonly List<Model> models;
 
-        public Model this[string id]
-        {
-            get { return this.First(model => model.Id == id); }
-        }
+        public Model this[string id] => this
+            .FirstOrDefault(model => model.Id == id)
+            .ThrowIfDefault(() => new ArgumentException($"Unknown model '{id}'", nameof(id)));
 
         public ClosureVariable CreateClosureVariable(string id, Type type)
         {
