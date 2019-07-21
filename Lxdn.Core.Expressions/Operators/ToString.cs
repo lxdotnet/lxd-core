@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using Lxdn.Core.Basics;
 using Lxdn.Core.Expressions.Extensions;
 using Lxdn.Core.Expressions.Operators.Models.Output;
+using Lxdn.Core.Expressions.Operators.Models;
 
 namespace Lxdn.Core.Expressions.Operators
 {
