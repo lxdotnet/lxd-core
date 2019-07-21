@@ -1,10 +1,11 @@
+
 using System;
-using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading;
+using System.Reflection;
+using System.Globalization;
+using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 using Lxdn.Core.Basics;
 using Lxdn.Core.Expressions.Extensions;
@@ -48,7 +49,7 @@ namespace Lxdn.Core.Expressions.Operators
 
             if (model != null)
             {
-                var property = new Property(value, engine);
+                var property = new Property(new PropertyModel { Path = value }, engine);
                 return property.Expression;
             }
 

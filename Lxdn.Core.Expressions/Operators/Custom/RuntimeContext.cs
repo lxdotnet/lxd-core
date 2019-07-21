@@ -10,9 +10,6 @@ namespace Lxdn.Core.Expressions.Operators.Custom
             this.models = models;
         }
 
-        public TReturn Resolve<TReturn>(IEvaluator<TReturn> promise)
-        {
-            return promise.From(this.models);
-        }
+        public TReturn Resolve<TReturn>(IEvaluator<TReturn> promise) => promise.Evaluate(models);
     }
 }

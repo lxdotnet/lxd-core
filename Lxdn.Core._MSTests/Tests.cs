@@ -368,7 +368,7 @@ namespace Lxdn.Core._MSTests
         [TestMethod]
         public void Test_NewAccessor_LiteralPath()
         {
-            var name = new Property<int>(typeof(Person), "person.Name.Length");
+            var name = Property<int>.From(typeof(Person), "person.Name.Length");
             var alex = new Person { Name = "Alex" };
             var length = name.Of(alex).GetValue();
             Assert.AreEqual(4, length);
@@ -377,7 +377,7 @@ namespace Lxdn.Core._MSTests
         [TestMethod]
         public void Test_NewAccessor_PropertyOfRoot()
         {
-            var person = new Property<Person>(typeof(Person), "person");
+            var person = Property<Person>.From(typeof(Person), "person");
             var alex = new Person { Name = "Alex" };
             var me = person.Of(alex).GetValue();
             Assert.AreEqual("Alex", me.Name);
@@ -398,7 +398,7 @@ namespace Lxdn.Core._MSTests
         public void Test_NewAccessor_SetValue()
         {
             var me = new Person();
-            var name = new Property<string>(typeof(Person), "person.Name");
+            var name = Property<string>.From(typeof(Person), "person.Name");
             name.Of(me).SetValue("Alex");
             Assert.AreEqual("Alex", me.Name);
         }

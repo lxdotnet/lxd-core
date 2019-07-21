@@ -21,7 +21,7 @@ namespace Lxdn.Core.Expressions._MSTests
             }
         }
 
-        public XmlNode LogicOf(string id)
+        public XmlNode Of(string id)
         {
             return this.configs[id];
         }
