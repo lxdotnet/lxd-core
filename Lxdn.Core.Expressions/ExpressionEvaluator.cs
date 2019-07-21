@@ -20,9 +20,6 @@ namespace Lxdn.Core.Expressions
 
         public LambdaExpression Logic { get; }
 
-        public TReturn From(params object[] modelInstances)
-        {
-            return this.evaluate(modelInstances);
-        }
+        public TReturn Evaluate(params object[] modelInstances) => evaluate(modelInstances);
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.Xml;
 using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
 
 using Lxdn.Core.Basics;
 using Lxdn.Core.Expressions.Operators.Models.Math;
@@ -18,7 +17,7 @@ namespace Lxdn.Core.Expressions._MSTests
     [DeploymentItem("Expressions\\ExpressionTests.xml", "")]
     public class Tests
     {
-        private ExpressionTestsConfigs configs;
+        private ExpressionTestsConfigs testXml;
 
         private ExecutionEngine engine;
 
@@ -27,24 +26,24 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestInitialize]
         public void Initialize()
         {
-            this.configs = new ExpressionTestsConfigs("ExpressionTests.xml");
+            testXml = new ExpressionTestsConfigs("ExpressionTests.xml");
 
-            Model model = new Model("person", typeof(Person));
-            this.engine = new ExecutionEngine(model);
-            this.engine.Operators.Models.Parse(Assembly.GetExecutingAssembly());
+            var model = new Model("person", typeof(Person));
+            engine = new ExecutionEngine(model);
+            engine.Operators.Models.Parse(Assembly.GetExecutingAssembly());
 
-            this.person = new Person("Alexander", "Dolnik", new DateTime(1976, 9, 17));
-            this.person.MaritalStatus = MaritalStatus.Married;
-            this.person.Relatives.Add(new Person("Katya", new DateTime(1978, 6, 26)));
-            this.person.Relatives.Add(new Person("Sofia", new DateTime(2013, 10, 26)));
+            person = new Person("Alexander", "Dolnik", new DateTime(1976, 9, 17));
+            person.MaritalStatus = MaritalStatus.Married;
+            person.Relatives.Add(new Person("Katya", new DateTime(1978, 6, 26)));
+            person.Relatives.Add(new Person("Sofia", new DateTime(2013, 10, 26)));
         }
 
         [TestMethod]
         public void TestConst()
         {
-            var logic =this.configs.LogicOf("TestConst");
-            var func = this.engine.Create<string>(logic);
-            string result = func.From(this.person);
+            var xml = testXml.Of("TestConst");
+            var func = engine.Create<string>(xml);
+            string result = func.Evaluate(person);
 
             Assert.AreEqual(result, "Tuesday");
         }
@@ -52,9 +51,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestProperty()
         {
-            var logic =this.configs.LogicOf("TestProperty");
-            var func = this.engine.Create<DateTime>(logic);
-            DateTime dt = func.From(this.person);
+            var xml = testXml.Of("TestProperty");
+            var func = engine.Create<DateTime>(xml);
+            DateTime dt = func.Evaluate(person);
 
             Assert.AreEqual(dt, new DateTime(1976, 9, 17));
         }
@@ -62,9 +61,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestEquals()
         {
-            var logic =this.configs.LogicOf("TestEquals");
-            var condition = this.engine.Create<bool>(logic);
-            bool equals = condition.From(this.person);
+            var xml = testXml.Of("TestEquals");
+            var condition = engine.Create<bool>(xml);
+            bool equals = condition.Evaluate(person);
 
             Assert.IsTrue(equals);
         }
@@ -72,9 +71,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestBinaryOp()
         {
-            var logic =this.configs.LogicOf("TestBinaryOp");
-            var condition = this.engine.Create<bool>(logic);
-            bool exists = condition.From(this.person);
+            var xml = testXml.Of("TestBinaryOp");
+            var condition = engine.Create<bool>(xml);
+            bool exists = condition.Evaluate(person);
 
             Assert.IsTrue(exists);
         }
@@ -82,9 +81,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestLambdaAny()
         {
-            var logic =this.configs.LogicOf("TestLambdaAny");
-            var condition = this.engine.Create<bool>(logic);
-            bool any = condition.From(this.person);
+            var xml = testXml.Of("TestLambdaAny");
+            var condition = engine.Create<bool>(xml);
+            bool any = condition.Evaluate(person);
 
             Assert.IsTrue(any);
         }
@@ -92,9 +91,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestOptimisticLambda()
         {
-            var logic =this.configs.LogicOf("TestOptimisticLambda");
-            IEvaluator<Person> func = this.engine.Create<Person>(logic);
-            Person relative = func.From(this.person);
+            var xml = testXml.Of("TestOptimisticLambda");
+            IEvaluator<Person> func = engine.Create<Person>(xml);
+            Person relative = func.Evaluate(person);
 
             Assert.AreEqual("Katya", relative.Name);
         }
@@ -102,9 +101,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestPredicateOnOperatorDeliveringString()
         {
-            var logic =this.configs.LogicOf("TestPredicateOnOperatorDeliveringString");
-            var condition = this.engine.Create<bool>(logic);
-            bool b = condition.From(this.person);
+            var xml = testXml.Of("TestPredicateOnOperatorDeliveringString");
+            var condition = engine.Create<bool>(xml);
+            bool b = condition.Evaluate(person);
 
             Assert.IsTrue(b);
         }
@@ -112,9 +111,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestPredicateOnOperatorDeliveringProperty()
         {
-            var logic =this.configs.LogicOf("TestPredicateOnOperatorDeliveringProperty");
-            var condition = this.engine.Create<bool>(logic);
-            bool b = condition.From(this.person);
+            var xml = testXml.Of("TestPredicateOnOperatorDeliveringProperty");
+            var condition = engine.Create<bool>(xml);
+            bool b = condition.Evaluate(person);
 
             Assert.IsTrue(b);
         }
@@ -122,9 +121,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestPredicateOnOperatorDeliveringNullable()
         {
-            var logic =this.configs.LogicOf("TestPredicateOnOperatorDeliveringNullable");
-            var condition = this.engine.Create<bool>(logic);
-            bool b = condition.From(this.person);
+            var xml = testXml.Of("TestPredicateOnOperatorDeliveringNullable");
+            var condition = engine.Create<bool>(xml);
+            bool b = condition.Evaluate(person);
 
             Assert.IsFalse(b);
         }
@@ -132,9 +131,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestLambdaScalarCount()
         {
-            var logic =this.configs.LogicOf("TestLambdaScalarCount");
-            IEvaluator<int> func = this.engine.Create<int>(logic);
-            int count = func.From(this.person);
+            var xml = testXml.Of("TestLambdaScalarCount");
+            IEvaluator<int> func = engine.Create<int>(xml);
+            int count = func.Evaluate(person);
 
             Assert.AreEqual(2, count);
         }
@@ -142,9 +141,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestMathAdd()
         {
-            var logic =this.configs.LogicOf("TestMathAdd");
-            IEvaluator<int> func = this.engine.Create<int>(logic);
-            int count = func.From(this.person);
+            var xml = testXml.Of("TestMathAdd");
+            IEvaluator<int> func = engine.Create<int>(xml);
+            int count = func.Evaluate(person);
 
             Assert.AreEqual(2000, count);
         }
@@ -152,9 +151,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestMathModulo()
         {
-            var logic =this.configs.LogicOf("TestMathModulo");
-            IEvaluator<int> func = this.engine.Create<int>(logic);
-            int rest = func.From(this.person);
+            var xml = testXml.Of("TestMathModulo");
+            IEvaluator<int> func = engine.Create<int>(xml);
+            int rest = func.Evaluate(person);
 
             Assert.AreEqual(8, rest);
         }
@@ -162,9 +161,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestBlockAndRegex()
         {
-            var logic =this.configs.LogicOf("TestBlockAndRegex");
-            IEvaluator<int> func = this.engine.Create<int>(logic);
-            int count = func.From(this.person);
+            var xml = testXml.Of("TestBlockAndRegex");
+            IEvaluator<int> func = engine.Create<int>(xml);
+            int count = func.Evaluate(person);
 
             Assert.AreEqual(1, count);
         }
@@ -172,9 +171,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestCallOfInstanceMethod()
         {
-            var logic =this.configs.LogicOf("TestCallOfInstanceMethod");
-            IEvaluator<string> func = this.engine.Create<string>(logic);
-            string relationship = func.From(this.person);
+            var xml = testXml.Of("TestCallOfInstanceMethod");
+            IEvaluator<string> func = engine.Create<string>(xml);
+            string relationship = func.Evaluate(person);
 
             Assert.AreEqual("Alexander + Katya", relationship);
         }
@@ -182,9 +181,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestCallOfStaticMethod()
         {
-            var logic =this.configs.LogicOf("TestCallOfStaticMethod");
-            IEvaluator<string> func = this.engine.Create<string>(logic);
-            string result = func.From(this.person);
+            var xml = testXml.Of("TestCallOfStaticMethod");
+            IEvaluator<string> func = engine.Create<string>(xml);
+            string result = func.Evaluate(person);
 
             Assert.AreEqual("My name is Alexander", result);
         }
@@ -192,9 +191,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestDirectCallOfRegex()
         {
-            var logic =this.configs.LogicOf("TestDirectCallOfRegex");
-            IEvaluator<int> func = this.engine.Create<int>(logic);
-            int result = func.From(this.person);
+            var xml = testXml.Of("TestDirectCallOfRegex");
+            IEvaluator<int> func = engine.Create<int>(xml);
+            int result = func.Evaluate(person);
 
             Assert.AreEqual(3, result);
         }
@@ -202,9 +201,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestStringFormatWithSpecializedSyntax()
         {
-            var logic =this.configs.LogicOf("TestStringFormatWithSpecializedSyntax");
-            IEvaluator<string> func = this.engine.Create<string>(logic);
-            string result = func.From(this.person);
+            var xml = testXml.Of("TestStringFormatWithSpecializedSyntax");
+            IEvaluator<string> func = engine.Create<string>(xml);
+            string result = func.Evaluate(person);
 
             // todo: attention, the result is formatted in the context of current thread's culture!
             Assert.IsTrue(result.StartsWith("My name is Alexander and my birthday is on "));
@@ -216,28 +215,28 @@ namespace Lxdn.Core.Expressions._MSTests
         [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
         public void TestStringFormatInvalidCountOfArguments()
         {
-            var logic =this.configs.LogicOf("TestStringFormatInvalidCountOfArguments");
-            IEvaluator<string> func = this.engine.Create<string>(logic);
-            string result = func.From(this.person);
+            var xml = testXml.Of("TestStringFormatInvalidCountOfArguments");
+            IEvaluator<string> func = engine.Create<string>(xml);
+            string result = func.Evaluate(person);
         }
 
         [TestMethod]
         public void TestSwitch()
         {
-            var logic =this.configs.LogicOf("TestSwitch");
-            IEvaluator<string> func = this.engine.Create<string>(logic);
-            string result = func.From(this.person);
+            var xml = testXml.Of("TestSwitch");
+            IEvaluator<string> func = engine.Create<string>(xml);
+            string result = func.Evaluate(person);
 
             Assert.AreEqual("married", result);
 
-            result = func.From(this.person.Relatives[0]);
+            result = func.Evaluate(person.Relatives[0]);
             Assert.AreEqual("not married", result);
 
             try
             {
                 Person widow = new Person("Anonymous", new DateTime(1900, 1, 1));
                 widow.MaritalStatus = MaritalStatus.Widowed;
-                func.From(widow);
+                func.Evaluate(widow);
             }
             catch (Exception e)
             {
@@ -252,48 +251,48 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestMatchOf()
         {
-            var logic =this.configs.LogicOf("TestMatchOf");
-            int c = this.engine.Create<int>(logic).From(this.person);
+            var xml = testXml.Of("TestMatchOf");
+            int c = engine.Create<int>(xml).Evaluate(person);
             Assert.AreEqual(c, 1);
         }
 
         [TestMethod]
         public void TestSequenceOfConditionsShouldNotFail()
         {
-            var logic =this.configs.LogicOf("TestSequenceOfConditionsShouldNotFail");
-            var b = (bool)this.engine.Create<object>(logic).From(this.person);
+            var xml = testXml.Of("TestSequenceOfConditionsShouldNotFail");
+            var b = (bool)engine.Create<object>(xml).Evaluate(person);
             Assert.AreEqual(b, false);
         }
 
         [TestMethod]
         public void TestEmptyStringOrNull()
         {
-            var logic =this.configs.LogicOf("TestEmptyStringOrNull");
-            bool result = this.engine.Create<bool>(logic).From(this.person);
+            var xml = testXml.Of("TestEmptyStringOrNull");
+            bool result = engine.Create<bool>(xml).Evaluate(person);
             Assert.AreEqual(result, true);
         }
 
         [TestMethod]
         public void TestLinqWhere()
         {
-            var logic =this.configs.LogicOf("TestLinqWhere");
-            int countOfChildren = this.engine.Create<int>(logic).From(this.person);
+            var xml = testXml.Of("TestLinqWhere");
+            int countOfChildren = engine.Create<int>(xml).Evaluate(person);
             Assert.AreEqual(countOfChildren, 1);
         }
 
         [TestMethod]
         public void TestLinqWhereOnBooleanAndStringFormat()
         {
-            var logic =this.configs.LogicOf("TestLinqWhereOnBooleanAndStringFormat");
-            string format = this.engine.Create<string>(logic).From(this.person);
+            var xml = testXml.Of("TestLinqWhereOnBooleanAndStringFormat");
+            string format = engine.Create<string>(xml).Evaluate(person);
             Assert.AreEqual(format, "Count: 1");
         }
 
         [TestMethod]
         public void TestSwitchNullableHavingDefaultValue()
         {
-            var logic =this.configs.LogicOf("TestSwitchNullable");
-            string format = this.engine.Create<string>(logic).From(this.person);
+            var xml = testXml.Of("TestSwitchNullable");
+            string format = engine.Create<string>(xml).Evaluate(person);
 
             Assert.AreEqual("Unknown", format);
         }
@@ -301,9 +300,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestTypedEvaluator()
         {
-            var logic =this.configs.LogicOf("TestProperty");
-            var evaluator = this.engine.Create<DateTime>(logic);
-            var bd = evaluator.From(this.person);
+            var xml = testXml.Of("TestProperty");
+            var evaluator = engine.Create<DateTime>(xml);
+            var bd = evaluator.Evaluate(person);
 
             Assert.AreEqual(new DateTime(1976, 9, 17), bd);
         }
@@ -312,9 +311,9 @@ namespace Lxdn.Core.Expressions._MSTests
         //[TestMethod]
         //public void TestAutoFormat2()
         //{
-        //    var logic =this.configs.LogicOf("TestAutoFormat2");
-        //    var evaluator = this.engine.Create<string>(logic);
-        //    var formatted = evaluator.From(this.person);
+        //    var xml = this.testXml.LogicOf("TestAutoFormat2");
+        //    var evaluator = engine.Create<string>(logic);
+        //    var formatted = evaluator.Evaluate(person);
 
         //    Assert.AreEqual(formatted, "My name is Alexander");
         //}
@@ -322,9 +321,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestModulo()
         {
-            var logic =this.configs.LogicOf("TestModulo");
-            var evaluator = this.engine.Create<int>(logic);
-            var remainder = evaluator.From(this.person);
+            var xml = testXml.Of("TestModulo");
+            var evaluator = engine.Create<int>(xml);
+            var remainder = evaluator.Evaluate(person);
 
             Assert.AreEqual(4, remainder);
         }
@@ -333,9 +332,9 @@ namespace Lxdn.Core.Expressions._MSTests
         //[TestMethod]
         //public void TestStringFormatEx()
         //{
-        //    var logic =this.configs.LogicOf("TestStringFormatEx");
-        //    var evaluator = this.engine.Create<string>(logic);
-        //    var formatted = evaluator.From(this.person);
+        //    var xml = this.testXml.LogicOf("TestStringFormatEx");
+        //    var evaluator = engine.Create<string>(logic);
+        //    var formatted = evaluator.Evaluate(person);
 
         //    Assert.AreEqual("Alexander Dolnik: 17.9", formatted);
         //}
@@ -343,12 +342,12 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestThrowSimple()
         {
-            var logic =this.configs.LogicOf("TestThrowSimple");
-            var evaluator = this.engine.Create<string>(logic);
+            var xml = testXml.Of("TestThrowSimple");
+            var evaluator = engine.Create<string>(xml);
 
             try
             {
-                evaluator.From(this.person);
+                evaluator.Evaluate(person);
             }
             catch (Exception ex)
             {
@@ -362,12 +361,12 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestThrowCustomException()
         {
-            var logic =this.configs.LogicOf("TestThrowCustomException");
-            var evaluator = this.engine.Create<string>(logic);
+            var xml = testXml.Of("TestThrowCustomException");
+            var evaluator = engine.Create<string>(xml);
 
             try
             {
-                evaluator.From(this.person);
+                evaluator.Evaluate(person);
             }
             catch (Exception ex)
             {
@@ -381,9 +380,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestComparisonOfEquatables_Equal()
         {
-            var logic =this.configs.LogicOf("TestComparisonOfEquatables");
-            var condition = this.engine.Create<bool>(logic);
-            bool equals = condition.From(this.person);
+            var xml = testXml.Of("TestComparisonOfEquatables");
+            var condition = engine.Create<bool>(xml);
+            bool equals = condition.Evaluate(person);
 
             Assert.AreEqual(true, equals); // mony should be compared as value objects since they implement IEquatable<>
         }
@@ -391,9 +390,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestCountOfObjectHavingSomeConcreteAttributeValue()
         {
-            var logic =this.configs.LogicOf("TestCountOfObjectHavingSomeConcreteAttributeValue");
-            var evaluator = this.engine.Create<int>(logic);
-            int count = evaluator.From(this.person);
+            var xml = testXml.Of("TestCountOfObjectHavingSomeConcreteAttributeValue");
+            var evaluator = engine.Create<int>(xml);
+            int count = evaluator.Evaluate(person);
 
             Assert.AreEqual(2, count);
         }
@@ -401,9 +400,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestCountOfObjectHavingSomeConcreteAttributeValue2()
         {
-            var logic =this.configs.LogicOf("TestCountOfObjectHavingSomeConcreteAttributeValue2");
-            var evaluator = this.engine.Create<int>(logic);
-            int count = evaluator.From(this.person);
+            var xml = testXml.Of("TestCountOfObjectHavingSomeConcreteAttributeValue2");
+            var evaluator = engine.Create<int>(xml);
+            int count = evaluator.Evaluate(person);
 
             Assert.AreEqual(1, count);
         }
@@ -412,10 +411,10 @@ namespace Lxdn.Core.Expressions._MSTests
         //public void TestFormatting()
         //{
         //    var money = this.person.Money.Amount.TryFormat(Thread.CurrentThread.CurrentUICulture);
-        //    var logic =this.configs.LogicOf("TestFormatting");
-        //    var op = this.engine.Create<>(xml);
+        //    var xml = this.testXml.LogicOf("TestFormatting");
+        //    var op = engine.Create<>(xml);
         //    var evaluator = op.ToEvaluator<string>();
-        //    var s = evaluator.From(this.person);
+        //    var s = evaluator.Evaluate(person);
 
         //    Assert.AreEqual(s, "Here we are: 100");
         //}
@@ -425,9 +424,9 @@ namespace Lxdn.Core.Expressions._MSTests
         //public void TestAutoFormatWithNull()
         //{
         //    this.person.Name = null;
-        //    var logic =this.configs.LogicOf("TestAutoFormatWithNull");
-        //    var evaluator = this.engine.Create<string>(logic);
-        //    var s = evaluator.From(this.person);
+        //    var xml = this.testXml.LogicOf("TestAutoFormatWithNull");
+        //    var evaluator = engine.Create<string>(logic);
+        //    var s = evaluator.Evaluate(person);
 
         //    Assert.AreEqual(s, "My name is (null) Dolnik");
         //}
@@ -436,9 +435,9 @@ namespace Lxdn.Core.Expressions._MSTests
         public void Test1()
         {
             //var result = DateTime.Now - TimeSpan.FromMinutes(5);
-            var logic =this.configs.LogicOf("TestTimespan");
-            var evaluator = this.engine.Create<DateTime>(logic);
-            var time = evaluator.From(this.person);
+            var xml = testXml.Of("TestTimespan");
+            var evaluator = engine.Create<DateTime>(xml);
+            var time = evaluator.Evaluate(person);
 
             Assert.AreEqual(new DateTime(1976, 9, 16, 23, 55, 0), time);
         }
@@ -446,12 +445,12 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestThrowCustomWithArgs()
         {
-            var logic =this.configs.LogicOf("TestThrowCustomWithArgs");
-            var evaluator = this.engine.Create<string>(logic);
+            var xml = testXml.Of("TestThrowCustomWithArgs");
+            var evaluator = engine.Create<string>(xml);
 
             try
             {
-                evaluator.From(this.person);
+                evaluator.Evaluate(person);
             }
             catch (Exception ex)
             {
@@ -465,15 +464,15 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestCompareWithString()
         {
-            var logic =this.configs.LogicOf("TestCompareWithString");
-            var op = this.engine.Create<object>(logic);
+            var xml = testXml.Of("TestCompareWithString");
+            var op = engine.Create<object>(xml);
         }
 
         [TestMethod]
         public void TestCustomOperator()
         {
-            var logic = this.configs.LogicOf("TestCustomOperator");
-            var now = this.engine.Create<DateTime>(logic).From(this.person);
+            var logic = testXml.Of("TestCustomOperator");
+            var now = engine.Create<DateTime>(logic).Evaluate(person);
 
             var span = now - DateTime.Now;
             Assert.IsTrue(span.TotalMilliseconds < 100);
@@ -482,7 +481,7 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestDomainAssemblies()
         {
-            var browser = new TypeBrowser(this.engine.Models);
+            var browser = new TypeBrowser(engine.Models);
             var n = 0;
             var known = browser.KnownTypes.Select(t => new { Value = t, Number = n++ })
                    .FirstOrDefault(t => typeof(Person) == t.Value);
@@ -496,8 +495,8 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestCustomOperatorModelHierarchy()
         {
-            var logic =this.configs.LogicOf("TestCustomOperatorModelHierarchy");
-            var val = this.engine.Create<string>(logic).From(this.person);
+            var xml = testXml.Of("TestCustomOperatorModelHierarchy");
+            var val = engine.Create<string>(xml).Evaluate(person);
             Assert.AreEqual("Test", val);
         }
         /*
@@ -530,9 +529,9 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestStringOccurenceUsingContainsPredicate()
         {
-            var logic =this.configs.LogicOf("TestStringOccurenceUsingContainsPredicate");
-            var predicate = this.engine.Create<bool>(logic);
-            bool contains = predicate.From(this.person);
+            var xml = testXml.Of("TestStringOccurenceUsingContainsPredicate");
+            var predicate = engine.Create<bool>(xml);
+            bool contains = predicate.Evaluate(person);
 
             Assert.IsTrue(contains);
         }
@@ -540,20 +539,20 @@ namespace Lxdn.Core.Expressions._MSTests
         [TestMethod]
         public void TestRootNamespaceMapping()
         {
-            var ns = this.engine.Operators.Models.Namespaces.Map(typeof(StringOccurenceModel));
+            var ns = engine.Operators.Models.Namespaces.Map(typeof(StringOccurenceModel));
             Assert.AreEqual("Core.Strings", ns);
 
             // also check for emitted models:
-            var linq = this.engine.Operators.Models.Single(model => model.Id == "Linq.Min");
-            ns = this.engine.Operators.Models.Namespaces.Map(linq.Type);
+            var linq = engine.Operators.Models.Single(model => model.Id == "Linq.Min");
+            ns = engine.Operators.Models.Namespaces.Map(linq.Type);
             Assert.AreEqual("Core.Linq", ns);
         }
 
         [TestMethod]
         public void TestRuntimeContext()
         {
-            var logic =this.configs.LogicOf("TestRuntimeContext");
-            var result = this.engine.Create<string>(logic).From(this.person);
+            var xml = testXml.Of("TestRuntimeContext");
+            var result = engine.Create<string>(xml).Evaluate(person);
             Assert.AreEqual("42", result);
         }
 
@@ -568,11 +567,11 @@ namespace Lxdn.Core.Expressions._MSTests
             var engine = new ExecutionEngine(model);
             var prop = engine.Operators.CreateProperty("person.Relatives[1].Birthday");
 
-            var bdOfSofia = prop.ToEvaluator<DateTime>(engine.Models).From(person);
+            var bdOfSofia = prop.ToEvaluator<DateTime>(engine.Models).Evaluate(person);
             Assert.AreEqual(bdOfSofia, person.Relatives[1].Birthday);
 
             var prop2 = engine.Operators.CreateProperty("person.Relatives.Count");
-            var count = prop2.ToEvaluator<int>(engine.Models).From(person);
+            var count = prop2.ToEvaluator<int>(engine.Models).Evaluate(person);
             Assert.AreEqual(2, count);
 
             /*

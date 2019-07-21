@@ -2,11 +2,11 @@
 using System;
 using System.Linq;
 using System.Collections;
+using System.Linq.Expressions;
 using System.Collections.Generic;
 
 using Lxdn.Core.Basics;
 using Lxdn.Core.Extensions;
-using System.Linq.Expressions;
 
 namespace Lxdn.Core.Aggregates
 {
@@ -14,17 +14,12 @@ namespace Lxdn.Core.Aggregates
     {
         private readonly IEnumerable<Step> steps = new List<Step>();
 
-        public Property(Type root, string path)
+        public static Property<TValue> From(Type rootType, string pathLiteral)
         {
-            if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentNullException(nameof(path));
+            var path = PathModel.Parse(pathLiteral);
+            var root = new Model(path.Root, rootType);
 
-            var tokens = path.SplitBy(".").ToList();
-
-            Root = new Model(tokens[0], root);
-
-            tokens.Skip(1).Aggregate((IList<Step>)this.steps, (steps, token) =>
-                steps.Push(StepFactory.Of(Type).CreateStep(token)));
+            return new Property<TValue>(root, path.Tokens);
         }
 
         internal Property(Model root, IEnumerable<Step> steps)
@@ -37,7 +32,7 @@ namespace Lxdn.Core.Aggregates
         {
             Root = root;
 
-            tokens.Skip(1).Aggregate((IList<Step>)this.steps, (steps, token) =>
+            tokens.Aggregate((IList<Step>)this.steps, (steps, token) =>
                 steps.Push(StepFactory.Of(Type).CreateStep(token)));
         }
 
