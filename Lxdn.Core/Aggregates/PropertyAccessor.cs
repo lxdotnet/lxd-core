@@ -16,8 +16,8 @@ namespace Lxdn.Core.Aggregates
         
         public PropertyAccessor(Property<TValue> property, object root)
         {
-            this.root = root;
-            this.property = property;
+            this.root = root.ThrowIfDefault();
+            this.property = property.ThrowIfDefault();
         }
 
         public void SetValue(TValue value)

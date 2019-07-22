@@ -6,12 +6,12 @@ namespace Lxdn.Core.Extensions
     {
         public static bool HasPublicGetter(this PropertyInfo property)
         {
-            return property.CanRead && property.GetGetMethod() != null && property.GetGetMethod().IsPublic;
+            return property.CanRead && property.GetGetMethod().IfExists(get => get.IsPublic);
         }
 
         public static bool HasPublicSetter(this PropertyInfo property)
         {
-            return property.CanWrite && property.GetSetMethod() != null && property.GetSetMethod().IsPublic;
+            return property.CanWrite && property.GetSetMethod().IfExists(set => set.IsPublic);
         }
     }
 }

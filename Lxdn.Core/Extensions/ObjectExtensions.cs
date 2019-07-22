@@ -195,9 +195,8 @@ namespace Lxdn.Core.Extensions
         private static TInput InterpretAs<TInput>(this TInput obj, Expression<Func<TInput, DateTime>> lambda, DateTimeKind kind)
             where TInput : class
         {
-            var property = (lambda.Body as MemberExpression).IfExists(member => member.Member as PropertyInfo);
-            if (property == null)
-                throw new ArgumentException("An expression used in the lambda must be a property expression");
+            var property = (lambda.Body as MemberExpression).IfExists(member => member.Member as PropertyInfo)
+                ?? throw new ArgumentException("An expression used in the lambda must be a property expression");
 
             var dateTime = DateTime.SpecifyKind((DateTime)property.GetValue(obj), kind);
             return obj.SetValue(property, dateTime);

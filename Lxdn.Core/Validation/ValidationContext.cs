@@ -1,21 +1,25 @@
 ﻿
 using System;
+using Lxdn.Core.IoC;
 using Lxdn.Core.Validation.Collectors;
 
 namespace Lxdn.Core.Validation
 {
-    public class ValidationContext// : IValidationContext
+    public class ValidationContext
     {
-        public ValidationContext(Predicate<Type> consider)
+        public ValidationContext(ITypeResolver resolve, Predicate<Type> consider)
         {
-            this.Consider = consider;
+            //this.Resolve = resolve;
+            this.Consider = consider;            
             this.Collectors = new CollectorFactory(this);
-            this.Validators = new OperatorModelValidatorFactory();
+            this.Validators = new OperatorModelValidatorFactory(resolve);
         }
 
-        internal CollectorFactory Collectors { get; private set; }
+        //internal ITypeResolver Resolve { get; }
 
-        internal OperatorModelValidatorFactory Validators { get; private set; }
+        internal CollectorFactory Collectors { get; }
+
+        internal OperatorModelValidatorFactory Validators { get; }
 
         internal OperatorModelValidator CreateFor(OperatorPath path)
         {
@@ -24,9 +28,6 @@ namespace Lxdn.Core.Validation
 
         internal Predicate<Type> Consider { get; private set; }
 
-        public OperatorModelValidator Create()
-        {
-            return this.CreateFor(OperatorPath.Empty);
-        }
+        public OperatorModelValidator Create() => this.CreateFor(OperatorPath.Empty);
     }
 }

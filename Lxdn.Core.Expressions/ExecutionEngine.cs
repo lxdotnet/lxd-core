@@ -1,5 +1,7 @@
 using System.Xml;
 using System.Reflection;
+
+using Lxdn.Core.IoC;
 using Lxdn.Core.Basics;
 using Lxdn.Core.Expressions.Operators.Models;
 
@@ -10,25 +12,18 @@ namespace Lxdn.Core.Expressions
         public ExecutionEngine(params Model[] models)
         {
             this.Models = new Models(models);
-            this.Cache = new OperatorCache();
             this.Operators = new OperatorFactory(this);
             this.Operators.Models.Parse(Assembly.GetExecutingAssembly());
         }
 
-        private ExecutionEngine() { }
-
-        public OperatorCache Cache { get; private set; }
-
-        public Models Models { get; private set; }
-
-        public OperatorFactory Operators { get; private set; }
-
-        internal ExecutionEngine Clone()
+        public ExecutionEngine(ITypeResolver resolver, params Model[] models) : this(models)
         {
-            var clone = new ExecutionEngine { Models = new Models(this.Models) };
-            clone.Operators = new OperatorFactory(clone, this.Operators.Models);
-            return clone;
+            this.Operators = new OperatorFactory(this, resolver);
         }
+
+        public Models Models { get; }
+
+        public OperatorFactory Operators { get; }
 
         public IEvaluator<TReturn> Create<TReturn>(OperatorModel model)
         {

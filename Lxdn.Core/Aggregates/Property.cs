@@ -16,6 +16,11 @@ namespace Lxdn.Core.Aggregates
 
         public static Property<TValue> From(Type rootType, string pathLiteral)
         {
+            rootType.ThrowIfDefault();
+
+            if (string.IsNullOrWhiteSpace(pathLiteral))
+                throw new ArgumentNullException(nameof(pathLiteral));
+
             var path = PathModel.Parse(pathLiteral);
             var root = new Model(path.Root, rootType);
 
@@ -24,13 +29,13 @@ namespace Lxdn.Core.Aggregates
 
         internal Property(Model root, IEnumerable<Step> steps)
         {
-            this.Root = root;
-            this.steps = steps;
+            this.Root = root.ThrowIfDefault();
+            this.steps = steps.ThrowIfDefault();
         }
 
         public Property(Model root, IEnumerable<string> tokens)
         {
-            Root = root;
+            Root = root.ThrowIfDefault();
 
             tokens.Aggregate((IList<Step>)this.steps, (steps, token) =>
                 steps.Push(StepFactory.Of(Type).CreateStep(token)));

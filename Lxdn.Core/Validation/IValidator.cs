@@ -1,10 +1,10 @@
 
 namespace Lxdn.Core.Validation
 {
-    public interface IValidator<in TOperatorModel>
+    public interface IValidator<in TModel>
     {
-        bool IsInvalid(TOperatorModel model);
-        ValidationError GetError(TOperatorModel model);
+        bool IsInvalid(TModel model);
+        ValidationError GetError(TModel model);
     }
 
     public interface IValidator : IValidator<object> { }

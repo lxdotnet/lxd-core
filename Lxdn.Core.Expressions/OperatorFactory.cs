@@ -2,7 +2,10 @@
 using System;
 using System.Xml;
 using System.Linq;
+using System.Reflection;
 
+using Lxdn.Core.IoC;
+using Lxdn.Core.Extensions;
 using Lxdn.Core.Expressions.Operators;
 using Lxdn.Core.Expressions.Operators.Models;
 using Lxdn.Core.Expressions.Verbs;
@@ -13,16 +16,16 @@ namespace Lxdn.Core.Expressions
     {
         private readonly ExecutionEngine engine;
 
-        public OperatorFactory(ExecutionEngine engine)
+        public OperatorFactory(ExecutionEngine engine, ITypeResolver outer = null)
         {
             this.engine = engine;
-            this.Models = new OperatorModelFactory();
-            this.Dependencies = new DependencyResolver().Consider(() => engine);
+            this.Models = new OperatorModelFactory(outer);
+            this.Dependencies = new TypeResolver(outer).Consider(engine);
             this.Verbs = new VerbFactory(engine);
         }
 
-        public OperatorFactory(ExecutionEngine engine, OperatorModelFactory models)
-            : this(engine)
+        public OperatorFactory(ExecutionEngine engine, OperatorModelFactory models, ITypeResolver outer)
+            : this(engine, outer)
         {
             this.Models = models;
         }
@@ -33,23 +36,24 @@ namespace Lxdn.Core.Expressions
         {
             var modelType = model.GetType();
 
+            bool isModel(ParameterInfo parameter) => parameter.ParameterType.IsAssignableFrom(modelType);
+            bool acceptsModel(ConstructorInfo ctor) => ctor.IsPublic && ctor.GetParameters().Count(isModel) == 1;
+
             // select single constructor that accepts a single model as a parameter:
-            var constructor = this.Models.Sources.SelectMany(source => source.Assembly.GetTypes())
+            var constructor = this.Models.Sources
+                .SelectMany(source => source.Assembly.GetTypes())
                 .Where(type => typeof(Operator).IsAssignableFrom(type))
                 .SelectMany(type => type.GetConstructors())
-                .Where(ctor => ctor.IsPublic)
-                .SingleOrDefault(ctor => ctor.GetParameters().SingleOrDefault(parameter => parameter.ParameterType.IsAssignableFrom(modelType)) != null);
-
-            if (constructor == null)
-                throw new ArgumentException("Cannot construct the operator for the model " + modelType.FullName);
+                .Where(acceptsModel).ToList()
+                .ThrowIf(ctors => ctors.Count != 1, ctors => new ArgumentException($"Missing or ambiguous constructor for '{modelType.FullName}'"))
+                .Single();
 
             lock (this.engine)
             {
                 // derive a new scope of the dependency resolver and 
                 // enrich it with the parameters from current scope:
                 var resolver = this.Dependencies.Chain()
-                    .Consider(modelType, () => model)
-                    .Consider(typeof(Type), () => desired);
+                    .Consider(modelType, model).Consider(desired ?? typeof(string));
 
                 var args = constructor.GetParameters().Select(parameter => resolver.Resolve(parameter.ParameterType)).ToArray();
                 var op = (Operator)constructor.Invoke(args);
@@ -72,7 +76,7 @@ namespace Lxdn.Core.Expressions
             return (Property) this.CreateFrom(new PropertyModel { Path = path });
         }
 
-        public DependencyResolver Dependencies { get; private set; }
+        public TypeResolver Dependencies { get; private set; }
 
         public VerbFactory Verbs { get; private set; }
     }

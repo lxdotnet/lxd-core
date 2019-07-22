@@ -9,9 +9,9 @@ namespace Lxdn.Core.Validation.Collectors
 {
     internal abstract class CollectorBase
     {
-        public CollectorProxy AsProxy()
+        public CollectorAdapter CreateAdapter()
         {
-            return new CollectorProxy(this);
+            return new CollectorAdapter(this);
         }
 
         protected static readonly ValidationError MissingValue = new ValidationError("MissingValue", "Missing property");

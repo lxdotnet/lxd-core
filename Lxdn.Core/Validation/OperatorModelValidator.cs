@@ -29,7 +29,7 @@ namespace Lxdn.Core.Validation
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(property => property.HasPublicGetter() && property.HasPublicSetter())
                 .Select(property => new { Value = property.GetValue(model), Collector = this.Validation.Collectors.CreateFrom(this, property) })
-                .SelectMany(property => property.Collector.AsProxy().Collect(property.Value));
+                .SelectMany(property => property.Collector.CreateAdapter().Collect(property.Value));
 
             return local.Union(nested);
         }

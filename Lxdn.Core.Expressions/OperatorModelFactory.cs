@@ -7,6 +7,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Collections.Generic;
 
+using Lxdn.Core.IoC;
 using Lxdn.Core.Basics;
 using Lxdn.Core.Extensions;
 using Lxdn.Core.Validation;
@@ -23,10 +24,10 @@ namespace Lxdn.Core.Expressions
     {
         private readonly List<OperatorSource> sources;
 
-        public OperatorModelFactory()
+        public OperatorModelFactory(ITypeResolver resolver)
         {
             this.sources = new List<OperatorSource>();
-            var validation = new ValidationContext(t => typeof(OperatorModel).IsAssignableFrom(t));
+            var validation = new ValidationContext(resolver, t => typeof(OperatorModel).IsAssignableFrom(t));
             this.Validator = validation.Create();
             this.Namespaces = new OperatorNamespaceMapper(this.sources);
         }
