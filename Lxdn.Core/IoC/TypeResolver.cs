@@ -49,7 +49,11 @@ namespace Lxdn.Core.IoC
                 .Where(mapping => mapping.Key.IsAssignableFrom(t))
                 .OrderBy(mapping => mapping.Key.DistanceTo(t)).FirstOrDefault() */ // .AncestryDepthOf()
 
-            return this.map.Keys.FirstOrDefault(t.IsAssignableFrom).IfExists(k => this.map[k]) ?? this.parent.Resolve(t);
+            var key = this.map.Keys.FirstOrDefault(t.IsAssignableFrom);
+            if (key != null)
+                return map[key];
+
+            return parent.Resolve(t);
             // current implementation just looks for the first candidate, but it should consider them all
             // and then select the best one reasoning for the distance to the 't' in the 
         }

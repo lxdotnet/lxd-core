@@ -53,7 +53,7 @@ namespace Lxdn.Core.Expressions
                 // derive a new scope of the dependency resolver and 
                 // enrich it with the parameters from current scope:
                 var resolver = this.Dependencies.Chain()
-                    .Consider(modelType, model).Consider(desired ?? typeof(string));
+                    .Consider(modelType, model).Consider(desired);
 
                 var args = constructor.GetParameters().Select(parameter => resolver.Resolve(parameter.ParameterType)).ToArray();
                 var op = (Operator)constructor.Invoke(args);
