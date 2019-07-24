@@ -55,7 +55,7 @@ namespace Lxdn.Core.IoC
 
             return parent.Resolve(t);
             // current implementation just looks for the first candidate, but it should consider them all
-            // and then select the best one reasoning for the distance to the 't' in the 
+            // and then select the best one reasoning for the distance to the 't' in the inheritance taxonomy
         }
 
         public TypeResolver Chain() => new TypeResolver(this);
