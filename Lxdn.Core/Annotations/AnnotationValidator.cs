@@ -75,7 +75,7 @@ namespace Lxdn.Annotations
             var errors = source.Value.GetType().GetProperties()
                 .Where(property => property.HasPublicGetter())
                 .Select(source.StepInto)
-                .Aggregate((IList<AnnotationResult>)new List<AnnotationResult>(), (validators, validable) =>
+                .Aggregate(new List<AnnotationResult>(), (validators, validable) =>
                     validators.PushMany(validable.Value.IfExists(value => stepInto(validable)) ?? validate(validable)))
                 .Concat(errorsFromType).ToList();
 

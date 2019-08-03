@@ -7,49 +7,32 @@ using System.Collections.Generic;
 
 using Lxdn.Core.Basics;
 using Lxdn.Core.Extensions;
+using Lxdn.Core.Aggregates.Models;
 
 namespace Lxdn.Core.Aggregates
 {
-    public class Property<TValue> : IEnumerable<Step>
+    public class Property<TReturn> : IEnumerable<IStep>
     {
-        private readonly IEnumerable<Step> steps = new List<Step>();
+        private readonly List<IStep> steps = new List<IStep>();
 
-        public static Property<TValue> From(Type rootType, string pathLiteral)
+        public static PropertyFactory<TReturn> Create => new PropertyFactory<TReturn>();
+
+        public Property(Model root, IEnumerable<IStepModel> steps)
         {
-            rootType.ThrowIfDefault();
-
-            if (string.IsNullOrWhiteSpace(pathLiteral))
-                throw new ArgumentNullException(nameof(pathLiteral));
-
-            var path = PathModel.Parse(pathLiteral);
-            var root = new Model(path.Root, rootType);
-
-            return new Property<TValue>(root, path.Tokens);
-        }
-
-        internal Property(Model root, IEnumerable<Step> steps)
-        {
-            this.Root = root.ThrowIfDefault();
-            this.steps = steps.ThrowIfDefault();
-        }
-
-        public Property(Model root, IEnumerable<string> tokens)
-        {
-            Root = root.ThrowIfDefault();
-
-            tokens.Aggregate((IList<Step>)this.steps, (steps, token) =>
-                steps.Push(StepFactory.Of(Type).CreateStep(token)));
+            Root = root;
+            steps.Aggregate(this.steps, (_steps, step) =>
+                _steps.Push(StepFactory.Of(Type).Create(step)));
         }
 
         public Model Root { get; }
 
         public Type Type => steps.LastOrDefault()?.Type ?? Root.Type;
 
-        public IEnumerator<Step> GetEnumerator() => steps.GetEnumerator();
+        public IEnumerator<IStep> GetEnumerator() => steps.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public PropertyAccessor<TValue> Of(object root) => new PropertyAccessor<TValue>(this, root);
+        public PropertyAccessor<TReturn> Of(object root) => new PropertyAccessor<TReturn>(this, root);
 
         public Expression ToExpression(Expression parameter) =>
             this.Aggregate(parameter, (current, step) => step.ToExpression(current));

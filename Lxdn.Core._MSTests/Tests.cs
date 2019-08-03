@@ -358,28 +358,28 @@ namespace Lxdn.Core._MSTests
             var name = default(Person).Browse(p => p.Name);
 
             var person = new Person { Name = "Alex" };
-            var value = name.Of(person).GetValue();
+            var value = name.Of(person).Get();
             Assert.AreEqual("Alex", value);
 
-            name.Of(person).SetValue("Tony");
-            Assert.AreEqual("Tony", name.Of(person).GetValue());
+            name.Of(person).Set("Tony");
+            Assert.AreEqual("Tony", name.Of(person).Get());
         }
 
         [TestMethod]
         public void Test_NewAccessor_LiteralPath()
         {
-            var name = Property<int>.From(typeof(Person), "person.Name.Length");
+            var name = Property<int>.Create.From(typeof(Person), "person.Name.Length");
             var alex = new Person { Name = "Alex" };
-            var length = name.Of(alex).GetValue();
+            var length = name.Of(alex).Get();
             Assert.AreEqual(4, length);
         }
 
         [TestMethod]
         public void Test_NewAccessor_PropertyOfRoot()
         {
-            var person = Property<Person>.From(typeof(Person), "person");
+            var person = Property<Person>.Create.From(typeof(Person), "person");
             var alex = new Person { Name = "Alex" };
-            var me = person.Of(alex).GetValue();
+            var me = person.Of(alex).Get();
             Assert.AreEqual("Alex", me.Name);
         }
 
@@ -390,7 +390,7 @@ namespace Lxdn.Core._MSTests
             person.Relatives.Add(new Person("Katya", new DateTime(1978, 6, 26)));
             person.Relatives.Add(new Person("Sofia", new DateTime(2013, 10, 26)));
 
-            var relatives = default(Person).Browse(x => x.Relatives).Of(person).GetValue();
+            var relatives = default(Person).Browse(x => x.Relatives).Of(person).Get();
             Assert.AreEqual(2, relatives.Count);
         }
 
@@ -398,8 +398,8 @@ namespace Lxdn.Core._MSTests
         public void Test_NewAccessor_SetValue()
         {
             var me = new Person();
-            var name = Property<string>.From(typeof(Person), "person.Name");
-            name.Of(me).SetValue("Alex");
+            var name = Property<string>.Create.From(typeof(Person), "person.Name");
+            name.Of(me).Set("Alex");
             Assert.AreEqual("Alex", me.Name);
         }
 

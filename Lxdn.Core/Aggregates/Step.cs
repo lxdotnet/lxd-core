@@ -8,7 +8,7 @@ using Lxdn.Core.Extensions;
 namespace Lxdn.Core.Aggregates
 {
     [DebuggerDisplay("{property.Name,nq}")]
-    public class Step
+    public class Step : IStep
     {
         private readonly PropertyInfo property;
 
@@ -39,7 +39,7 @@ namespace Lxdn.Core.Aggregates
             return value;
         }
 
-        public Expression ToExpression(Expression of) => Expression.Property(of, property);
+        public Expression ToExpression(Expression current) => Expression.Property(current, property);
 
         public override string ToString() => property.Name;
     }

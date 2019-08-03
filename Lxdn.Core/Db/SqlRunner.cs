@@ -44,7 +44,7 @@ namespace Lxdn.Core.Db
             {
                 return reader.OfType<IDataRecord>()
                     .Select(record => record.To<TEntity>())
-                    .Aggregate((IList<TEntity>)new List<TEntity>(), (entities, entity) => entities.Push(entity))
+                    .Aggregate(new List<TEntity>(), (entities, entity) => entities.Push(entity))
                     .ToList().AsReadOnly();
             }
         }

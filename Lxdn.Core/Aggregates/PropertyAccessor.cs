@@ -8,19 +8,19 @@ using Lxdn.Core.Extensions;
 namespace Lxdn.Core.Aggregates
 {
     [DebuggerDisplay("{property,nq}")]
-    public class PropertyAccessor<TValue>
+    public class PropertyAccessor<TReturn>
     {
         private readonly object root;
 
-        private readonly Property<TValue> property;
+        private readonly Property<TReturn> property;
         
-        public PropertyAccessor(Property<TValue> property, object root)
+        public PropertyAccessor(Property<TReturn> property, object root)
         {
             this.root = root.ThrowIfDefault();
             this.property = property.ThrowIfDefault();
         }
 
-        public void SetValue(TValue value)
+        public void Set(TReturn value)
         {
             if (!property.Any())
                 throw new InvalidOperationException("Can't set value of the root");
@@ -33,7 +33,7 @@ namespace Lxdn.Core.Aggregates
             lastStep.SetValue(owner, value);
         }
 
-        public TValue GetValue() => (TValue)property
+        public TReturn Get() => (TReturn)property
             .Aggregate(root, (current, step) => current.IfExists(step.GetValue));
     }
 }
