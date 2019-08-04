@@ -7,26 +7,26 @@ using System.Collections.Generic;
 
 using Lxdn.Core.Basics;
 using Lxdn.Core.Extensions;
-using Lxdn.Core.Aggregates.Models;
 
 namespace Lxdn.Core.Aggregates
 {
     public class Property<TReturn> : IEnumerable<IStep>
     {
-        private readonly List<IStep> steps = new List<IStep>();
+        private readonly List<IStep> steps;
 
         public static PropertyFactory<TReturn> Create => new PropertyFactory<TReturn>();
 
-        public Property(Model root, IEnumerable<IStepModel> steps)
+        public Property(Model root, IEnumerable<IStep> steps)
         {
             Root = root;
-            steps.Aggregate(this.steps, (_steps, step) =>
-                _steps.Push(StepFactory.Of(Type).Create(step)));
+            Type = steps.LastOrDefault()?.Type ?? root.Type;
+
+            this.steps = new List<IStep>(steps);
         }
 
         public Model Root { get; }
 
-        public Type Type => steps.LastOrDefault()?.Type ?? Root.Type;
+        public Type Type { get; }
 
         public IEnumerator<IStep> GetEnumerator() => steps.GetEnumerator();
 
@@ -37,6 +37,13 @@ namespace Lxdn.Core.Aggregates
         public Expression ToExpression(Expression parameter) =>
             this.Aggregate(parameter, (current, step) => step.ToExpression(current));
 
-        public override string ToString() => steps.Aggregate(Root.Id, (path, step) => path + step);
+        public override string ToString() => steps.Aggregate(Root.Id, (path, step) => path + step); // not used in the logic, so the performance is sacrificed for the sake of better readability
+    }
+
+    public class Property : Property<object>
+    {
+        public Property(Model root, IEnumerable<IStep> steps) : base(root, steps) { }
+
+        public Property GrowBy(IStep step) => new Property(Root, this.With(step));
     }
 }

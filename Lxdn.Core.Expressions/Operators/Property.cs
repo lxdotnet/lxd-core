@@ -23,7 +23,7 @@ namespace Lxdn.Core.Expressions.Operators
             var path = PathModel.Parse(property.Path);
             var root = logic.Models[path.Root];
 
-            var aggregate = new Aggregate(root, path.Steps);
+            var aggregate = Aggregate.Create.From(root, path.Steps);
             return aggregate.ToExpression(root.AsParameter());
         }
 
