@@ -214,17 +214,23 @@
   </Test>
 
   <Test id="TestMatchOf">
-    <MatchOf pattern=".+">
-      <Property valueOf="person.Lastname"/>
-    </MatchOf>
+    <Sequence>
+      <Regex.Match pattern=".+" as="matches">
+        <Property valueOf="person.Lastname"/>
+      </Regex.Match>
+      <Linq.Count of="matches"/>
+    </Sequence>
   </Test>
 
   <Test id="TestSequenceOfConditionsShouldNotFail">
     <And>
       <Property valueOf="person.NullArg"/>
-      <MatchOf pattern=".+">
-        <Property valueOf="person.NullArg"/>
-      </MatchOf>
+      <Sequence>
+        <Regex.Match pattern=".+" as="wouldFail">
+          <Property valueOf="person.NullArg"/>
+        </Regex.Match>
+        <Linq.Any of="wouldFail"/>
+      </Sequence>
     </And>
   </Test>
 
@@ -244,7 +250,7 @@
           </Compare>
         </Lambda>
       </Linq.Where>
-      <Linq.Count in="children"/>
+      <Linq.Count of="children"/>
     </Sequence>
   </Test>
 

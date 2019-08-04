@@ -22,11 +22,11 @@ namespace Lxdn.Core.Aggregates
 
         public object GetValue(object current) => Guard.Function(() => 
             property.GetValue(EnsureExists(current)), 
-            ex => new InvalidOperationException($"Cannot get value of '{property.Name}'", ex));
+            ex => new InvalidOperationException($"Cannot get value of '{property.Name}' in {current}", ex));
 
         public void SetValue(object current, object value) => Guard.Action(() =>
             property.SetValue(EnsureExists(current), value),
-            ex => new InvalidOperationException($"Cannot set value of '{property.Name}'", ex));
+            ex => new InvalidOperationException($"Cannot set value of '{property.Name}' in {current}", ex));
 
         public Type Type => property.PropertyType;
 
@@ -41,6 +41,6 @@ namespace Lxdn.Core.Aggregates
 
         public Expression ToExpression(Expression current) => Expression.Property(current, property);
 
-        public override string ToString() => property.Name;
+        public override string ToString() => $".{property.Name}";
     }
 }

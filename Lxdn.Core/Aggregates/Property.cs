@@ -37,10 +37,6 @@ namespace Lxdn.Core.Aggregates
         public Expression ToExpression(Expression parameter) =>
             this.Aggregate(parameter, (current, step) => step.ToExpression(current));
 
-        public override string ToString()
-        {
-            return Root.Id.Once().Concat(steps.Select(step => step.ToString()))
-                .Agglutinate(".");
-        }
+        public override string ToString() => steps.Aggregate(Root.Id, (path, step) => path + step);
     }
 }

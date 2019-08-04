@@ -386,10 +386,7 @@ namespace Lxdn.Core._MSTests
         [TestMethod]
         public void Test_NewAccessor_GetCollection()
         {
-            var person = new Person("Alexander", "Dolnik", new DateTime(1976, 9, 17));
-            person.Relatives.Add(new Person("Katya", new DateTime(1978, 6, 26)));
-            person.Relatives.Add(new Person("Sofia", new DateTime(2013, 10, 26)));
-
+            var person = Person.BuildFamily();
             var relatives = default(Person).Browse(x => x.Relatives).Of(person).Get();
             Assert.AreEqual(2, relatives.Count);
         }
@@ -411,6 +408,18 @@ namespace Lxdn.Core._MSTests
             var name = me.Browse(x => x.Name);
             var expression = name.ToExpression(model.AsParameter());
             Assert.AreEqual("person.Name", expression.ToString());
+        }
+
+        [TestMethod]
+        public void Test_NewAccessor_Getter_OfListMember()
+        {
+            var person = Person.BuildFamily();
+            var name = Property<string>.Create.From(typeof(Person), "me.Relatives[1].Name");
+            var nameOfSofia = name.Of(person).Get();
+            Assert.AreEqual("Sofia", nameOfSofia);
+
+            var expression = name.ToExpression(name.Root.AsParameter());
+            Assert.AreEqual("me.Relatives.Item[1].Name", expression.ToString());
         }
 
         [TestMethod]

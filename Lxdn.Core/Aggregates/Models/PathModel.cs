@@ -7,7 +7,6 @@ using Lxdn.Core.Extensions;
 
 namespace Lxdn.Core.Aggregates.Models
 {
-    [DebuggerDisplay("{Root,nq}.{string.Join(\".\", Tokens),nq}")]
     public class PathModel
     {
         private static readonly Regex x = new Regex($"^(?'property'.*?)(\\[(?'index'\\d+)\\])?$"); // 'foo[1]' => property = 'foo', index = 1

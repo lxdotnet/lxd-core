@@ -12,6 +12,15 @@ namespace Lxdn.Core._MSTests.Domain
     {
         public Person() {}
 
+        public static Person BuildFamily()
+        {
+            var person = new Person("Alexander", "Dolnik", new DateTime(1976, 9, 17));
+            person.Relatives.Add(new Person("Katya", new DateTime(1978, 6, 26)));
+            person.Relatives.Add(new Person("Sofia", new DateTime(2013, 10, 26)));
+
+            return person;
+        }
+
         public Person(string name, string lastname, DateTime bd)
         {
             this.Name = name;

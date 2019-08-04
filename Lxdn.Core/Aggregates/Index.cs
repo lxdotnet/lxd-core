@@ -1,23 +1,46 @@
-﻿using System;
+﻿
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Diagnostics;
 using System.Linq.Expressions;
+
+using Lxdn.Core.Extensions;
 
 namespace Lxdn.Core.Aggregates
 {
+    [DebuggerDisplay("[{index,nq}]")]
     public class Index : IStep
-    {
-        private readonly int value;
+    {        
+        private readonly int index;
 
-        public Index(int value)
-        {
-            this.value = value;
+        private readonly PropertyInfo indexer;
+
+        internal Index(Type indexable, int index)
+        {            
+            this.index = index;
+
+            bool HasNumericIndexer(PropertyInfo property)
+            {
+                var indices = property.GetIndexParameters();
+                if (indices.Length == 1 && indices.Single().ParameterType.IsOneOf(typeof(int), typeof(long)))
+                    return true;
+
+                return false;
+            }
+
+            indexer = indexable
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(HasNumericIndexer)
+                .ThrowIf(indexers => indexers.Count() != 1, x => new Exception($"{indexable} Missing or ambiguous indexer"))
+                .Single();
         }
 
-        public Type Type => throw new NotImplementedException();
+        public Type Type => indexer.PropertyType;
 
-        public object GetValue(object current)
-        {
-            throw new NotImplementedException();
-        }
+        public object GetValue(object current) => Guard.Function(() => 
+            indexer.GetValue(current.ThrowIfDefault(), new object[] { index }), 
+            ex => new InvalidOperationException($"Can't get index [{index}] of {current}"));
 
         public object InstantiateIn(object owner)
         {
@@ -29,9 +52,8 @@ namespace Lxdn.Core.Aggregates
             throw new NotImplementedException();
         }
 
-        public Expression ToExpression(Expression current)
-        {
-            throw new NotImplementedException();
-        }
+        public Expression ToExpression(Expression current) => Expression.MakeIndex(current, indexer, new [] { Expression.Constant(index) });
+
+        public override string ToString() => $"[{index}]";
     }
 }

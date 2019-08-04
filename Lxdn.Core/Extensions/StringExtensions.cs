@@ -30,15 +30,10 @@ namespace Lxdn.Core.Extensions
             }
         }
 
-        public static IEnumerable<Match> MatchesOf(this string input, string pattern)
-        {
-            return input.MatchesOf(new Regex(pattern));
-        }
+        public static IEnumerable<Match> MatchesOf(this string input, string pattern) => input.MatchesOf(new Regex(pattern));
 
         public static string Replace(this string input, string pattern, MatchEvaluator evaluator)
-        {
-            return string.IsNullOrEmpty(input) ? input : new Regex(pattern).Replace(input, evaluator);
-        }
+            => input.IfExists(s => Regex.Replace(s, pattern, evaluator));
 
         public static string ToLowerCamelCase(this string input)
         {

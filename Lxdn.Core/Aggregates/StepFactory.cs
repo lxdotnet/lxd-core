@@ -31,7 +31,7 @@ namespace Lxdn.Core.Aggregates
                         return new Step(property);
 
                     case IndexModel index:
-                        return new Index(index.Value);
+                        return new Index(current, index.Value);
 
                     default: throw new NotSupportedException($"Unsupported model: {model}");
                 }
