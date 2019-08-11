@@ -22,25 +22,24 @@ namespace Lxdn.Core.Expressions
     [DebuggerDisplay("Sources = {sources.Count}")]
     public class OperatorModelFactory : IEnumerable<Model>
     {
+        private readonly TypeResolver resolver;
+
         private readonly List<OperatorSource> sources;
 
-        public OperatorModelFactory(ITypeResolver resolver)
+        private readonly Lazy<Emitter> emitter = new Lazy<Emitter>(() => new Emitter());               
+
+        public OperatorModelFactory(TypeResolver resolver)
         {
             this.sources = new List<OperatorSource>();
-            var validation = new ValidationContext(resolver, t => typeof(OperatorModel).IsAssignableFrom(t));
+            var validation = new ValidationContext(resolver, typeof(OperatorModel).IsAssignableFrom);
             this.Validator = validation.Create();
             this.Namespaces = new OperatorNamespaceMapper(this.sources);
+            this.resolver = resolver;
         }
 
-        public IReadOnlyCollection<OperatorSource> Sources
-        {
-            get { return this.sources.AsReadOnly(); }
-        }
+        public IEnumerable<OperatorSource> Sources => sources;
 
-        public void Add(OperatorSource source)
-        {
-            this.sources.Add(source);
-        }
+        public void Add(OperatorSource source) => sources.Add(source);
 
         public void Parse(Assembly assembly)
         {
@@ -74,9 +73,12 @@ namespace Lxdn.Core.Expressions
             if (model == null)
                 throw new ArgumentException("Unknown operator model: " + xml.Name);
 
-            var op = model.Type.GetConstructor(new[] { typeof(XmlNode) }).IfExists(ctor => (OperatorModel)ctor.Invoke(new [] { xml }))
-                  ?? model.Type.GetConstructor(new[] { typeof(XmlNode), typeof(OperatorModelFactory) }).IfExists(ctor => (OperatorModel)ctor.Invoke(new object [] { xml, this }));
-            
+            //var local = resolver.Chain().Consider(xml, this);
+            //var op = (OperatorModel) local.Resolve(model.Type);
+
+            var op = model.Type.GetConstructor(new[] { typeof(XmlNode) }).IfExists(ctor => (OperatorModel)ctor.Invoke(new[] { xml }))
+                  ?? model.Type.GetConstructor(new[] { typeof(XmlNode), typeof(OperatorModelFactory) }).IfExists(ctor => (OperatorModel)ctor.Invoke(new object[] { xml, this }));
+
             if (op == null)
                 throw new InvalidOperationException("No ctor found to construct from xml: " + model.Type.FullName);
 
@@ -94,26 +96,14 @@ namespace Lxdn.Core.Expressions
             return op;
         }
 
-        public IEnumerator<Model> GetEnumerator()
-        {
-            // enumerate all operators across all available sources
-            return this.sources.SelectMany(models => models.Operators).GetEnumerator();
-        }
+        public IEnumerator<Model> GetEnumerator() => sources.SelectMany(models => models.Operators).GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         //public IValidationContext Validator { get; private set; }
         public OperatorModelValidator Validator { get; private set; }
 
-        private readonly Lazy<OperatorModelEmitter> emitter = new Lazy<OperatorModelEmitter>(() => new OperatorModelEmitter());
-
-        internal OperatorModelEmitter Emitter
-        {
-            get { return emitter.Value; }
-        }
+        internal Emitter Emitter => emitter.Value;
 
         public OperatorNamespaceMapper Namespaces { get; private set; }
     }

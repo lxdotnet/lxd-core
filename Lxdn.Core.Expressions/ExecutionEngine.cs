@@ -16,7 +16,7 @@ namespace Lxdn.Core.Expressions
             this.Operators.Models.Parse(Assembly.GetExecutingAssembly());
         }
 
-        public ExecutionEngine(ITypeResolver resolver, params Model[] models) : this(models)
+        public ExecutionEngine(TypeResolver resolver, params Model[] models) : this(models)
         {
             this.Operators = new OperatorFactory(this, resolver);
         }

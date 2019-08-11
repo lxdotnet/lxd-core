@@ -14,14 +14,14 @@ namespace Lxdn.Core.Aggregates
     {
         private readonly List<IStep> steps;
 
-        public static PropertyFactory<TReturn> Create => new PropertyFactory<TReturn>();
+        public static PropertyFactory<TReturn> Factory => new PropertyFactory<TReturn>();
 
         public Property(Model root, IEnumerable<IStep> steps)
         {
             Root = root;
             Type = steps.LastOrDefault()?.Type ?? root.Type;
 
-            this.steps = new List<IStep>(steps);
+            this.steps = steps.ToList();
         }
 
         public Model Root { get; }

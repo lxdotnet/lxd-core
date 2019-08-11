@@ -16,15 +16,17 @@ namespace Lxdn.Core.Expressions
     {
         private readonly ExecutionEngine engine;
 
-        public OperatorFactory(ExecutionEngine engine, ITypeResolver outer = null)
-        {
+        public OperatorFactory(ExecutionEngine engine, TypeResolver outer = null)
+        {            
             this.engine = engine;
-            this.Models = new OperatorModelFactory(outer);
+            
+            //Dependencies = outer.Chain().Consider(engine);
             this.Dependencies = new TypeResolver(outer).Consider(engine);
+            this.Models = new OperatorModelFactory(Dependencies);
             this.Verbs = new VerbFactory(engine);
         }
 
-        public OperatorFactory(ExecutionEngine engine, OperatorModelFactory models, ITypeResolver outer)
+        public OperatorFactory(ExecutionEngine engine, OperatorModelFactory models, TypeResolver outer)
             : this(engine, outer)
         {
             this.Models = models;
@@ -53,7 +55,7 @@ namespace Lxdn.Core.Expressions
                 // derive a new scope of the dependency resolver and 
                 // enrich it with the parameters from current scope:
                 var resolver = this.Dependencies.Chain()
-                    .Consider(modelType, model).Consider(desired);
+                    .Consider(modelType, model).Consider(desired ?? typeof(string));
 
                 var args = constructor.GetParameters().Select(parameter => resolver.Resolve(parameter.ParameterType)).ToArray();
                 var op = (Operator)constructor.Invoke(args);

@@ -368,7 +368,7 @@ namespace Lxdn.Core._MSTests
         [TestMethod]
         public void Test_NewAccessor_LiteralPath()
         {
-            var name = Property<int>.Create.From(typeof(Person), "person.Name.Length");
+            var name = Property<int>.Factory.CreateFrom(typeof(Person), "person.Name.Length");
             var alex = new Person { Name = "Alex" };
             var length = name.Of(alex).Get();
             Assert.AreEqual(4, length);
@@ -377,7 +377,7 @@ namespace Lxdn.Core._MSTests
         [TestMethod]
         public void Test_NewAccessor_PropertyOfRoot()
         {
-            var person = Property<Person>.Create.From(typeof(Person), "person");
+            var person = Property<Person>.Factory.CreateFrom(typeof(Person), "person");
             var alex = new Person { Name = "Alex" };
             var me = person.Of(alex).Get();
             Assert.AreEqual("Alex", me.Name);
@@ -395,7 +395,7 @@ namespace Lxdn.Core._MSTests
         public void Test_NewAccessor_SetValue()
         {
             var me = new Person();
-            var name = Property<string>.Create.From(typeof(Person), "person.Name");
+            var name = Property<string>.Factory.CreateFrom(typeof(Person), "person.Name");
             name.Of(me).Set("Alex");
             Assert.AreEqual("Alex", me.Name);
         }
@@ -414,7 +414,7 @@ namespace Lxdn.Core._MSTests
         public void Test_NewAccessor_Getter_OfListMember()
         {
             var person = Person.BuildFamily();
-            var name = Property<string>.Create.From(typeof(Person), "me.Relatives[1].Name");
+            var name = Property<string>.Factory.CreateFrom(typeof(Person), "me.Relatives[1].Name");
             var nameOfSofia = name.Of(person).Get();
             Assert.AreEqual("Sofia", nameOfSofia);
 

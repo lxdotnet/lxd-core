@@ -11,7 +11,7 @@ namespace Lxdn.Core.Aggregates
 {
     public class PropertyFactory<TReturn>
     {
-        public Property<TReturn> From(Model root, IEnumerable<IStepModel> stepModels)
+        public Property<TReturn> CreateFrom(Model root, IEnumerable<IStepModel> stepModels)
         {
             var steps = new List<IStep>();
             Type currentType() => steps.LastOrDefault()?.Type ?? root.Type;
@@ -22,7 +22,7 @@ namespace Lxdn.Core.Aggregates
             return new Property<TReturn>(root, steps);
         }
 
-        public Property<TReturn> From(Type root, string pathLiteral)
+        public Property<TReturn> CreateFrom(Type root, string pathLiteral)
         {
             root.ThrowIfDefault();
 
@@ -30,13 +30,15 @@ namespace Lxdn.Core.Aggregates
                 throw new ArgumentNullException(nameof(pathLiteral));
 
             var path = PathModel.Parse(pathLiteral);
-            return From(root, path);
+            return CreateFrom(root, path);
         }
 
-        public Property<TReturn> From(Type root, PathModel path)
+        public Property<TReturn> CreateFrom(Type root, PathModel path)
         {
             var model = new Model(path.Root, root.ThrowIfDefault());
-            return From(model, path.Steps);
+            return CreateFrom(model, path.Steps);
         }
+
+        public Property<TReturn> CreateFrom(Model root) => CreateFrom(root, Enumerable.Empty<IStepModel>());
     }
 }

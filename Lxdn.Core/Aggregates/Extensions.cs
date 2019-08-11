@@ -26,7 +26,7 @@ namespace Lxdn.Core.Aggregates
             var parameter = property.Parameters.Single();
             var model = new PathModel { Root = parameter.Name, Steps = stepsOf(property.Body) };
 
-            return Property<TValue>.Create.From(parameter.Type, model);
+            return Property<TValue>.Factory.CreateFrom(parameter.Type, model);
         }
     }
 }
