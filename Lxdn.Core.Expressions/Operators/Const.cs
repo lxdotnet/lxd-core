@@ -16,11 +16,6 @@ namespace Lxdn.Core.Expressions.Operators
                 : constant.Value.ToExpression(inferred ?? typeof(string));
         }
 
-        public Const(string value, Type inferred) : this(new ConstModel { Value = value }, inferred) {}
-
-        protected internal override Expression Create()
-        {
-            return this.create();
-        }
+        protected internal override Expression Create() => create();
     }
 }

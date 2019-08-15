@@ -18,10 +18,16 @@ namespace Lxdn.Core.Extensions
             return items2.Aggregate(items, (destination, item) => destination.Push(item));
         }
 
-        public static Dictionary<TKey, TValue> Push<TKey, TValue>(this Dictionary<TKey, TValue> items, TKey key, TValue value)
+        public static Dictionary<TKey, TValue> Push<TKey, TValue>(this Dictionary<TKey, TValue> items, TKey key, TValue value, Action onConflict)
         {
-            items.ThrowIf(x => x.ContainsKey(key), x => new ArgumentException($"Already exists: {key}", nameof(key))).Add(key, value);
+            if (!items.ContainsKey(key))
+                items.Add(key, value);
+            else onConflict();
+
             return items;
         }
+
+        public static Dictionary<TKey, TValue> Push<TKey, TValue>(this Dictionary<TKey, TValue> items, TKey key, TValue value)
+            => items.Push(key, value, () => throw new ArgumentException($"Already exists: {key}", nameof(key)));
     }
 }

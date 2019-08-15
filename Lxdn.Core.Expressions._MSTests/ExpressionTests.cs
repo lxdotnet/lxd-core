@@ -15,7 +15,7 @@ namespace Lxdn.Core.Expressions._MSTests
 {
     [TestClass]
     [DeploymentItem("Expressions\\ExpressionTests.xml", "")]
-    public class Tests
+    public class ExpressionTests
     {
         private ExpressionTestsConfigs testXml;
 

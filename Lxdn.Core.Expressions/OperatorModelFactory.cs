@@ -22,13 +22,13 @@ namespace Lxdn.Core.Expressions
     [DebuggerDisplay("Sources = {sources.Count}")]
     public class OperatorModelFactory : IEnumerable<Model>
     {
-        private readonly TypeResolver resolver;
+        private readonly IChainableResolver resolver;
 
         private readonly List<OperatorSource> sources;
 
         private readonly Lazy<Emitter> emitter = new Lazy<Emitter>(() => new Emitter());               
 
-        public OperatorModelFactory(TypeResolver resolver)
+        public OperatorModelFactory(IChainableResolver resolver)
         {
             this.sources = new List<OperatorSource>();
             var validation = new ValidationContext(resolver, typeof(OperatorModel).IsAssignableFrom);
@@ -100,7 +100,6 @@ namespace Lxdn.Core.Expressions
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        //public IValidationContext Validator { get; private set; }
         public OperatorModelValidator Validator { get; private set; }
 
         internal Emitter Emitter => emitter.Value;

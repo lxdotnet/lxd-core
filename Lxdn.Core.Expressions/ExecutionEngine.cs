@@ -12,11 +12,11 @@ namespace Lxdn.Core.Expressions
         public ExecutionEngine(params Model[] models)
         {
             this.Models = new Models(models);
-            this.Operators = new OperatorFactory(this);
+            this.Operators = new OperatorFactory(this, new ChainableResolver(this));
             this.Operators.Models.Parse(Assembly.GetExecutingAssembly());
         }
 
-        public ExecutionEngine(TypeResolver resolver, params Model[] models) : this(models)
+        public ExecutionEngine(IChainableResolver resolver, params Model[] models) : this(models)
         {
             this.Operators = new OperatorFactory(this, resolver);
         }

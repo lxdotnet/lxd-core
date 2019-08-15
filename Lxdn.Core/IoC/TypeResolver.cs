@@ -3,8 +3,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using Lxdn.Core.Extensions;
-
 namespace Lxdn.Core.IoC
 {
     public class TypeResolver : ITypeResolver

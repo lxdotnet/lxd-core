@@ -16,20 +16,13 @@ namespace Lxdn.Core.Expressions
     {
         private readonly ExecutionEngine engine;
 
-        public OperatorFactory(ExecutionEngine engine, TypeResolver outer = null)
+        public OperatorFactory(ExecutionEngine engine, IChainableResolver resolver)
         {            
             this.engine = engine;
-            
-            //Dependencies = outer.Chain().Consider(engine);
-            this.Dependencies = new TypeResolver(outer).Consider(engine);
+
+            this.Dependencies = resolver;
             this.Models = new OperatorModelFactory(Dependencies);
             this.Verbs = new VerbFactory(engine);
-        }
-
-        public OperatorFactory(ExecutionEngine engine, OperatorModelFactory models, TypeResolver outer)
-            : this(engine, outer)
-        {
-            this.Models = models;
         }
 
         public OperatorModelFactory Models { get; private set; }
@@ -54,16 +47,15 @@ namespace Lxdn.Core.Expressions
             {
                 // derive a new scope of the dependency resolver and 
                 // enrich it with the parameters from current scope:
-                var resolver = this.Dependencies.Chain()
-                    .Consider(modelType, model).Consider(desired ?? typeof(string));
+                using (var resolver = this.Dependencies.Chain(model, desired ?? typeof(string)))
+                {
+                    var op = (Operator)resolver.Resolve(constructor.DeclaringType);
 
-                var args = constructor.GetParameters().Select(parameter => resolver.Resolve(parameter.ParameterType)).ToArray();
-                var op = (Operator)constructor.Invoke(args);
+                    if (desired != null && op.Expression.Type != desired)
+                        return op.As(desired);
 
-                if (desired != null && op.Expression.Type != desired)
-                    return op.As(desired);
-
-                return op.Expression != null ? op : null; // a trick to force the creation of expression (which is lazy)
+                    return op.Expression != null ? op : null; // a trick to force the creation of expression (which is lazy)
+                }
             }
         }
 
@@ -78,7 +70,7 @@ namespace Lxdn.Core.Expressions
             return (Property) this.CreateFrom(new PropertyModel { Path = path });
         }
 
-        public TypeResolver Dependencies { get; private set; }
+        public IChainableResolver Dependencies { get; private set; }
 
         public VerbFactory Verbs { get; private set; }
     }

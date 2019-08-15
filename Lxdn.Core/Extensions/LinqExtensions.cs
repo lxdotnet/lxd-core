@@ -1,9 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Collections;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Lxdn.Core.Extensions
 {
@@ -104,11 +104,9 @@ namespace Lxdn.Core.Extensions
                    select item;
 
         }
-
-        public static IEnumerable<TItem> With<TItem>(this IEnumerable<TItem> items, TItem item)
-        {
-            return items.Concat(item.Once());
-        }
+        
+        // available in .net core, available in .net starting from 4.6.1 or so
+        public static IEnumerable<TItem> With<TItem>(this IEnumerable<TItem> items, TItem item) => items.Concat(item.Once());
 
         public static IEnumerable<T> GetBy<T>(this IEnumerable<T> items, object filter)
         {
