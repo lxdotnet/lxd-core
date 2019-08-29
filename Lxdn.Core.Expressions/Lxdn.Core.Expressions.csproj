@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/lxdotnet/lxdn-core/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/lxdotnet/lxd-core/</RepositoryUrl>
     <PackageTags>expressions own biztalk</PackageTags>
-    <Version>2.0.5</Version>
+    <Version>2.0.6</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
