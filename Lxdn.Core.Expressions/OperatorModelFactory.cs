@@ -30,11 +30,12 @@ namespace Lxdn.Core.Expressions
 
         public OperatorModelFactory(IChainableResolver resolver)
         {
+            this.resolver = resolver;
             this.sources = new List<OperatorSource>();
+
             var validation = new ValidationContext(resolver, typeof(OperatorModel).IsAssignableFrom);
             this.Validator = validation.Create();
-            this.Namespaces = new OperatorNamespaceMapper(this.sources);
-            this.resolver = resolver;
+            this.Namespaces = new OperatorNamespaceMapper(this.sources);            
         }
 
         public IEnumerable<OperatorSource> Sources => sources;

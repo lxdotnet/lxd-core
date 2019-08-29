@@ -12,10 +12,11 @@ namespace Lxdn.Core.Dynamics
 {
     public static class Extensions
     {
-        public static dynamic ToDynamic(this object source)
+        public static TDynamicObject ToDynamic<TDynamicObject>(this object source)
+            where TDynamicObject : DynamicObject, new()
         {
             if (source == null)
-                return new CaseInsensitiveExpando();
+                return new TDynamicObject();
 
             var sourceType = source.GetType();
 
@@ -27,22 +28,33 @@ namespace Lxdn.Core.Dynamics
                 var enumerableOf = fromType.AsArgumentsOf(typeof(IEnumerable<>)).IfHasValue(args => args.Single());
 
                 if (enumerableOf != null && Consider.ForIteration(enumerableOf))
-                    return (from as IEnumerable).IfExists().OfType<object>()
-                        .Select(member => member.ToDynamic()).OfType<DynamicObject>()
+                    return (from as IEnumerable)
+                        .IfExists().OfType<object>()
+                        .Select(member => member.ToDynamic<TDynamicObject>())
+                        .OfType<TDynamicObject>()
                         .Aggregate(new CaseInsensitiveEnumerableExpando(), (list, member) => list.Add(member));
 
-                return Consider.ForIteration(fromType) ? from.ToDynamic() : null;
+                return Consider.ForIteration(fromType) ? from.ToDynamic<TDynamicObject>() : null;
             }
 
-            if (source.AsDynamic().HasValue)
-                return source;
+            //if (source.AsDynamic().HasValue)
+            //    return (TDynamicObject)source; // may crash 
 
-            return sourceType.GetProperties(BindingFlags.Public | BindingFlags.Instance) 
+            return sourceType
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(property => property.HasPublicGetter())
                 .Select(property => new { property.Name, Value = property.GetValue(source) })
                 .Where(property => property.Value != null)
-                .Aggregate(new CaseInsensitiveExpando(), (expando, property) =>
-                    expando.Set(property.Name, toDynamic(property.Value) ?? property.Value));
+                .Aggregate(new TDynamicObject(), (impl, property) =>
+                {
+                    var dynamic = impl as dynamic;
+                    dynamic[property.Name] = toDynamic(property.Value) ?? property.Value;
+                    return impl;
+                });
         }
+
+        public static dynamic ToDynamic(this object source) =>
+            source.AsDynamic().IfHasValue(dynamic => source)  // if source is already dynamic, return it
+            ?? source.ToDynamic<CaseInsensitiveExpando>();
     }
 }

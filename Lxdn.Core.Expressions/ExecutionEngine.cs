@@ -9,17 +9,14 @@ namespace Lxdn.Core.Expressions
 {
     public class ExecutionEngine
     {
-        public ExecutionEngine(params Model[] models)
+        public ExecutionEngine(IChainableResolver resolver, params Model[] models)
         {
             this.Models = new Models(models);
-            this.Operators = new OperatorFactory(this, new ChainableResolver(this));
+            this.Operators = new OperatorFactory(this, resolver ?? new Resolver(this));
             this.Operators.Models.Parse(Assembly.GetExecutingAssembly());
         }
 
-        public ExecutionEngine(IChainableResolver resolver, params Model[] models) : this(models)
-        {
-            this.Operators = new OperatorFactory(this, resolver);
-        }
+        public ExecutionEngine(params Model[] models) : this(null, models) { }
 
         public Models Models { get; }
 

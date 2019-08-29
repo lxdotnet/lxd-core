@@ -115,6 +115,14 @@ namespace Lxdn.Core._MSTests
         }
 
         [TestMethod]
+        public void Test_FlattenSingleException()
+        {
+            var ex = new Exception("Test");
+            var flattened = ex.Flatten().ToList();
+            Assert.AreEqual(1, flattened.Count);
+        }
+
+        [TestMethod]
         public void TestStripNonsignificantZeros()
         {
             var d1 = 100.0M.StripNonsignificantZeros();

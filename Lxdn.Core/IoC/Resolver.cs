@@ -6,18 +6,18 @@ using Lxdn.Core.Extensions;
 
 namespace Lxdn.Core.IoC
 {
-    public class ChainableResolver : IChainableResolver
+    public class Resolver : IChainableResolver
     {
         private readonly DependencyMap map;
 
-        internal ChainableResolver(DependencyMap knownDependencies = null)
+        internal Resolver(DependencyMap knownDependencies = null)
         {
             map = knownDependencies ?? new DependencyMap();
         }
 
-        public ChainableResolver(params object[] initial) : this(new DependencyMap(initial)) { }
+        public Resolver(params object[] initial) : this(new DependencyMap(initial)) { }
 
-        public IChainableResolver Chain(params object[] dependencies) => new ChainableResolver(map.Clone().Consider(dependencies));
+        public IChainableResolver Chain(params object[] dependencies) => new Resolver(map.Clone().Consider(dependencies));
 
         public object Resolve(Type t)
         {

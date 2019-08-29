@@ -9,12 +9,15 @@ namespace Lxdn.Core
 {
     public class TreeIterator<TItem>
     {
-        public TreeIterator(TreeTraversal order = TreeTraversal.PostOrder)
+        private readonly TreeTraversal order;
+
+        private TreeIterator(TreeTraversal order)
         {
             this.order = order;
         }
 
-        private readonly TreeTraversal order;
+        public static TreeIterator<TItem> New(TreeTraversal order = TreeTraversal.PostOrder)
+            => new TreeIterator<TItem>(order);
 
         public IEnumerable<TItem> Flatten(TItem item) => Flatten(item, i => i as IEnumerable<TItem>);
 

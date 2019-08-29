@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Lxdn.Core.Extensions
 {
@@ -11,17 +12,10 @@ namespace Lxdn.Core.Extensions
         /// </summary>
         /// <param name="ex"></param>
         /// <returns></returns>
-        public static IEnumerable<Exception> Flatten(this Exception ex)
-        {
-            var iterator = new TreeIterator<Exception>();
-
-            return iterator.Flatten(ex, e =>
-            {
-                var aggregate = e as AggregateException;
-                return aggregate != null
-                    ? aggregate.InnerExceptions
-                    : e.InnerException.IfExists(inner => inner.Once());
-            });
-        }
+        public static IEnumerable<Exception> Flatten(this Exception ex) =>
+            TreeIterator<Exception>.New().Flatten(ex, e =>
+                (e as AggregateException).IfExists(aggregate => aggregate.InnerExceptions)
+                ?? e.InnerException.IfExists(inner => inner.Once())
+                ?? Enumerable.Empty<Exception>());
     }
 }

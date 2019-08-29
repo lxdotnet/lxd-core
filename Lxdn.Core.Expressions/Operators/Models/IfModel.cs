@@ -19,13 +19,6 @@ namespace Lxdn.Core.Expressions.Operators.Models
                 this.Else = models.CreateModel(@else);
         }
 
-        public IfModel(OperatorModel condition, OperatorModel then, OperatorModel @else)
-        {
-            this.Condition = condition;
-            this.Then = then;
-            this.Else = @else;
-        }
-
         public OperatorModel Condition { get; set; }
 
         public OperatorModel Then { get; set; }
