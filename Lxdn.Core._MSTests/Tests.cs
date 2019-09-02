@@ -480,8 +480,8 @@ namespace Lxdn.Core._MSTests
             var person2 = new Person { Name = "Alexander", Lastname = "Gerst" };
             var persons = new [] { person1, person2 };
 
-            var oneGroup = persons.GroupBy(person => person, Compare<Person>.Using(person => person.Name)).ToList();
-            var twoGroups = persons.GroupBy(person => person, Compare<Person>.Using(person => person.Name, person => person.Lastname)).ToList();
+            var oneGroup = persons.GroupBy(Compare<Person>.Using(person => person.Name)).ToList();
+            var twoGroups = persons.GroupBy(Compare<Person>.Using(person => person.Name, person => person.Lastname)).ToList();
 
             Assert.AreEqual(1, oneGroup.Count);
             Assert.AreEqual(2, twoGroups.Count);

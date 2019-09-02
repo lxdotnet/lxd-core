@@ -202,5 +202,8 @@ namespace Lxdn.Core.Extensions
         {
             return await Task.WhenAll(tasks);
         }
+
+        public static IEnumerable<IEnumerable<TItem>> GroupBy<TItem>(this IEnumerable<TItem> items, IEqualityComparer<TItem> comparer)
+            => items.GroupBy(item => item, comparer);
     }
 }

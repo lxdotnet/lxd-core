@@ -32,7 +32,7 @@ namespace Lxdn.Core.Aggregates
             indexer = indexable
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(HasNumericIndexer)
-                .ThrowIf(indexers => indexers.Count() != 1, x => new Exception($"{indexable} Missing or ambiguous indexer"))
+                .ThrowIf(indexers => indexers.Count() != 1, x => new Exception($"{indexable}: indexer missing or ambiguous."))
                 .Single();
         }
 
