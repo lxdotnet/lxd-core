@@ -32,7 +32,7 @@ namespace Lxdn.Core.Aggregates
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public PropertyAccessor<TReturn> Of(object root) => new PropertyAccessor<TReturn>(this, root);
+        public IAccessor<TReturn> Of(object root) => new PropertyAccessor<TReturn>(this, root);
 
         public Expression ToExpression(Expression parameter) =>
             this.Aggregate(parameter, (current, step) => step.ToExpression(current));

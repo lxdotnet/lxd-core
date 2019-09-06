@@ -12,7 +12,7 @@ namespace Lxdn.Core.Aggregates
     {
         private readonly Func<IStepModel, IStep> createStep;
 
-        private static readonly BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        private const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
         private StepFactory(Type current)
         {
@@ -21,17 +21,32 @@ namespace Lxdn.Core.Aggregates
                         .SelectMany(interfaces => interfaces.GetProperties(flags))
                         .FirstOrDefault(i => i.Name.Equals(token));
 
+            bool hasNumericIndexer(PropertyInfo property)
+            {
+                var indices = property.GetIndexParameters();
+                if (indices.Length == 1 && indices.Single().ParameterType.IsOneOf(typeof(int), typeof(long)))
+                    return true;
+
+                return false;
+            }
+
             createStep = model => 
             {
                 switch (model)
                 {
                     case PropertyModel step:
-                        var property = propertyOf(step.Value)
-                            .ThrowIfDefault(() => new ArgumentException($"Invalid token: {step.Value}"));
+                        var property = propertyOf(step.Value) ?? throw new ArgumentException($"Invalid token: {step.Value}");
                         return new Step(property);
 
                     case IndexModel index:
-                        return new Index(current, index.Value);
+
+                        var indexer = current
+                            .GetProperties(flags)
+                            .Where(hasNumericIndexer)
+                            .ThrowIf(indexers => indexers.Count() != 1, x => new Exception($"{current}: indexer missing or ambiguous."))
+                            .Single();
+
+                        return new Index(indexer, index.Value);
 
                     default: throw new NotSupportedException($"Unsupported model: {model}");
                 }

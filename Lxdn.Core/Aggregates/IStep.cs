@@ -6,10 +6,8 @@ namespace Lxdn.Core.Aggregates
 {
     public interface IStep
     {
-        object GetValue(object current);
-        void SetValue(object current, object value);
         Type Type { get; }
-        object InstantiateIn(object owner);
+        IAccessor Of(object owner);
         Expression ToExpression(Expression current);
     }
 }

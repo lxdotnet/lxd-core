@@ -366,11 +366,11 @@ namespace Lxdn.Core._MSTests
             var name = default(Person).Browse(p => p.Name);
 
             var person = new Person { Name = "Alex" };
-            var value = name.Of(person).Get();
+            var value = name.Of(person).GetValue();
             Assert.AreEqual("Alex", value);
 
-            name.Of(person).Set("Tony");
-            Assert.AreEqual("Tony", name.Of(person).Get());
+            name.Of(person).SetValue("Tony");
+            Assert.AreEqual("Tony", name.Of(person).GetValue());
         }
 
         [TestMethod]
@@ -378,7 +378,7 @@ namespace Lxdn.Core._MSTests
         {
             var name = Property<int>.Factory.CreateFrom(typeof(Person), "person.Name.Length");
             var alex = new Person { Name = "Alex" };
-            var length = name.Of(alex).Get();
+            var length = name.Of(alex).GetValue();
             Assert.AreEqual(4, length);
         }
 
@@ -387,7 +387,7 @@ namespace Lxdn.Core._MSTests
         {
             var person = Property<Person>.Factory.CreateFrom(typeof(Person), "person");
             var alex = new Person { Name = "Alex" };
-            var me = person.Of(alex).Get();
+            var me = person.Of(alex).GetValue();
             Assert.AreEqual("Alex", me.Name);
         }
 
@@ -395,7 +395,7 @@ namespace Lxdn.Core._MSTests
         public void Test_NewAccessor_GetCollection()
         {
             var person = Person.BuildFamily();
-            var relatives = default(Person).Browse(x => x.Relatives).Of(person).Get();
+            var relatives = default(Person).Browse(x => x.Relatives).Of(person).GetValue();
             Assert.AreEqual(2, relatives.Count);
         }
 
@@ -404,7 +404,7 @@ namespace Lxdn.Core._MSTests
         {
             var me = new Person();
             var name = Property<string>.Factory.CreateFrom(typeof(Person), "person.Name");
-            name.Of(me).Set("Alex");
+            name.Of(me).SetValue("Alex");
             Assert.AreEqual("Alex", me.Name);
         }
 
@@ -423,7 +423,7 @@ namespace Lxdn.Core._MSTests
         {
             var person = Person.BuildFamily();
             var name = Property<string>.Factory.CreateFrom(typeof(Person), "me.Relatives[1].Name");
-            var nameOfSofia = name.Of(person).Get();
+            var nameOfSofia = name.Of(person).GetValue();
             Assert.AreEqual("Sofia", nameOfSofia);
 
             var expression = name.ToExpression(name.Root.AsParameter());

@@ -2,13 +2,12 @@
 using System;
 using System.Linq;
 using System.Diagnostics;
-
 using Lxdn.Core.Extensions;
 
 namespace Lxdn.Core.Aggregates
 {
     [DebuggerDisplay("{property,nq}")]
-    public class PropertyAccessor<TReturn>
+    internal class PropertyAccessor<TReturn> : IAccessor<TReturn>
     {
         private readonly object root;
 
@@ -20,20 +19,33 @@ namespace Lxdn.Core.Aggregates
             this.property = property.ThrowIfDefault();
         }
 
-        public void Set(TReturn value)
+        public void SetValue(TReturn value)
         {
             if (!property.Any())
                 throw new InvalidOperationException("Can't set value of the root");
 
             var lastStep = property.Last();
 
-            var owner = property.Without(lastStep)
-                .Aggregate(root, (current, step) => step.GetValue(current) ?? step.InstantiateIn(current));
+            object valueOf(IStep step, object current)
+            {
+                var accessor = step.Of(current);
 
-            lastStep.SetValue(owner, value);
+                object instantiate() {
+                    var @new = Activator.CreateInstance(step.Type);
+                    accessor.SetValue(@new);
+                    return @new;
+                }
+
+                return accessor.GetValue() ?? instantiate();
+            }
+
+            var owner = property.Without(lastStep)
+                .Aggregate(root, (current, step) => valueOf(step, current));
+
+            lastStep.Of(owner).SetValue(value);
         }
 
-        public TReturn Get() => (TReturn)property
-            .Aggregate(root, (current, step) => current.IfExists(step.GetValue));
+        public TReturn GetValue() => (TReturn)property
+            .Aggregate(root, (current, step) => current.IfExists(owner => step.Of(owner).GetValue()));
     }
 }

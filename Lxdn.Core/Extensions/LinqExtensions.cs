@@ -31,15 +31,11 @@ namespace Lxdn.Core.Extensions
             return next;
         }
 
-        public static string Agglutinate<TItem>(this IEnumerable<TItem> items, Func<TItem, string> selector, string divider = null)
-        {
-            return string.Join(divider ?? "", items.Select(selector).ToArray());
-        }
+        public static string Agglutinate<TItem>(this IEnumerable<TItem> items, Func<TItem, string> stringify, string separator = null)
+            => string.Join(separator ?? "", items.Select(stringify).ToArray());
 
-        public static string Agglutinate<TItem>(this IEnumerable<TItem> items, string divider = null)
-        {
-            return items.Agglutinate(item => item.ToString(), divider);
-        }
+        public static string Agglutinate<TItem>(this IEnumerable<TItem> items, string separator = null)
+            => items.Agglutinate(item => item.ToString(), separator);
 
         /// <summary>
         /// Given the first sequence (A1, A2, A3, ...) and the second one (B1, B2, B3),
