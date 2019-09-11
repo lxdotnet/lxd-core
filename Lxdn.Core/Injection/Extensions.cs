@@ -27,8 +27,6 @@ namespace Lxdn.Core.Injection
 
             var dynamic = source as IDynamicMetaObjectProvider;
 
-            var targetType = existing.GetType();
-
             Func<object, PropertyInfo, object> inject = (from, to) =>
             {
                 bool consider(Type type) => Consider.ForIteration(type) && !type.IsInterface && !type.IsAbstract;
@@ -39,14 +37,14 @@ namespace Lxdn.Core.Injection
 
                 if (enumerable != null && consider(enumerable))
                 {
-                    return (from as IEnumerable).IfExists().OfType<object>() // only when 'from' exists and only for non-null members
+                    return (from as IEnumerable)?.OfType<object>() // only when 'from' exists and only for non-null members
                         .Select(member => member.InjectTo(enumerable)).OfType<object>()
                         .Aggregate(Activator.CreateInstance(typeof(List<>).MakeGenericType(enumerable)),
                             (list, member) => { list.Call("Add", member); return list; });
                 }
 
                 // otherwise it is an injectable object or a single property:
-                return consider(propertyType) ? from.InjectTo(propertyType) : from.ChangeType(propertyType);
+                return consider(propertyType) ? from?.InjectTo(propertyType) : from.ChangeType(propertyType);
             };
 
             object valueOf(string propertyName)
@@ -65,39 +63,29 @@ namespace Lxdn.Core.Injection
                         .IfExists(property => property.GetValue(source));
             }
 
-            return targetType.GetProperties()
-                .Where(property => property.HasPublicSetter())
-                .Select(property => new // get source value:
-                {
-                    Target = property,
-                    Source = valueOf(property.Name)
-                })
-                //.Where(injectable => injectable.Source != null)
-                .Where(injectable => !Equals(injectable.Source, null))
-                .Select(injectable => new // inject source value to target value:
-                {
-                    injectable.Target,
-                    Value = Guard.Function(() => inject(injectable.Source, injectable.Target), ex => 
-                        new ArgumentException(nameof(source), $"Error injecting value {injectable.Source} into property '{injectable.Target.Name}'", ex))
-                })
-                .Aggregate(existing, (to, injectable) => to.SetValue(injectable.Target, injectable.Value));
+            return existing.From(source, property => inject(valueOf(property.Name), property));
         }
 
-        public static TOutput InjectTo<TOutput>(this object input)
-            where TOutput : class, new()
-        {
-            return (TOutput)input.InjectTo(new TOutput());
-        }
+        internal static object From(this object target, object source, Func<PropertyInfo, object> valueOf) => target
+            .ThrowIfDefault()
+            .GetType().GetProperties()
+            .Where(property => property.HasPublicSetter())
+            .Select(property => new
+            {
+                Target = property,
+                Value = Guard.Function(() => valueOf(property), ex =>
+                    new ArgumentException(nameof(source), $"Error getting value of '{property.Name}'", ex))
+            })
+            .Aggregate(target, (to, injectable) => Guard.Function(() => to.SetValue(injectable.Target, injectable.Value), ex
+                => new InvalidOperationException($"Error setting value '{injectable.Value}' to property '{injectable.Target.Name}'", ex)));
+
+        public static TOutput InjectTo<TOutput>(this object input) where TOutput : class, new()
+            => (TOutput)input.InjectTo(new TOutput());
 
         public static object InjectTo(this object input, Type target)
-        {
-            return input.InjectTo(Activator.CreateInstance(target));
-        }
+            => input.InjectTo(Activator.CreateInstance(target));
 
-        public static TTarget InjectFrom<TTarget>(this TTarget target, object source)
-            where TTarget : class
-        {
-            return (TTarget)source.InjectTo(target);
-        }
+        public static TTarget InjectFrom<TTarget>(this TTarget target, object source) where TTarget : class
+            => (TTarget)source.InjectTo(target);
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Lxdn.Core.Extensions;
+using Lxdn.Core.Injection;
 
 namespace Lxdn.Core.Db
 {
@@ -19,7 +20,7 @@ namespace Lxdn.Core.Db
 
             var result = typeof(TEntity) == typeof(object) // dynamic requested
                 ? (dynamic)values.ToDynamic()
-                : values.To<TEntity>();
+                : new TEntity().From(values, property => values[property.Name].ChangeType(property.PropertyType));
 
             return result;
         }

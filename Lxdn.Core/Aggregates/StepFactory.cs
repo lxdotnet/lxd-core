@@ -41,7 +41,7 @@ namespace Lxdn.Core.Aggregates
                     case IndexModel index:
 
                         var indexer = current
-                            .GetProperties(flags)
+                            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                             .Where(hasNumericIndexer)
                             .ThrowIf(indexers => indexers.Count() != 1, x => new Exception($"{current}: indexer missing or ambiguous."))
                             .Single();
