@@ -27,7 +27,7 @@ namespace Lxdn.Core.Injection
 
             var dynamic = source as IDynamicMetaObjectProvider;
 
-            Func<object, PropertyInfo, object> inject = (from, to) =>
+            Func<object, PropertyInfo, object> recursively = (from, to) =>
             {
                 bool consider(Type type) => Consider.ForIteration(type) && !type.IsInterface && !type.IsAbstract;
                 var propertyType = to.PropertyType;
@@ -63,7 +63,7 @@ namespace Lxdn.Core.Injection
                         .IfExists(property => property.GetValue(source));
             }
 
-            return existing.From(source, property => inject(valueOf(property.Name), property));
+            return existing.From(source, property => recursively(valueOf(property.Name), property));
         }
 
         internal static object From(this object target, object source, Func<PropertyInfo, object> valueOf) => target
