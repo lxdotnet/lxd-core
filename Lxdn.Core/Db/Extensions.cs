@@ -20,7 +20,7 @@ namespace Lxdn.Core.Db
 
             var result = typeof(TEntity) == typeof(object) // dynamic requested
                 ? (dynamic)values.ToDynamic()
-                : new TEntity().From(values, property => values[property.Name].ChangeType(property.PropertyType));
+                : new TEntity().Populate(property => values[property.Name].ChangeType(property.PropertyType));
 
             return result;
         }

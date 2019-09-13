@@ -13,6 +13,8 @@ namespace Lxdn.Core.Injection
 {
     public static class Extensions
     {
+        private static readonly BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase;
+
         /// <summary>
         /// Recursive injection based on the name conventions.
         /// reasonable type conversions are supported.
@@ -26,6 +28,19 @@ namespace Lxdn.Core.Injection
                 return existing;
 
             var dynamic = source as IDynamicMetaObjectProvider;
+
+            object valueOf(string propertyName)
+            {
+                return dynamic != null
+                    ? dynamic
+                        .GetMetaObject(Expression.Constant(source))
+                        .GetDynamicMemberNames() // can't just cast to DynamicObject here and then .GetDynamicMemberNames because not all dynamics are DynamicObject (e.g. JObject isn't)
+                        .SingleOrDefault(name => string.Equals(name, propertyName, StringComparison.InvariantCultureIgnoreCase))
+                        .IfExists(name => ((dynamic)source)[name])
+                    : source.GetType()
+                        .GetProperty(propertyName, flags)
+                        .IfExists(property => property.GetValue(source));
+            }
 
             Func<object, PropertyInfo, object> recursively = (from, to) =>
             {
@@ -47,37 +62,23 @@ namespace Lxdn.Core.Injection
                 return consider(propertyType) ? from?.InjectTo(propertyType) : from.ChangeType(propertyType);
             };
 
-            object valueOf(string propertyName)
-            {
-                bool matching(string candidate) => string.Equals(candidate, propertyName, StringComparison.InvariantCultureIgnoreCase);
-
-                return dynamic != null
-                    ? dynamic
-                        .GetMetaObject(Expression.Constant(source))
-                        .GetDynamicMemberNames() // can't just cast to DynamicObject here and then .GetDynamicMemberNames because not all dynamics are DynamicObject (e.g. JObject isn't)
-                        .SingleOrDefault(matching)
-                        .IfExists(name => ((dynamic)source)[name])
-                    : source.GetType()
-                        .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                        .SingleOrDefault(candidate => matching(candidate.Name))
-                        .IfExists(property => property.GetValue(source));
-            }
-
-            return existing.From(source, property => recursively(valueOf(property.Name), property));
+            return existing.Populate(property => recursively(valueOf(property.Name), property));
         }
 
-        internal static object From(this object target, object source, Func<PropertyInfo, object> valueOf) => target
-            .ThrowIfDefault()
-            .GetType().GetProperties()
-            .Where(property => property.HasPublicSetter())
-            .Select(property => new
-            {
-                Target = property,
-                Value = Guard.Function(() => valueOf(property), ex =>
-                    new ArgumentException(nameof(source), $"Error getting value of '{property.Name}'", ex))
-            })
-            .Aggregate(target, (to, injectable) => Guard.Function(() => to.SetValue(injectable.Target, injectable.Value), ex
-                => new InvalidOperationException($"Error setting value '{injectable.Value}' to property '{injectable.Target.Name}'", ex)));
+        internal static object Populate(this object target, Func<PropertyInfo, object> valueOf)
+        {
+            return target.ThrowIfDefault().GetType()
+                .GetProperties(flags)
+                .Where(property => property.HasPublicSetter())
+                .Select(property => new
+                {
+                    Target = property,
+                    Value = Guard.Function(() => valueOf(property), ex =>
+                        new ArgumentException(nameof(valueOf), $"Error getting value of '{property.Name}'", ex))
+                })
+                .Aggregate(target, (to, injectable) => Guard.Function(() => to.SetValue(injectable.Target, injectable.Value), ex
+                    => new InvalidOperationException($"Error setting value '{injectable.Value}' to property '{injectable.Target.Name}'", ex)));
+        }
 
         public static TOutput InjectTo<TOutput>(this object input) where TOutput : class, new()
             => (TOutput)input.InjectTo(new TOutput());

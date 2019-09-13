@@ -13,7 +13,6 @@ using Lxdn.Core.Injection;
 
 using Lxdn.Core._MSTests.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Dynamic;
 
 namespace Lxdn.Core._MSTests
 {
