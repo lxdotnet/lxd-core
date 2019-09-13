@@ -13,11 +13,11 @@ namespace Lxdn.Core.Injection
 {
     public static class Extensions
     {
-        private static readonly BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase;
+        public const BindingFlags Injectables = BindingFlags.Public | BindingFlags.Instance;
 
         /// <summary>
-        /// Recursive injection based on the name conventions.
-        /// reasonable type conversions are supported.
+        /// Recursive injection based on the name conventions (case-insensitive).
+        /// Reasonable type conversions are supported.
         /// </summary>
         /// <param name="source"></param>
         /// <param name="existing"></param>
@@ -27,48 +27,50 @@ namespace Lxdn.Core.Injection
             if (source == null)
                 return existing;
 
-            var dynamic = source as IDynamicMetaObjectProvider;
+            var dynamic = (source as IDynamicMetaObjectProvider)
+                .IfExists(provider => provider.GetMetaObject(Expression.Constant(source)));
 
             object valueOf(string propertyName)
             {
                 return dynamic != null
                     ? dynamic
-                        .GetMetaObject(Expression.Constant(source))
                         .GetDynamicMemberNames() // can't just cast to DynamicObject here and then .GetDynamicMemberNames because not all dynamics are DynamicObject (e.g. JObject isn't)
                         .SingleOrDefault(name => string.Equals(name, propertyName, StringComparison.InvariantCultureIgnoreCase))
                         .IfExists(name => ((dynamic)source)[name])
                     : source.GetType()
-                        .GetProperty(propertyName, flags)
+                        .GetProperty(propertyName, Injectables | BindingFlags.IgnoreCase)
                         .IfExists(property => property.GetValue(source));
             }
 
-            Func<object, PropertyInfo, object> recursively = (from, to) =>
+            Func<PropertyInfo, object> recursively = target =>
             {
+                var value = valueOf(target.Name);
+                var targetType = target.PropertyType;
+
                 bool consider(Type type) => Consider.ForIteration(type) && !type.IsInterface && !type.IsAbstract;
-                var propertyType = to.PropertyType;
 
                 // first examine if a collection is about to be injected
-                var enumerable = propertyType.AsArgumentsOf(typeof(IEnumerable<>)).IfHasValue(args => args.Single());
+                var enumerable = targetType.AsArgumentsOf(typeof(IEnumerable<>)).IfHasValue(args => args.Single());
 
                 if (enumerable != null && consider(enumerable))
                 {
-                    return (from as IEnumerable)?.OfType<object>() // only when 'from' exists and only for non-null members
+                    return (value as IEnumerable)?.OfType<object>() // only when 'from' exists and only for non-null members
                         .Select(member => member.InjectTo(enumerable)).OfType<object>()
                         .Aggregate(Activator.CreateInstance(typeof(List<>).MakeGenericType(enumerable)),
                             (list, member) => { list.Call("Add", member); return list; });
                 }
 
                 // otherwise it is an injectable object or a single property:
-                return consider(propertyType) ? from?.InjectTo(propertyType) : from.ChangeType(propertyType);
+                return consider(targetType) ? value?.InjectTo(targetType) : value.ChangeType(targetType);
             };
 
-            return existing.Populate(property => recursively(valueOf(property.Name), property));
+            return existing.Inject(recursively);
         }
 
-        internal static object Populate(this object target, Func<PropertyInfo, object> valueOf)
+        internal static object Inject(this object target, Func<PropertyInfo, object> valueOf)
         {
             return target.ThrowIfDefault().GetType()
-                .GetProperties(flags)
+                .GetProperties(Injectables)
                 .Where(property => property.HasPublicSetter())
                 .Select(property => new
                 {

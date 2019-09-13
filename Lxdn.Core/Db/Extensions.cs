@@ -1,11 +1,13 @@
+
 using System;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Threading;
+using System.Data.Common;
 using System.Threading.Tasks;
-using Lxdn.Core.Extensions;
+
 using Lxdn.Core.Injection;
+using Lxdn.Core.Extensions;
 
 namespace Lxdn.Core.Db
 {
@@ -20,12 +22,12 @@ namespace Lxdn.Core.Db
 
             var result = typeof(TEntity) == typeof(object) // dynamic requested
                 ? (dynamic)values.ToDynamic()
-                : new TEntity().Populate(property => values[property.Name].ChangeType(property.PropertyType));
+                : new TEntity().Inject(property => values[property.Name].ChangeType(property.PropertyType));
 
             return result;
         }
 
-        public static async Task<TCommand> Connect<TCommand>(this TCommand command, CancellationToken cancel)
+        internal static async Task<TCommand> Connect<TCommand>(this TCommand command, CancellationToken cancel)
             where TCommand: DbCommand
         {
             if (command.Connection.State != ConnectionState.Open)
@@ -36,7 +38,7 @@ namespace Lxdn.Core.Db
             return command;
         }
 
-        public static Task<TCommand> Connect<TCommand>(this TCommand command) where TCommand : DbCommand 
+        internal static Task<TCommand> Connect<TCommand>(this TCommand command) where TCommand : DbCommand 
             => command.Connect(CancellationToken.None);
     }
 }
