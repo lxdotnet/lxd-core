@@ -195,9 +195,9 @@ namespace Lxdn.Core.Extensions
         /// <param name="tasks"></param>
         /// <returns></returns>
         public static async Task<IEnumerable<TItem>> WhenAll<TItem>(this IEnumerable<Task<TItem>> tasks)
-        {
-            return await Task.WhenAll(tasks);
-        }
+            => await Task.WhenAll(tasks);
+
+        public static async Task WhenAll(this IEnumerable<Task> tasks) => await Task.WhenAll(tasks);
 
         public static IEnumerable<IEnumerable<TItem>> GroupBy<TItem>(this IEnumerable<TItem> items, IEqualityComparer<TItem> comparer)
             => items.GroupBy(item => item, comparer);

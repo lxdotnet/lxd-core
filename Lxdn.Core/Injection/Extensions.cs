@@ -54,7 +54,7 @@ namespace Lxdn.Core.Injection
 
                 if (enumerable != null && consider(enumerable))
                 {
-                    return (value as IEnumerable)?.OfType<object>() // only when 'from' exists and only for non-null members
+                    return (value as IEnumerable)?.OfType<object>() // only when the value exists and only for non-null members
                         .Select(member => member.InjectTo(enumerable)).OfType<object>()
                         .Aggregate(Activator.CreateInstance(typeof(List<>).MakeGenericType(enumerable)),
                             (list, member) => { list.Call("Add", member); return list; });
