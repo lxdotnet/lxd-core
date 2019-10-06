@@ -13,7 +13,7 @@ namespace Lxdn.Core.Injection
 {
     public static class Extensions
     {
-        public const BindingFlags Injectables = BindingFlags.Public | BindingFlags.Instance;
+        private const BindingFlags injectables = BindingFlags.Public | BindingFlags.Instance;
 
         /// <summary>
         /// Recursive injection based on the name conventions (case-insensitive).
@@ -38,7 +38,7 @@ namespace Lxdn.Core.Injection
                         .SingleOrDefault(name => string.Equals(name, propertyName, StringComparison.InvariantCultureIgnoreCase))
                         .IfExists(name => ((dynamic)source)[name])
                     : source.GetType()
-                        .GetProperty(propertyName, Injectables | BindingFlags.IgnoreCase)
+                        .GetProperty(propertyName, injectables | BindingFlags.IgnoreCase)
                         .IfExists(property => property.GetValue(source));
             }
 
@@ -54,10 +54,12 @@ namespace Lxdn.Core.Injection
 
                 if (enumerable != null && consider(enumerable))
                 {
+                    var list = Activator.CreateInstance(typeof(List<>).MakeGenericType(enumerable));
+                    var add = list.GetType().GetMethod("Add");
+
                     return (value as IEnumerable)?.OfType<object>() // only when the value exists and only for non-null members
                         .Select(member => member.InjectTo(enumerable)).OfType<object>()
-                        .Aggregate(Activator.CreateInstance(typeof(List<>).MakeGenericType(enumerable)),
-                            (list, member) => { list.Call("Add", member); return list; });
+                        .Aggregate(list, (current, member) => { add.Invoke(list, new[] { member }); return list; });
                 }
 
                 // otherwise it is an injectable object or a single property:
@@ -70,7 +72,7 @@ namespace Lxdn.Core.Injection
         internal static object Inject(this object target, Func<PropertyInfo, object> valueOf)
         {
             return target.ThrowIfDefault().GetType()
-                .GetProperties(Injectables)
+                .GetProperties(injectables)
                 .Where(property => property.HasPublicSetter())
                 .Select(property => new
                 {
