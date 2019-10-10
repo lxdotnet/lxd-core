@@ -52,7 +52,7 @@ namespace Lxdn.Core.Db
         {
             using (var cn = new TConnection { ConnectionString = schema.ConnectionString })
             {
-                return await Guard.Function(() => databaseBehind(cn).Fetch<TEntity>(sql, parameters, commandType, cancel), 
+                return await Guard.Task(() => databaseBehind(cn).Fetch<TEntity>(sql, parameters, commandType, cancel), 
                     ex => new DatabaseException(schema, parameters, ex));
             }
         }
@@ -62,7 +62,7 @@ namespace Lxdn.Core.Db
         {
             using (var cn = new TConnection { ConnectionString = schema.ConnectionString })
             {
-                return await Guard.Function(() => databaseBehind(cn).Execute(sql, parameters, commandType, cancel),
+                return await Guard.Task(() => databaseBehind(cn).Execute(sql, parameters, commandType, cancel),
                     ex => new DatabaseException(schema, parameters, ex));
             }
         }
@@ -81,7 +81,7 @@ namespace Lxdn.Core.Db
         {
             using (var cn = new TConnection { ConnectionString = schema.ConnectionString })
             {
-                return await Guard.Function(() => databaseBehind(cn).ExecuteScalar<TReturn>(sql, parameters, commandType, cancel),
+                return await Guard.Task(() => databaseBehind(cn).ExecuteScalar<TReturn>(sql, parameters, commandType, cancel),
                     ex => new DatabaseException(schema, parameters, ex));
             }
         }
@@ -91,7 +91,7 @@ namespace Lxdn.Core.Db
         {
             using (var cn = new TConnection { ConnectionString = schema.ConnectionString })
             {
-                return await Guard.Function(() => databaseBehind(cn).ExecuteReturning<TReturn>(sql, parameters, commandType, cancel),
+                return await Guard.Task(() => databaseBehind(cn).ExecuteReturning<TReturn>(sql, parameters, commandType, cancel),
                     ex => new DatabaseException(schema, parameters, ex));
             }
         }
