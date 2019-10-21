@@ -442,6 +442,23 @@ namespace Lxdn.Core._MSTests
         }
 
         [TestMethod]
+        public void Test_Injection_Backwards()
+        {
+            var person = new Person { Lastname = "Dolnik" }.InjectFrom(new { Name = "Alexander" });
+            Assert.AreEqual("Dolnik", person.Lastname);
+            Assert.AreEqual("Alexander", person.Name);
+        }
+
+        [TestMethod]
+        public void Test_InjectHierarchy()
+        {
+            var clone = Person.BuildFamily().InjectTo<Person>();
+            Assert.AreEqual(2, clone.Relatives.Count);
+            Assert.IsTrue(clone.Relatives.Any(person => person.Name == "Katya" && person.Birthday.Year == 1978));
+            Assert.IsTrue(clone.Relatives.Any(person => person.Name == "Sofia" && person.Birthday.Year == 2013));
+        }
+
+        [TestMethod]
         public void Test_EncryptDecrypt()
         {
             var key = "dolnik";
@@ -488,8 +505,11 @@ namespace Lxdn.Core._MSTests
         }
         
         [TestMethod]
-        public void Test_Arrays()
+        public void Test_ChangingTypeToObject_PreservesOriginal()
         {
+            var x = (DateTime?)DateTime.Now;
+            var y = x.ChangeType<object>();
+            Assert.AreEqual(typeof(DateTime), x.GetType());
         }
     }
 }

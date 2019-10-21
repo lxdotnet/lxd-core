@@ -80,7 +80,7 @@ namespace Lxdn.Core.Extensions
 
             var source = obj.GetType();
 
-            if (source == target)
+            if (target.IsAssignableFrom(source))
                 return obj;
 
             if (target.IsGenericType && typeof(Nullable<>) == target.GetGenericTypeDefinition())

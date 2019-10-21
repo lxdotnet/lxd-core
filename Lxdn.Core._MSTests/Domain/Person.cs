@@ -28,7 +28,7 @@ namespace Lxdn.Core._MSTests.Domain
             this.Lastname = lastname;
 
             this.Relatives = new List<Person>();
-            this.Money = new Money(100.0M, "EUR");
+            this.Money = new Money { Amount = 100, Currency = "EUR" };
         }
 
         public Person(string name, DateTime bd) : this(name, null, bd)
@@ -54,7 +54,7 @@ namespace Lxdn.Core._MSTests.Domain
         public string NullArg { get; set; }
 
         //[JsonConverter(typeof(TicksConverter))]
-        public DateTime Birthday { get; private set; }
+        public DateTime Birthday { get; set; }
 
         public DateTime Today
         {

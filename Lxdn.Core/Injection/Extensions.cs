@@ -80,6 +80,7 @@ namespace Lxdn.Core.Injection
                     Value = Guard.Function(() => valueOf(property), ex =>
                         new ArgumentException(nameof(valueOf), $"Error getting value of '{property.Name}'", ex))
                 })
+                .Where(property => !Equals(property.Value, null))
                 .Aggregate(target, (to, injectable) => Guard.Function(() => to.SetValue(injectable.Target, injectable.Value), ex
                     => new InvalidOperationException($"Error setting value '{injectable.Value}' to property '{injectable.Target.Name}'", ex)));
         }
