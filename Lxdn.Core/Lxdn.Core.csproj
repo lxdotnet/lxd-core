@@ -4,7 +4,7 @@
     <!--<TargetFramework>netcoreapp2.1</TargetFramework>-->
     <TargetFrameworks>netcoreapp2.1;net45</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>2.0.12</Version>
+    <Version>2.0.14</Version>
     <Authors>Alexander Dolnik</Authors>
     <Company>private</Company>
     <Product>Lxdn.Core</Product>
@@ -13,6 +13,7 @@
     <PackageProjectUrl>https://github.com/lxdotnet/lxdn-core/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/lxdotnet/lxdn-core/</RepositoryUrl>
     <PackageId>Lxdn.Core</PackageId>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <!--<ItemGroup>
