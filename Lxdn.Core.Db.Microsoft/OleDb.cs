@@ -1,4 +1,5 @@
-﻿using System.Data.OleDb;
+﻿
+using System.Data.OleDb;
 
 namespace Lxdn.Core.Db.Microsoft
 {
