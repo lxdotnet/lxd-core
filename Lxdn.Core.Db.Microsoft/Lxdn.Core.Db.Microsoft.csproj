@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <PackageProjectUrl>https://github.com/lxdotnet/lxdn-core/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/lxdotnet/lxdn-core/</RepositoryUrl>
     <Authors>Alexander Dolnik</Authors>
@@ -14,6 +14,7 @@
   <ItemGroup>
     <PackageReference Include="Lxdn.Core" Version="2.1.1" />
     <PackageReference Include="System.Data.OleDb" Version="4.6.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
   </ItemGroup>
 
 </Project>
