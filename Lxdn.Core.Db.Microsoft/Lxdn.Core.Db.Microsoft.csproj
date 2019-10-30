@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <Version>1.0.1</Version>
+    <PackageProjectUrl>https://github.com/lxdotnet/lxdn-core/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/lxdotnet/lxdn-core/</RepositoryUrl>
+    <Authors>Alexander Dolnik</Authors>
+    <Company>private</Company>
+    <Copyright>(C) 2019 Alexander Dolnik</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lxdn.Core" Version="2.1.1" />
+    <PackageReference Include="System.Data.OleDb" Version="4.6.0" />
+  </ItemGroup>
+
+</Project>

@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <!--<TargetFramework>netcoreapp2.1</TargetFramework>-->
-    <TargetFrameworks>netcoreapp2.1;net45</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;net45;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>2.0.14</Version>
+    <Version>2.1.1</Version>
     <Authors>Alexander Dolnik</Authors>
     <Company>private</Company>
     <Product>Lxdn.Core</Product>
@@ -16,11 +16,10 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
-  <!--<ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-  </ItemGroup>-->
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
+  </ItemGroup>
 
-  <!-- .NET 4.5 references, compilation flags and build options -->
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="mscorlib" />
     <Reference Include="System" />
@@ -34,6 +33,10 @@
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1'">
     <DefineConstants>NETCORE;NETCORE2_1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <DefineConstants>NETCORE;NETCORE3_0</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">

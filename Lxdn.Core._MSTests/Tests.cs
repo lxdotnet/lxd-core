@@ -505,11 +505,19 @@ namespace Lxdn.Core._MSTests
         }
         
         [TestMethod]
-        public void Test_ChangingTypeToObject_PreservesOriginal()
+        public void Test_ChangingTypeToObject_PreservesOriginalType()
         {
             var x = (DateTime?)DateTime.Now;
             var y = x.ChangeType<object>();
             Assert.AreEqual(typeof(DateTime), x.GetType());
+        }
+
+        [TestMethod]
+        public void Test_Dynamic_PickingNonExistingProperty_DoesNotResultInException()
+        {
+            var x = (dynamic)new CaseInsensitiveExpando();
+            var ne = x["foo"];
+            var ne2 = x.Bar; // throws a RuntimeBinderException which is handled by .net
         }
     }
 }

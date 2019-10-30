@@ -7,12 +7,7 @@ namespace Lxdn.Core.Basics
 {
     public class CaseInsensitiveExpando : DynamicObject
     {
-        private readonly Dictionary<string, object> values;
-
-        public CaseInsensitiveExpando()
-        {
-            this.values = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
-        }
+        private readonly Dictionary<string, object> values = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {

@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.489
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lxdn.Core", "Lxdn.Core\Lxdn.Core.csproj", "{4335ABA9-6B8E-4814-BC84-12892BE337CD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lxdn.Core.Expressions", "Lxdn.Core.Expressions\Lxdn.Core.Expressions.csproj", "{5C6C4EF0-F2C0-4C25-A252-2D7F30610E62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lxdn.Core._MSTests", "Lxdn.Core._MSTests\Lxdn.Core._MSTests.csproj", "{5C316738-8AAF-497F-9705-8CEE8717AD6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lxdn.Core._MSTests", "Lxdn.Core._MSTests\Lxdn.Core._MSTests.csproj", "{5C316738-8AAF-497F-9705-8CEE8717AD6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lxdn.Core.Expressions._MSTests", "Lxdn.Core.Expressions._MSTests\Lxdn.Core.Expressions._MSTests.csproj", "{E85CFA3D-6EFB-48FB-BCB3-B8D209A7EA10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lxdn.Core.Expressions._MSTests", "Lxdn.Core.Expressions._MSTests\Lxdn.Core.Expressions._MSTests.csproj", "{E85CFA3D-6EFB-48FB-BCB3-B8D209A7EA10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lxdn.Core.Db.Microsoft", "Lxdn.Core.Db.Microsoft\Lxdn.Core.Db.Microsoft.csproj", "{0353335E-3E7E-45C0-AB26-55277F67EDBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E85CFA3D-6EFB-48FB-BCB3-B8D209A7EA10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E85CFA3D-6EFB-48FB-BCB3-B8D209A7EA10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E85CFA3D-6EFB-48FB-BCB3-B8D209A7EA10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0353335E-3E7E-45C0-AB26-55277F67EDBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0353335E-3E7E-45C0-AB26-55277F67EDBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0353335E-3E7E-45C0-AB26-55277F67EDBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0353335E-3E7E-45C0-AB26-55277F67EDBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
