@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Lxdn.Core" Version="2.1.1" />
+    <PackageReference Include="Lxdn.Core" Version="2.1.2" />
     <PackageReference Include="System.Data.OleDb" Version="4.6.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
   </ItemGroup>

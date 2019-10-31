@@ -3,11 +3,13 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Threading;
+using System.Reflection;
 using System.Data.Common;
 using System.Threading.Tasks;
 
 using Lxdn.Core.Injection;
 using Lxdn.Core.Extensions;
+
 
 namespace Lxdn.Core.Db
 {
@@ -16,13 +18,16 @@ namespace Lxdn.Core.Db
         internal static TEntity To<TEntity>(this IDataRecord record)
             where TEntity : class, new()
         {
-            var values = Enumerable.Range(0, record.FieldCount)
+            var row = Enumerable.Range(0, record.FieldCount)
                 .Where(field => !record.IsDBNull(field))
                 .ToDictionary(record.GetName, record.GetValue, StringComparer.OrdinalIgnoreCase);
 
+            object valueOf(PropertyInfo property) =>
+                row.SafeValueOf(property.Name)?.ChangeType(property.PropertyType);
+
             var result = typeof(TEntity) == typeof(object) // dynamic requested
-                ? (dynamic)values.ToDynamic()
-                : new TEntity().Inject(property => values[property.Name].ChangeType(property.PropertyType));
+                ? (dynamic) row.ToDynamic()
+                : new TEntity().Inject(valueOf);
 
             return result;
         }
