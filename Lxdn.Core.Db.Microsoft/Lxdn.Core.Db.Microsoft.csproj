@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageProjectUrl>https://github.com/lxdotnet/lxdn-core/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/lxdotnet/lxdn-core/</RepositoryUrl>
     <Authors>Alexander Dolnik</Authors>
