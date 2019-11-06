@@ -143,9 +143,7 @@ namespace Lxdn.Core.Extensions
         }
 
         public static IEnumerable<TSource> Without<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> condition)
-        {
-            return source.Without(source.Where(condition).ToArray());
-        }
+            => source.Where(x => !condition(x));
 
         /// <summary>
         /// Works like this: (2, 3, 4) Xor (3, 4, 5) -> (2, 5); equatability of TSource expected

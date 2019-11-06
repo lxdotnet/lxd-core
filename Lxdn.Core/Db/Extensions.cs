@@ -23,7 +23,7 @@ namespace Lxdn.Core.Db
                 .ToDictionary(record.GetName, record.GetValue, StringComparer.OrdinalIgnoreCase);
 
             object valueOf(PropertyInfo property) =>
-                row.SafeValueOf(property.Name)?.ChangeType(property.PropertyType);
+                row.GetValueOrDefault(property.Name)?.ChangeType(property.PropertyType);
 
             var result = typeof(TEntity) == typeof(object) // dynamic requested
                 ? (dynamic) row.ToDynamic()

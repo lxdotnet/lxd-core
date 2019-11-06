@@ -3,6 +3,7 @@ using System.Linq;
 using System.Dynamic;
 using System.Reflection;
 using System.Collections;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
@@ -22,7 +23,7 @@ namespace Lxdn.Core.Injection
         /// <param name="source"></param>
         /// <param name="existing"></param>
         /// <returns></returns>
-        internal static object InjectTo(this object source, object existing)
+        internal static object InjectTo(this object source, object existing, CultureInfo culture)
         {
             if (source == null)
                 return existing;
@@ -63,7 +64,7 @@ namespace Lxdn.Core.Injection
                 }
 
                 // otherwise it is an injectable object or a single property:
-                return consider(targetType) ? value?.InjectTo(targetType) : value.ChangeType(targetType);
+                return consider(targetType) ? value?.InjectTo(targetType, culture) : value.ChangeType(targetType, culture);
             };
 
             return existing.Inject(recursively);
@@ -86,12 +87,21 @@ namespace Lxdn.Core.Injection
         }
 
         public static TOutput InjectTo<TOutput>(this object input) where TOutput : class, new()
-            => (TOutput)input.InjectTo(new TOutput());
+            => (TOutput)input.InjectTo(new TOutput(), CultureInfo.InvariantCulture);
+
+        public static TOutput InjectTo<TOutput>(this object input, CultureInfo culture) where TOutput : class, new()
+            => (TOutput)input.InjectTo(new TOutput(), culture);
 
         public static object InjectTo(this object input, Type target)
-            => input.InjectTo(Activator.CreateInstance(target));
+            => input.InjectTo(Activator.CreateInstance(target), CultureInfo.InvariantCulture);
+
+        public static object InjectTo(this object input, Type target, CultureInfo culture)
+            => input.InjectTo(Activator.CreateInstance(target), culture);
 
         public static TTarget InjectFrom<TTarget>(this TTarget target, object source) where TTarget : class
-            => (TTarget)source.InjectTo(target);
+            => (TTarget)source.InjectTo(target, CultureInfo.InvariantCulture);
+
+        public static TTarget InjectFrom<TTarget>(this TTarget target, object source, CultureInfo culture) where TTarget : class
+            => (TTarget)source.InjectTo(target, culture);
     }
 }

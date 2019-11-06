@@ -73,7 +73,7 @@ namespace Lxdn.Core.Extensions
             return value;
         }
 
-        public static object ChangeType(this object obj, Type target)
+        public static object ChangeType(this object obj, Type target, CultureInfo culture)
         {
             if (obj == null)
                 return target.DefaultValue();
@@ -86,7 +86,7 @@ namespace Lxdn.Core.Extensions
             if (target.IsGenericType && typeof(Nullable<>) == target.GetGenericTypeDefinition())
             {
                 var underlyingType = Nullable.GetUnderlyingType(target);
-                return obj.ChangeType(underlyingType);
+                return obj.ChangeType(underlyingType, culture);
             }
 
             if (obj is IConvertible && typeof(IConvertible).IsAssignableFrom(target))
@@ -100,7 +100,7 @@ namespace Lxdn.Core.Extensions
                 }
 
                 if (!target.IsEnum/*only known exception*/)
-                    return Convert.ChangeType(obj, target);
+                    return Convert.ChangeType(obj, target, culture);
                 
                 return (typeof(string) == source) 
                     ? Enum.Parse(target, (string)obj, true) 
@@ -108,7 +108,7 @@ namespace Lxdn.Core.Extensions
             }
 
             // otherwise try an indirect conversion via invariant string:
-            IFormattable formattable = obj as IFormattable;
+            var formattable = obj as IFormattable;
             if (formattable != null)
             {
                 return formattable.ToString("", CultureInfo.InvariantCulture).To(target);
@@ -117,10 +117,13 @@ namespace Lxdn.Core.Extensions
             return obj.ToString().To(target);
         }
 
-        public static TResult ChangeType<TResult>(this object obj)
-        {
-            return (TResult)obj.ChangeType(typeof(TResult));
-        }
+        public static object ChangeType(this object obj, Type target) => obj.ChangeType(target, CultureInfo.InvariantCulture);
+
+        public static TResult ChangeType<TResult>(this object obj, CultureInfo culture)
+            => (TResult)obj.ChangeType(typeof(TResult), culture);
+
+        public static TResult ChangeType<TResult>(this object obj) 
+            => (TResult)obj.ChangeType(typeof(TResult), CultureInfo.InvariantCulture);
 
         public static TTarget SetValue<TTarget>(this TTarget target, PropertyInfo property, object value)
             where TTarget : class

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Lxdn.Core.Extensions
 {
@@ -35,6 +36,7 @@ namespace Lxdn.Core.Extensions
         public static string Replace(this string input, string pattern, MatchEvaluator evaluator)
             => input.IfExists(s => Regex.Replace(s, pattern, evaluator));
 
+        [Obsolete("Candidate for removal")]
         public static string ToLowerCamelCase(this string input)
         {
             string[] tmp = input.Split('.');
@@ -45,40 +47,11 @@ namespace Lxdn.Core.Extensions
             return String.Join(".", tmp);
         }
 
-        //public static string SquareTagsToHtml(this string value)
-        //{
-        //    if (string.IsNullOrEmpty(value))
-        //        return value;
+        public static T To<T>(this string s, CultureInfo culture) => (T)s.To(typeof(T), culture);
 
-        //    //return Regex.Replace(value, @"\[(?'tag'[A-Za-z/]+?)\]", match =>
-        //    //    string.Format("<{0}>", match.Groups["tag"].Value));
-        //    return Regex.Replace(value, @"\[(?'tag'.+?)\]", match =>
-        //        string.Format("<{0}>", match.Groups["tag"].Value));
-        //}
+        public static T To<T>(this string s) => s.To<T>(CultureInfo.InvariantCulture);
 
-        //public static T FromFile<T>(this string filePath)
-        //{
-        //    using (var reader = new XmlTextReader(filePath))
-        //    {
-        //        var serializer = new XmlSerializer(typeof(T));
-        //        return (T)serializer.Deserialize(reader);
-        //    }
-        //}
-
-        public static T To<T>(this string s, CultureInfo culture)
-        {
-            return (T)s.To(typeof(T), culture);
-        }
-
-        public static T To<T>(this string s)
-        {
-            return s.To<T>(CultureInfo.InvariantCulture);
-        }
-
-        public static object To(this string s, Type desired)
-        {
-            return s.To(desired, CultureInfo.InvariantCulture);
-        }
+        public static object To(this string s, Type desired) => s.To(desired, CultureInfo.InvariantCulture);
 
         public static object To(this string s, Type desired, CultureInfo culture)
         {
@@ -117,8 +90,7 @@ namespace Lxdn.Core.Extensions
                 if (string.Equals(bool.FalseString, s, StringComparison.InvariantCultureIgnoreCase))
                     return false;
 
-                decimal dec;
-                if (decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out dec))
+                if (decimal.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal dec))
                     return Convert.ToBoolean(dec);
 
                 throw new InvalidOperationException("The value does not represent a boolean: " + s);
@@ -156,40 +128,24 @@ namespace Lxdn.Core.Extensions
             return desired.DefaultValue();
         }
 
-        public static ConstantExpression ToExpression(this string s, Type desired)
-        {
-            object c = s.To(desired);
-            return Expression.Constant(c);
-        }
+        public static ConstantExpression ToExpression(this string s, Type desired) => Expression.Constant(s.To(desired));
 
-        public static string CrLf(this string s)
-        {
-            return s + Environment.NewLine;
-        }
+        public static string CrLf(this string s) => s.CrLf(1);
 
-        public static string CrLf(this string s, int count)
-        {
-            return Enumerable.Range(0, count).Aggregate(s, (current, i) => current.CrLf());
-        }
+        public static string CrLf(this string s, int count) => Enumerable
+            .Repeat(Environment.NewLine, count)
+            .Aggregate(new StringBuilder(s), (text, crlf) => text.Append(crlf)).ToString();
 
         public static string[] SplitBy(this string s, params char[] separators)
-        {
-            return s.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-        }
+            => s.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
         public static string[] SplitBy(this string s, params string[] separators)
-        {
-            return s.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-        }
+            => s.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
         public static string Strip(this string s, string toStrip)
-        {
-            return Regex.Replace(s, toStrip + "$", string.Empty);
-        }
+            => Regex.Replace(s, toStrip + "$", string.Empty);
 
         public static string CSharpify(this string identifier)
-        {
-            return identifier.Replace(@"[\.]", match => ""); // todo: implement properly
-        }
+            => identifier.Replace(@"[\.]", match => ""); // todo: implement properly
     }
 }

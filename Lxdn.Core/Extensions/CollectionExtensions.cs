@@ -30,7 +30,7 @@ namespace Lxdn.Core.Extensions
         public static Dictionary<TKey, TValue> Push<TKey, TValue>(this Dictionary<TKey, TValue> items, TKey key, TValue value)
             => items.Push(key, value, () => throw new ArgumentException($"Already exists: {key}", nameof(key)));
 
-        public static TValue SafeValueOf<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
             => dictionary.ContainsKey(key) ? dictionary[key] : default;
     }
 }
