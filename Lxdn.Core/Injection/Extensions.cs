@@ -64,7 +64,7 @@ namespace Lxdn.Core.Injection
                 }
 
                 // otherwise it is an injectable object or a single property:
-                return consider(targetType) ? value?.InjectTo(targetType, culture) : value.ChangeType(targetType, culture);
+                return consider(targetType) ? value?.InjectTo(targetType, culture) : value?.ChangeType(targetType, culture);
             };
 
             return existing.Inject(recursively);

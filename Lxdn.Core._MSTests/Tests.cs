@@ -311,6 +311,15 @@ namespace Lxdn.Core._MSTests
             Assert.AreEqual(2, result.EquipmentItems.Count);
         }
 
+        [TestMethod]
+        public void Test_Inject_MissingValueTypeDoesNotOverwriteExisting() 
+        {
+            var person = new Person { MaritalStatus = MaritalStatus.Married }
+                .InjectFrom(new { Name = "Joker" });
+
+            Assert.AreEqual(MaritalStatus.Married, person.MaritalStatus);
+        }
+
         //[TestMethod]
         //public void Test_JsonConverter()
         //{
