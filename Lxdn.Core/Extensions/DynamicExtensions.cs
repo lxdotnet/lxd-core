@@ -14,7 +14,7 @@ namespace Lxdn.Core.Extensions
                 .Aggregate(new CaseInsensitiveExpando(), (expando, property) =>
             {
                 var nested = property.Value as IDictionary<string, object>;
-                return expando.Set(property.Key, nested != null ? nested.ToDynamic() : property.Value);
+                return expando.Set(property.Key, nested?.ToDynamic() ?? property.Value);
             });
         }
 

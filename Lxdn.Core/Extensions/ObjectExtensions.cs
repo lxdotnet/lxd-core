@@ -132,42 +132,30 @@ namespace Lxdn.Core.Extensions
             return target;
         }
 
-        public static IEnumerable<TItem> Once<TItem>(this TItem item)
-        {
-            return Enumerable.Repeat(item, 1);
-        }
+        public static IEnumerable<TItem> Once<TItem>(this TItem item) => Enumerable.Repeat(item, 1);
 
         public static bool IsOneOf<TItem>(this TItem item, params TItem[] values)
-        {
-            return values.Any(value => Equals(value, item));
-        }
+            => values.Any(value => Equals(value, item));
 
-        public static bool IsOneOf<TItem>(this TItem item, IEnumerable<TItem> values) => IsOneOf(item, values.ToArray());
+        public static bool IsOneOf<TItem>(this TItem item, IEnumerable<TItem> values) 
+            => IsOneOf(item, values.ToArray());
 
         public static bool NotIn<TItem>(this TItem item, params TItem[] values)
-        {
-            return values.All(value => !Equals(value, item));
-        }
+            => values.All(value => !Equals(value, item));
 
         public static Dictionary<string, object> ToDictionary(this object o)
         {
             if (o == null)
                 return new Dictionary<string, object>();
 
-            return o.AsDynamic().IfHasValue(dynamic => dynamic
-                    .GetMetaObject(Expression.Constant(o))
+            return o.GetDynamicMetaObject()
+                    .IfExists(dynamic => dynamic
                     .GetDynamicMemberNames()
                     .ToDictionary(name => name, name => ((dynamic)o)[name], StringComparer.InvariantCultureIgnoreCase)) 
                    ??
                    o.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .Where(property => property.HasPublicGetter())
                     .ToDictionary(property => property.Name, property => property.GetValue(o));
-        }
-
-        public static MayBe<IDynamicMetaObjectProvider> AsDynamic(this object obj)
-        {
-            var dynamic = obj as IDynamicMetaObjectProvider;
-            return dynamic != null ? new MayBe<IDynamicMetaObjectProvider>(dynamic) : MayBe<IDynamicMetaObjectProvider>.Nothing;
         }
 
         public static object Call(this object item, string method, params object[] parameters)
@@ -216,5 +204,8 @@ namespace Lxdn.Core.Extensions
         {
             return InterpretAs(obj, lambda, DateTimeKind.Local);
         }
+
+        public static DynamicMetaObject GetDynamicMetaObject(this object o)
+            => (o as IDynamicMetaObjectProvider)?.GetMetaObject(Expression.Constant(o));
     }
 }

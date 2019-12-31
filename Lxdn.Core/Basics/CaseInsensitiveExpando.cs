@@ -54,5 +54,14 @@ namespace Lxdn.Core.Basics
         }
 
         public override IEnumerable<string> GetDynamicMemberNames() => values.Keys;
+
+        //public static CaseInsensitiveExpando TryClone(dynamic other)
+        //{
+        //    return ((object)other)
+        //            .IfExists(x => x.GetDynamicMetaObject())
+        //            .IfExists(dynamic => dynamic.GetDynamicMemberNames())
+        //            ?.Aggregate(new CaseInsensitiveExpando(), (target, name) => target.Set(name, TryClone(other[name])))
+        //        ?? other;
+        //}
     }
 }

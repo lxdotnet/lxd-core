@@ -8,7 +8,7 @@ namespace Lxdn.Core.Basics
     {
         private readonly List<DynamicObject> members = new List<DynamicObject>();
 
-        public CaseInsensitiveEnumerableExpando Add(DynamicObject item)
+        public CaseInsensitiveEnumerableExpando Push(DynamicObject item)
         {
             this.members.Add(item);
             return this;

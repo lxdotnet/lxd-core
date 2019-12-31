@@ -528,5 +528,25 @@ namespace Lxdn.Core._MSTests
             var ne = x["foo"];
             var ne2 = x.Bar; // throws a RuntimeBinderException which is handled by .net
         }
+
+        [TestMethod]
+        public void Test_DynamicBehaviors()
+        {
+            object d = 1;
+            var meta = d.GetDynamicMetaObject();
+            Assert.IsNull(meta);
+
+            d = new CaseInsensitiveExpando();
+            meta = d.GetDynamicMetaObject();
+            Assert.IsNotNull(meta);
+            Assert.AreEqual(d, meta.Value);
+        }
+
+        [TestMethod]
+        public void Test_CloneDynamic() 
+        {
+            var x = new CaseInsensitiveExpando().Set("foo", 1).Set("bar", "2");
+            //var y = CaseInsensitiveExpando.TryClone(x);
+        }
     }
 }

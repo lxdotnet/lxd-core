@@ -25,14 +25,14 @@ namespace Lxdn.Core.Dynamics
             DynamicObject toDynamic(object from)
             {
                 var fromType = from.GetType();
-                var enumerableOf = fromType.AsArgumentsOf(typeof(IEnumerable<>)).IfHasValue(args => args.Single());
+                var memberType = fromType.AsArgumentsOf(typeof(IEnumerable<>)).IfHasValue(args => args.Single());
 
-                if (enumerableOf != null && Consider.ForIteration(enumerableOf))
+                if (memberType != null && Consider.ForIteration(memberType))
                     return (from as IEnumerable)
                         .IfExists().OfType<object>()
                         .Select(member => member.ToDynamic<TDynamicObject>())
                         .OfType<TDynamicObject>()
-                        .Aggregate(new CaseInsensitiveEnumerableExpando(), (list, member) => list.Add(member));
+                        .Aggregate(new CaseInsensitiveEnumerableExpando(), (list, member) => list.Push(member));
 
                 return Consider.ForIteration(fromType) ? from.ToDynamic<TDynamicObject>() : null;
             }
@@ -54,7 +54,7 @@ namespace Lxdn.Core.Dynamics
         }
 
         public static dynamic ToDynamic(this object source) =>
-            source.AsDynamic().IfHasValue(dynamic => source)  // if source is already dynamic, return it
+            source.GetDynamicMetaObject().IfExists(dynamic => dynamic.Value)
             ?? source.ToDynamic<CaseInsensitiveExpando>();
     }
 }
