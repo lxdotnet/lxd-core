@@ -9,6 +9,13 @@ namespace Lxdn.Core.Basics
     {
         private readonly Dictionary<string, object> values = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
+        public CaseInsensitiveExpando() { }
+
+        public CaseInsensitiveExpando(IDictionary<string, object> values)
+        {
+            this.values = new Dictionary<string, object>(values);
+        }
+
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
             this.Set(binder.Name, value);
