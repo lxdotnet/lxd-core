@@ -1,19 +1,25 @@
 ﻿
 using System;
+using System.Linq;
 using System.Dynamic;
 using System.Collections.Generic;
+using System.Globalization;
+using Lxdn.Core.Extensions;
 
 namespace Lxdn.Core.Basics
 {
     public class CaseInsensitiveExpando : DynamicObject
     {
-        private readonly Dictionary<string, object> values = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, object> values;
 
-        public CaseInsensitiveExpando() { }
-
-        public CaseInsensitiveExpando(IDictionary<string, object> values)
+        public CaseInsensitiveExpando()
         {
-            this.values = new Dictionary<string, object>(values);
+            values = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        }
+
+        public CaseInsensitiveExpando(IDictionary<string, object> values) : this()
+        {
+            values.Aggregate(this.values, (acc, pair) => { acc.Add(pair.Key, pair.Value); return acc; });
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
@@ -60,15 +66,18 @@ namespace Lxdn.Core.Basics
             return this;
         }
 
-        public override IEnumerable<string> GetDynamicMemberNames() => values.Keys;
+        public object Get(string name)
+        {
+            if (!values.ContainsKey(name))
+                throw new ArgumentException("Unknown key: " + name, "name");
 
-        //public static CaseInsensitiveExpando TryClone(dynamic other)
-        //{
-        //    return ((object)other)
-        //            .IfExists(x => x.GetDynamicMetaObject())
-        //            .IfExists(dynamic => dynamic.GetDynamicMemberNames())
-        //            ?.Aggregate(new CaseInsensitiveExpando(), (target, name) => target.Set(name, TryClone(other[name])))
-        //        ?? other;
-        //}
+            return values[name];
+        }
+
+        public TReturn Get<TReturn>(string name, CultureInfo culture) => Get(name).ChangeType<TReturn>(culture);
+
+        public TReturn Get<TReturn>(string name) => Get<TReturn>(name, CultureInfo.InvariantCulture);
+
+        public override IEnumerable<string> GetDynamicMemberNames() => values.Keys;
     }
 }

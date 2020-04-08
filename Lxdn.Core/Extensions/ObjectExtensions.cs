@@ -144,6 +144,9 @@ namespace Lxdn.Core.Extensions
             => values.All(value => !Equals(value, item));
 
         public static Dictionary<string, object> ToDictionary(this object o)
+            => o.ToDictionary(StringComparer.InvariantCultureIgnoreCase);
+
+        public static Dictionary<string, object> ToDictionary(this object o, IEqualityComparer<string> comparer)
         {
             if (o == null)
                 return new Dictionary<string, object>();
@@ -151,11 +154,11 @@ namespace Lxdn.Core.Extensions
             return o.GetDynamicMetaObject()
                     .IfExists(dynamic => dynamic
                     .GetDynamicMemberNames()
-                    .ToDictionary(name => name, name => ((dynamic)o)[name], StringComparer.InvariantCultureIgnoreCase)) 
+                    .ToDictionary(name => name, name => ((dynamic)o)[name], comparer)) 
                    ??
                    o.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .Where(property => property.HasPublicGetter())
-                    .ToDictionary(property => property.Name, property => property.GetValue(o));
+                    .ToDictionary(property => property.Name, property => property.GetValue(o), comparer);
         }
 
         public static object Call(this object item, string method, params object[] parameters)
@@ -193,16 +196,16 @@ namespace Lxdn.Core.Extensions
             return obj.SetValue(property, dateTime);
         }
 
-        public static TInput InterpretAsUtcTime<TInput>(this TInput obj, Expression<Func<TInput, DateTime>> lambda)
+        public static TInput InterpretAsUtcTime<TInput>(this TInput obj, Expression<Func<TInput, DateTime>> dateTime)
             where TInput : class
         {
-            return InterpretAs(obj, lambda, DateTimeKind.Utc);
+            return InterpretAs(obj, dateTime, DateTimeKind.Utc);
         }
 
-        public static TInput InterpretAsLocalTime<TInput>(this TInput obj, Expression<Func<TInput, DateTime>> lambda)
+        public static TInput InterpretAsLocalTime<TInput>(this TInput obj, Expression<Func<TInput, DateTime>> dateTime)
             where TInput : class
         {
-            return InterpretAs(obj, lambda, DateTimeKind.Local);
+            return InterpretAs(obj, dateTime, DateTimeKind.Local);
         }
 
         public static DynamicMetaObject GetDynamicMetaObject(this object o)
