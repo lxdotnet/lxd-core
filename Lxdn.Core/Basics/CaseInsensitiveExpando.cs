@@ -24,13 +24,13 @@ namespace Lxdn.Core.Basics
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
-            this.Set(binder.Name, value);
+            Set(binder.Name, value);
             return true;
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            this.values.TryGetValue(binder.Name, out result);
+            values.TryGetValue(binder.Name, out result);
             return true;
         }
 
@@ -56,13 +56,13 @@ namespace Lxdn.Core.Basics
             if (property == null)
                 throw new ArgumentException("Invalid type of index parameter", "indexes");
 
-            this.Set(property, value);
+            Set(property, value);
             return true;
         }
 
         public CaseInsensitiveExpando Set(string name, object value)
         {
-            this.values[name] = value;
+            values[name] = value;
             return this;
         }
 
