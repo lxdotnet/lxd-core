@@ -24,7 +24,15 @@ namespace Lxdn.Core.Db
             this.databaseBehind = Behaviors.Create;
         }
 
-        public async Task Transact(Func<IDatabase, Task> logic, IsolationLevel isolation = IsolationLevel.Unspecified)
+        public Task Transact(Func<IDatabase, Task> logic, IsolationLevel isolation = IsolationLevel.Unspecified)
+        {
+            return Transact(async db => {
+                await logic(db);
+                return 0;
+            }, isolation);
+        }           
+
+        public async Task<TReturn> Transact<TReturn>(Func<IDatabase, Task<TReturn>> logic, IsolationLevel isolation = IsolationLevel.Unspecified)
         {
             using (var cn = new TConnection { ConnectionString = this.schema.ConnectionString })
             {
@@ -34,8 +42,9 @@ namespace Lxdn.Core.Db
                 {
                     try
                     {
-                        await logic(databaseBehind(cn)).ConfigureAwait(false);
+                        var result = await logic(databaseBehind(cn)).ConfigureAwait(false);
                         transaction.Commit();
+                        return result;
                     }
                     catch
                     {
