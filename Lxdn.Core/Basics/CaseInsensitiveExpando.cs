@@ -79,5 +79,7 @@ namespace Lxdn.Core.Basics
         public TReturn Get<TReturn>(string name) => Get<TReturn>(name, CultureInfo.InvariantCulture);
 
         public override IEnumerable<string> GetDynamicMemberNames() => values.Keys;
+
+        public IDictionary<string, object> AsDictionary() => values;
     }
 }
