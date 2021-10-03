@@ -36,7 +36,7 @@ namespace Lxdn.Core.Extensions
         public static string Replace(this string input, string pattern, MatchEvaluator evaluator)
             => input.IfExists(s => Regex.Replace(s, pattern, evaluator));
 
-        [Obsolete("Candidate for removal")]
+        //[Obsolete("Candidate for removal")]
         public static string ToLowerCamelCase(this string input)
         {
             string[] tmp = input.Split('.');

@@ -4,7 +4,7 @@
     <!--<TargetFramework>netcoreapp2.1</TargetFramework>-->
     <TargetFrameworks>netcoreapp2.1;net45;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>2.1.10</Version>
+    <Version>2.1.11</Version>
     <Authors>Alexander Dolnik</Authors>
     <Company>private</Company>
     <Product>Lxdn.Core</Product>
