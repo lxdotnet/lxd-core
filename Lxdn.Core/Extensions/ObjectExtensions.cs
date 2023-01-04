@@ -89,7 +89,7 @@ namespace Lxdn.Core.Extensions
                 return obj.ChangeType(underlyingType, culture);
             }
 
-            if (obj is IConvertible && typeof(IConvertible).IsAssignableFrom(target))
+            if (obj is IConvertible && typeof(IConvertible).IsAssignableFrom(target) && Type.GetTypeCode(target) != TypeCode.Object)
             {
                 if (typeof(bool) == target && typeof(string) == source)
                 {

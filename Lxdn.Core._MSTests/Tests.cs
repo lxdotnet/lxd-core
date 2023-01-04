@@ -522,6 +522,13 @@ namespace Lxdn.Core._MSTests
         }
 
         [TestMethod]
+        public void Test_CanChangeTypeFromStringToConvertibleTarget()
+        {
+            var convertible = "foo".ChangeType<ConvertibleTarget>();
+            Assert.AreEqual("foo", convertible.StringValue);
+        }
+
+        [TestMethod]
         public void Test_Dynamic_PickingNonExistingProperty_DoesNotResultInException()
         {
             var x = (dynamic)new CaseInsensitiveExpando();

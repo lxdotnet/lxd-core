@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <!--<TargetFramework>netcoreapp2.1</TargetFramework>-->
-    <TargetFrameworks>netcoreapp2.1;net45;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net461;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Version>2.1.11</Version>
     <Authors>Alexander Dolnik</Authors>
     <Company>private</Company>
     <Product>Lxdn.Core</Product>
     <Description>The stuff I missed to be built-in into .net framework</Description>
-    <Copyright>(C) 2014-2019 Alexander Dolnik</Copyright>
+    <Copyright>(C) 2014-2023 Alexander Dolnik</Copyright>
     <PackageProjectUrl>https://github.com/lxdotnet/lxdn-core/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/lxdotnet/lxdn-core/</RepositoryUrl>
     <PackageId>Lxdn.Core</PackageId>
@@ -20,7 +20,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -31,25 +31,21 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1'">
-    <DefineConstants>NETCORE;NETCORE2_1</DefineConstants>
-  </PropertyGroup>
-
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
     <DefineConstants>NETCORE;NETCORE3_0</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
-    <DefineConstants>NET45;NETFULL</DefineConstants>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461'">
+    <DefineConstants>NETFULL</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
