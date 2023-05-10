@@ -555,5 +555,12 @@ namespace Lxdn.Core._MSTests
             var x = new CaseInsensitiveExpando().Set("foo", 1).Set("bar", "2");
             //var y = CaseInsensitiveExpando.TryClone(x);
         }
+
+        [TestMethod]
+        public void Test_ChangeType_StringToEnum_WithEnumMemberAttribute()
+        {
+            var country = "AS".ChangeType<Country>();
+            Assert.AreEqual(Country.Asia, country);
+        }
     }
 }

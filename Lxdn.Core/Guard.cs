@@ -20,6 +20,16 @@ namespace Lxdn.Core
             catch (Exception inner) { throw onException(inner); }
         }
 
+        public static TReturn Function<TReturn>(Func<TReturn> logic, Action<Exception> onException)
+        {
+            try { return logic(); }
+            catch (Exception ex) 
+            {
+                onException(ex);
+                throw;
+            }
+        }
+
         public static async Task<TReturn> Task<TReturn, TException>(Func<Task<TReturn>> task, Func<Exception, TException> onException)
             where TException : Exception
         {

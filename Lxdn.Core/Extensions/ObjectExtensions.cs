@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 
 using Lxdn.Core.Basics;
+using System.Runtime.Serialization;
 
 namespace Lxdn.Core.Extensions
 {
@@ -102,9 +103,20 @@ namespace Lxdn.Core.Extensions
                 if (!target.IsEnum/*only known exception*/)
                     return Convert.ChangeType(obj, target, culture);
                 
-                return (typeof(string) == source) 
-                    ? Enum.Parse(target, (string)obj, true) 
-                    : Enum.ToObject(target, Convert.ToInt32(obj));
+                // here when target is en enum:
+                if (typeof (string) == source)
+                {
+                    if (Enum.IsDefined(target, obj))
+                        return Enum.Parse(target, (string)obj, true);
+
+                    return target.GetMembers()
+                        .FirstOrDefault(candidate => candidate.GetCustomAttribute<EnumMemberAttribute>()
+                            .IfExists(attribute => string.Equals(attribute.Value, (string)obj, StringComparison.InvariantCultureIgnoreCase)))
+                        .IfExists(member => Enum.Parse(target, member.Name, true))
+                        ?? throw new ArgumentOutOfRangeException(nameof(obj), "The following value is out of range: " + obj);
+                }
+
+                return Enum.ToObject(target, Convert.ToInt32(obj));
             }
 
             // otherwise try an indirect conversion via invariant string:
