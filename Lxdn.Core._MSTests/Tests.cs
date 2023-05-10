@@ -561,6 +561,9 @@ namespace Lxdn.Core._MSTests
         {
             var country = "AS".ChangeType<Country>();
             Assert.AreEqual(Country.Asia, country);
+
+            country = "as".ChangeType<Country>();
+            Assert.AreEqual(Country.Asia, country);
         }
     }
 }

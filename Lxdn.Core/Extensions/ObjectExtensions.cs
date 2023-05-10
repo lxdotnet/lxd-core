@@ -106,14 +106,18 @@ namespace Lxdn.Core.Extensions
                 // here when target is en enum:
                 if (typeof (string) == source)
                 {
-                    if (Enum.IsDefined(target, obj))
-                        return Enum.Parse(target, (string)obj, true);
+#if NETCORE
+                    if (Enum.TryParse(target, (string)obj, true, out object member))
+                        return member;
 
                     return target.GetMembers()
                         .FirstOrDefault(candidate => candidate.GetCustomAttribute<EnumMemberAttribute>()
                             .IfExists(attribute => string.Equals(attribute.Value, (string)obj, StringComparison.InvariantCultureIgnoreCase)))
                         .IfExists(member => Enum.Parse(target, member.Name, true))
                         ?? throw new ArgumentOutOfRangeException(nameof(obj), "The following value is out of range: " + obj);
+#else
+                    return Enum.Parse(target, (string)obj, true); // .net standard cannot .TryParse with case-insensitive flag
+#endif
                 }
 
                 return Enum.ToObject(target, Convert.ToInt32(obj));

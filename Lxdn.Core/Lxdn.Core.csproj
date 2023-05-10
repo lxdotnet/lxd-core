@@ -4,7 +4,7 @@
     <!--<TargetFramework>netcoreapp2.1</TargetFramework>-->
     <TargetFrameworks>net6.0;net461;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>2.2.4</Version>
+    <Version>2.2.5</Version>
     <Authors>Alexander Dolnik</Authors>
     <Company>private</Company>
     <Product>Lxdn.Core</Product>
@@ -31,8 +31,11 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
-    <DefineConstants>NETCORE;NETCORE3_0</DefineConstants>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
+    <DefineConstants>NETCORE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>NETSTANDARD;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net461'">
